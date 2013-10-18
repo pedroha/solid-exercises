@@ -87,57 +87,44 @@ public class ApplyController
     }
 
     IViewProvider provider = null;
-    
-    if (job == null)
-    {
-      provider = new InvalidJobView();
-      Result result = provider.getViewResult(model);
-      response.setResult(result);
-      
-      return response;
-    }
 
+    ApplyErrorView errorView = new ApplyErrorView();
     try
     {
-      Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, request);
-      UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-      JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
-
-      if (applicationResult.success())
+      if (job == null)
       {
-        if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
-          provider = new ResumeCompletionView();
-          Result result = provider.getViewResult(model);
-          response.setResult(result);
-          
-          return response;
-        }
-        else {
-          provider = new ApplySuccessView();
-          Result result = provider.getViewResult(model);
-          response.setResult(result);
-
-          return response;
-        }        
+        provider = new InvalidJobView();
       }
       else {
-        throw new ApplicationFailureException(applicationResult.toString());
+        Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, request);
+        UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
+        JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
+
+        if (applicationResult.success())
+        {
+          if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
+            provider = new ResumeCompletionView();
+          }
+          else {
+            provider = new ApplySuccessView();
+          }        
+        }
+        else {
+          String message = "We could not process your application.";
+          errorView.addMessage(message);
+          provider = errorView;
+          throw new ApplicationFailureException(applicationResult.toString());
+        }        
       }
     }
     catch (Exception e)
     {
-      String message = "We could not process your application.";
-
-      ApplyErrorView errorView = new ApplyErrorView();
-      errorView.addMessage(message);
-      
+      errorView.addMessage(e.getMessage());
       provider = errorView;
-      
-      Result result = provider.getViewResult(model);
-      response.setResult(result);
-      
-      return response;
     }
+    Result result = provider.getViewResult(model);
+    response.setResult(result);    
+    return response;
   }
   
   private Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
