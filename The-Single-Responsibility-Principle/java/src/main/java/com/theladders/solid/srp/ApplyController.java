@@ -119,7 +119,7 @@ public class ApplyController
     }
     catch (Exception e)
     {
-      errorView.addMessage(e.getMessage());
+      errorView.addMessage(e.getMessage()); // This catches error for Missing resume and adds to the list
       provider = errorView;
     }
     Result result = provider.getViewResult(model);
