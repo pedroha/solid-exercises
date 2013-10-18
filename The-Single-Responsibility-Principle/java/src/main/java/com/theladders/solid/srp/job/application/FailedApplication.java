@@ -4,8 +4,8 @@ package com.theladders.solid.srp.job.application;
 public class FailedApplication implements JobApplicationResult
 {
   @Override
-  public boolean failure()
+  public boolean success()
   {
-    return true;
+    return false;
   }
 }

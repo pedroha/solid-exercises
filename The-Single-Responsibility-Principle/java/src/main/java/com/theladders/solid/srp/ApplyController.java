@@ -103,7 +103,7 @@ public class ApplyController
       UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
       JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
 
-      if (!applicationResult.failure())
+      if (applicationResult.success())
       {
         if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
           provider = new ResumeCompletionView();

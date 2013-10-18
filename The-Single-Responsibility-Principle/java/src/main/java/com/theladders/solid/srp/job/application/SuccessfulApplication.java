@@ -20,9 +20,9 @@ public class SuccessfulApplication implements JobApplicationResult
   }
 
   @Override
-  public boolean failure()
+  public boolean success()
   {
-    return false;
+    return true;
   }
 
   public Object getJobseeker()
