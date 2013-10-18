@@ -1,12 +1,16 @@
 package com.theladders.solid.srp;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
+
+import com.theladders.solid.srp.interfaces.IViewProvider;
+
 import com.theladders.solid.srp.job.Job;
 import com.theladders.solid.srp.job.JobSearchService;
 import com.theladders.solid.srp.job.application.ApplicationFailureException;
@@ -20,6 +24,9 @@ import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.resume.MyResumeManager;
 import com.theladders.solid.srp.resume.Resume;
 import com.theladders.solid.srp.resume.ResumeManager;
+
+import com.theladders.solid.srp.view.*;
+
 
 public class ApplyController
 {
@@ -41,7 +48,15 @@ public class ApplyController
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager;
   }
-
+  
+  private static boolean isApplicationComingOutsideTheLadders(Jobseeker jobseeker, JobseekerProfile profile) {
+    boolean isOutside = (!jobseeker.isPremium() && (profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
+        profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
+        profile.getStatus().equals(ProfileStatus.REMOVED)));
+    
+    return isOutside;
+  }
+  
   public HttpResponse handle(HttpRequest request,
                              HttpResponse response,
                              String origFileName)
@@ -54,13 +69,18 @@ public class ApplyController
 
     Job job = jobSearchService.getJob(jobId);
 
+    Map<String, Object> model = new HashMap<>();
+
     if (job == null)
     {
-      provideInvalidJobView(response, jobId);
+      model.put("jobId", jobId);
+
+      IViewProvider provider = new InvalidJobView();
+      Result result = provider.getViewResult(model);
+      response.setResult(result);
+      
       return response;
     }
-
-    Map<String, Object> model = new HashMap<>();
 
     List<String> errList = new ArrayList<>();
 
@@ -71,42 +91,30 @@ public class ApplyController
     catch (Exception e)
     {
       errList.add("We could not process your application.");
-      provideErrorView(response, errList, model);
+
+      IViewProvider provider = new ApplyErrorView(errList);
+      Result result = provider.getViewResult(model);
+      response.setResult(result);
+      
       return response;
     }
 
     model.put("jobId", job.getJobId());
     model.put("jobTitle", job.getTitle());
 
-    if (!jobseeker.isPremium() && (profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
-                                   profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
-                                   profile.getStatus().equals(ProfileStatus.REMOVED)))
-    {
-      provideResumeCompletionView(response, model);
+    if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
+      IViewProvider provider = new ResumeCompletionView();
+      Result result = provider.getViewResult(model);
+      response.setResult(result);
+      
       return response;
     }
-
-    provideApplySuccessView(response, model);
+    
+    IViewProvider provider = new ApplySuccessView();
+    Result result = provider.getViewResult(model);
+    response.setResult(result);
 
     return response;
-  }
-
-  private static void provideApplySuccessView(HttpResponse response, Map<String, Object> model)
-  {
-    Result result = new Result("success", model);
-    response.setResult(result);
-  }
-
-  private static void provideResumeCompletionView(HttpResponse response, Map<String, Object> model)
-  {
-    Result result = new Result("completeResumePlease", model);
-    response.setResult(result);
-  }
-
-  private static void provideErrorView(HttpResponse response, List<String> errList, Map<String, Object> model)
-  {
-   Result result = new Result("error", model, errList);
-   response.setResult(result);
   }
 
   private void apply(HttpRequest request,
@@ -145,14 +153,5 @@ public class ApplyController
     }
 
     return resume;
-  }
-
-  private static void provideInvalidJobView(HttpResponse response, int jobId)
-  {
-    Map<String, Object> model = new HashMap<>();
-    model.put("jobId", jobId);
-
-    Result result = new Result("invalidJob", model);
-    response.setResult(result);
   }
 }

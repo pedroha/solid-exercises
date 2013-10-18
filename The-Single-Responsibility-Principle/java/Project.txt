@@ -1,0 +1,28 @@
+Single Responsibility Principle
+-------------------------------
+
+1) Application Logic
+2) Web Tier
+3) View (things), maybe setup some interface that returns what it needs?
+
+
+
+  private static void provideApplySuccessView(HttpResponse response, Map<String, Object> model)
+  {
+    Result result = new Result("success", model);
+    response.setResult(result);
+  }
+
+  private static void provideResumeCompletionView(HttpResponse response, Map<String, Object> model)
+  {
+    Result result = new Result("completeResumePlease", model);
+    response.setResult(result);
+  }
+
+  private static void provideErrorView(HttpResponse response, List<String> errList, Map<String, Object> model)
+  {
+   Result result = new Result("error", model, errList);
+   response.setResult(result);
+  }
+
+  
