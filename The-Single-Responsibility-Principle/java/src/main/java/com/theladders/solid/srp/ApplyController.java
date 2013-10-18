@@ -50,6 +50,7 @@ public class ApplyController
   }
   
   private static boolean isApplicationComingOutsideTheLadders(Jobseeker jobseeker, JobseekerProfile profile) {
+    // TODO: Should come from the ApplicationLogic (not from this controller!!)
     boolean isOutside = (!jobseeker.isPremium() && (profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
         profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
         profile.getStatus().equals(ProfileStatus.REMOVED)));
@@ -57,6 +58,12 @@ public class ApplyController
     return isOutside;
   }
   
+  /*
+   * Do Application Logic -> Return some state to identify which provider
+   * 
+   * GetNextViewProvider()
+   * 
+   */
   public HttpResponse handle(HttpRequest request,
                              HttpResponse response,
                              String origFileName)
@@ -64,74 +71,75 @@ public class ApplyController
     Jobseeker jobseeker = request.getSession().getJobseeker();
     JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
 
+    // Setup model according to Job
+    
     String jobIdString = request.getParameter("jobId");
     int jobId = Integer.parseInt(jobIdString);
-
     Job job = jobSearchService.getJob(jobId);
 
     Map<String, Object> model = new HashMap<>();
+    if (job == null) {
+      model.put("jobId", jobId);
+    }
+    else {
+      model.put("jobId", job.getJobId());
+      model.put("jobTitle", job.getTitle());      
+    }
 
+    IViewProvider provider = null;
+    
     if (job == null)
     {
-      model.put("jobId", jobId);
-
-      IViewProvider provider = new InvalidJobView();
+      provider = new InvalidJobView();
       Result result = provider.getViewResult(model);
       response.setResult(result);
       
       return response;
     }
-
-    List<String> errList = new ArrayList<>();
 
     try
     {
-      apply(request, jobseeker, job, origFileName);
+      Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, request);
+      UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
+      JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
+
+      if (!applicationResult.failure())
+      {
+        if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
+          provider = new ResumeCompletionView();
+          Result result = provider.getViewResult(model);
+          response.setResult(result);
+          
+          return response;
+        }
+        else {
+          provider = new ApplySuccessView();
+          Result result = provider.getViewResult(model);
+          response.setResult(result);
+
+          return response;
+        }        
+      }
+      else {
+        throw new ApplicationFailureException(applicationResult.toString());
+      }
     }
     catch (Exception e)
     {
-      errList.add("We could not process your application.");
+      String message = "We could not process your application.";
 
-      IViewProvider provider = new ApplyErrorView(errList);
+      ApplyErrorView errorView = new ApplyErrorView();
+      errorView.addMessage(message);
+      
+      provider = errorView;
+      
       Result result = provider.getViewResult(model);
       response.setResult(result);
       
       return response;
     }
-
-    model.put("jobId", job.getJobId());
-    model.put("jobTitle", job.getTitle());
-
-    if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
-      IViewProvider provider = new ResumeCompletionView();
-      Result result = provider.getViewResult(model);
-      response.setResult(result);
-      
-      return response;
-    }
-    
-    IViewProvider provider = new ApplySuccessView();
-    Result result = provider.getViewResult(model);
-    response.setResult(result);
-
-    return response;
   }
-
-  private void apply(HttpRequest request,
-                     Jobseeker jobseeker,
-                     Job job,
-                     String fileName)
-  {
-    Resume resume = saveNewOrRetrieveExistingResume(fileName,jobseeker, request);
-    UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-    JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
-
-    if (applicationResult.failure())
-    {
-      throw new ApplicationFailureException(applicationResult.toString());
-    }
-  }
-
+  
   private Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
                                                  Jobseeker jobseeker,
                                                  HttpRequest request)

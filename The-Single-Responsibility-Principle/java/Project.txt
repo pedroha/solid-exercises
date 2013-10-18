@@ -6,7 +6,6 @@ Single Responsibility Principle
 3) View (things), maybe setup some interface that returns what it needs?
 
 
-
   private static void provideApplySuccessView(HttpResponse response, Map<String, Object> model)
   {
     Result result = new Result("success", model);
@@ -26,3 +25,20 @@ Single Responsibility Principle
   }
 
   
+ /*
+ *	IF (job not found) -> InvalidJob -> InvalidJobView()
+ * 
+ *      Do Application Logic: for Job Application
+ *      
+ *      IF Exception
+ *              Couldn't process application -> ErrorView()
+ *      Else
+ *              Add job data into the model? Why???
+ *              
+ *              if (Job application from outside the Ladders)
+ *                      ResumeCompletionView()
+ *              else
+ *                      ApplySuccessView()
+ *    
+ *
+ */
