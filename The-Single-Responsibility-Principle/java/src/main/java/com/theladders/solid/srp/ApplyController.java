@@ -1,9 +1,6 @@
 package com.theladders.solid.srp;
 
-import java.util.ArrayList;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.theladders.solid.srp.http.HttpRequest;
@@ -93,7 +90,7 @@ public class ApplyController
     {
       if (job == null)
       {
-        provider = new InvalidJobView();
+        provider = new InvalidJobView(jobId);
       }
       else {
         Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, request);
@@ -103,10 +100,10 @@ public class ApplyController
         if (applicationResult.success())
         {
           if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
-            provider = new ResumeCompletionView();
+            provider = new ResumeCompletionView(job);
           }
           else {
-            provider = new ApplySuccessView();
+            provider = new ApplySuccessView(job);
           }        
         }
         else {
@@ -122,7 +119,7 @@ public class ApplyController
       errorView.addMessage(e.getMessage()); // This catches error for Missing resume and adds to the list
       provider = errorView;
     }
-    Result result = provider.getViewResult(model);
+    Result result = provider.getViewResult();
     response.setResult(result);    
     return response;
   }
