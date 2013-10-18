@@ -1,8 +1,5 @@
 package com.theladders.solid.srp;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 
@@ -73,15 +70,6 @@ public class ApplyController
     String jobIdString = request.getParameter("jobId");
     int jobId = Integer.parseInt(jobIdString);
     Job job = jobSearchService.getJob(jobId);
-
-    Map<String, Object> model = new HashMap<>();
-    if (job == null) {
-      model.put("jobId", jobId);
-    }
-    else {
-      model.put("jobId", job.getJobId());
-      model.put("jobTitle", job.getTitle());      
-    }
 
     IViewProvider provider = null;
 
