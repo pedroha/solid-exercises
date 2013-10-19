@@ -6,7 +6,8 @@ import com.theladders.solid.srp.Result;
 
 public class InvalidJobView extends AbstractView
 {
-  public InvalidJobView(int jobId) {
+  public InvalidJobView(int jobId)
+  {
     Map<String, Object> model = getModel();
     model.put("jobId", jobId);
   }
