@@ -2,9 +2,7 @@ package com.theladders.solid.srp;
 
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
-
 import com.theladders.solid.srp.interfaces.IViewProvider;
-
 import com.theladders.solid.srp.job.Job;
 import com.theladders.solid.srp.job.JobSearchService;
 import com.theladders.solid.srp.job.application.ApplicationFailureException;
@@ -18,7 +16,6 @@ import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.resume.MyResumeManager;
 import com.theladders.solid.srp.resume.Resume;
 import com.theladders.solid.srp.resume.ResumeManager;
-
 import com.theladders.solid.srp.view.*;
 
 
@@ -58,20 +55,17 @@ public class ApplyController
    * GetNextViewProvider()
    * 
    */
+  
   public HttpResponse handle(HttpRequest request,
                              HttpResponse response,
                              String origFileName)
   {
-    Jobseeker jobseeker = request.getSession().getJobseeker();
-    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
-
-    // Setup model according to Job
-    
-    String jobIdString = request.getParameter("jobId");
-    int jobId = Integer.parseInt(jobIdString);
-    Job job = jobSearchService.getJob(jobId);
-
     IViewProvider provider = null;
+    
+    Jobseeker jobseeker = getJobSeeker(request);
+    JobseekerProfile profile = getJobseekerProfile(jobseeker);
+    int jobId = getJobId(request);
+    Job job = jobSearchService.getJob(jobId);
 
     ApplyErrorView errorView = new ApplyErrorView();
     try
@@ -80,14 +74,16 @@ public class ApplyController
       {
         provider = new InvalidJobView(jobId);
       }
-      else {
-        Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, request);
-        UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-        JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
-
+      else
+      {
+        JobApplicationResult applicationResult = processJobApplication(origFileName, 
+                                                                       jobseeker, 
+                                                                       job,
+                                                                       request);
         if (applicationResult.success())
         {
-          if (isApplicationComingOutsideTheLadders(jobseeker, profile)) {
+          if (isApplicationComingOutsideTheLadders(jobseeker, profile))
+          {
             provider = new ResumeCompletionView(job);
           }
           else {
@@ -95,9 +91,10 @@ public class ApplyController
           }        
         }
         else {
+          provider = errorView;
+          
           String message = "We could not process your application.";
           errorView.addMessage(message);
-          provider = errorView;
           throw new ApplicationFailureException(applicationResult.toString());
         }        
       }
@@ -110,6 +107,36 @@ public class ApplyController
     Result result = provider.getViewResult();
     response.setResult(result);    
     return response;
+  }
+
+  private int getJobId(HttpRequest request)
+  {
+    String jobIdString = request.getParameter("jobId");
+    int jobId = Integer.parseInt(jobIdString);
+    return jobId;
+  }
+
+  private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
+  {
+    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
+    return profile;
+  }
+
+  private Jobseeker getJobSeeker(HttpRequest request)
+  {
+    Jobseeker jobseeker = request.getSession().getJobseeker();
+    return jobseeker;
+  }
+  
+  private JobApplicationResult processJobApplication(String origFileName,
+                                                     Jobseeker jobseeker,
+                                                     Job job,
+                                                     HttpRequest request) 
+  {
+    Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, request);
+    UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
+    JobApplicationResult applicationResult = jobApplicationSystem.apply(application);
+    return applicationResult;
   }
   
   private Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
