@@ -60,19 +60,18 @@ public class ApplyController
                              HttpResponse response,
                              String origFileName)
   {
-    IViewProvider provider = null;
-    
     Jobseeker jobseeker = getJobSeeker(request);
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
     int jobId = getJobId(request);
     Job job = jobSearchService.getJob(jobId);
 
     ApplyErrorView errorView = new ApplyErrorView();
+    IViewProvider viewProvider = errorView;
     try
     {
       if (job == null)
       {
-        provider = new InvalidJobView(jobId);
+        viewProvider = new InvalidJobView(jobId);
       }
       else
       {
@@ -84,15 +83,13 @@ public class ApplyController
         {
           if (isApplicationComingOutsideTheLadders(jobseeker, profile))
           {
-            provider = new ResumeCompletionView(job);
+            viewProvider = new ResumeCompletionView(job);
           }
           else {
-            provider = new ApplySuccessView(job);
+            viewProvider = new ApplySuccessView(job);
           }        
         }
         else {
-          provider = errorView;
-          
           String message = "We could not process your application.";
           errorView.addMessage(message);
           throw new ApplicationFailureException(applicationResult.toString());
@@ -102,9 +99,9 @@ public class ApplyController
     catch (Exception e)
     {
       errorView.addMessage(e.getMessage()); // This catches error for Missing resume and adds to the list
-      provider = errorView;
+      viewProvider = errorView;
     }
-    Result result = provider.getViewResult();
+    Result result = viewProvider.getViewResult();
     response.setResult(result);    
     return response;
   }
