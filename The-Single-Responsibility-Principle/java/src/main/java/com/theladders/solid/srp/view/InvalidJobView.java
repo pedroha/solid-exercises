@@ -1,25 +1,19 @@
 package com.theladders.solid.srp.view;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.theladders.solid.srp.Result;
-import com.theladders.solid.srp.interfaces.IViewProvider;
 
-public class InvalidJobView implements IViewProvider
+public class InvalidJobView extends AbstractView
 {
-  private int jobId;
-
   public InvalidJobView(int jobId) {
-    this.jobId = jobId;
+    Map<String, Object> model = getModel();
+    model.put("jobId", jobId);
   }
   
   public Result getViewResult()
   {
-    Map<String, Object> model = new HashMap<>();
-    model.put("jobId", jobId);
-    
-    Result result = new Result("invalidJob", model);
+    Result result = new Result("invalidJob", getModel());
     return result;
   }
 }

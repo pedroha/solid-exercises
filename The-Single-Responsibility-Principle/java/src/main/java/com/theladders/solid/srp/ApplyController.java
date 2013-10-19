@@ -85,13 +85,14 @@ public class ApplyController
           {
             viewProvider = new ResumeCompletionView(job);
           }
-          else {
+          else
+          {
             viewProvider = new ApplySuccessView(job);
           }        
         }
-        else {
-          String message = "We could not process your application.";
-          errorView.addMessage(message);
+        else
+        {
+          errorView.addMessage("We could not process your application.");
           throw new ApplicationFailureException(applicationResult.toString());
         }        
       }
