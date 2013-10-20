@@ -3,7 +3,7 @@ package com.theladders.solid.srp.view;
 import com.theladders.solid.srp.Result;
 import com.theladders.solid.srp.job.Job;
 
-public class ResumeCompletionView extends AbtractSuccessView
+public class ResumeCompletionView extends AbtractViewWithJob
 {
   public ResumeCompletionView(Job job)
   {

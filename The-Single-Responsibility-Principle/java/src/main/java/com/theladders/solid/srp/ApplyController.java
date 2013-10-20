@@ -42,7 +42,8 @@ public class ApplyController
   
   private static boolean isApplicationComingOutsideTheLadders(Jobseeker jobseeker, JobseekerProfile profile) {
     // TODO: Should come from the ApplicationLogic (not from this controller!!)
-    boolean isOutside = (!jobseeker.isPremium() && (profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
+    boolean isOutside = (!jobseeker.isPremium() && (
+        profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
         profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
         profile.getStatus().equals(ProfileStatus.REMOVED)));
     
