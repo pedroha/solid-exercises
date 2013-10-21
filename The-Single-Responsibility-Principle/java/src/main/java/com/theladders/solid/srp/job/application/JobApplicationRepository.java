@@ -30,7 +30,6 @@ public class JobApplicationRepository
         return true;
       }
     }
-
     return false;
   }
 }

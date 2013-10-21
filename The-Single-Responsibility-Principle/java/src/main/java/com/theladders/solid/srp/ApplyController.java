@@ -17,7 +17,7 @@ public class ApplyController
                              HttpResponse response,
                              String origFileName)
   {
-    JobApplication jobApplication = new JobApplication(this.managers);
+    JobApplicationBusiness jobApplication = new JobApplicationBusiness(this.managers);
     SessionData sessionData = new SessionData(request);
     
     IViewProvider viewProvider = jobApplication.getViewProvider(sessionData, origFileName);
