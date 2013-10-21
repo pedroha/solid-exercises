@@ -83,11 +83,15 @@ public class JobApplicationBusiness
 
   private static boolean isApplicationComingOutsideTheLadders(Jobseeker jobseeker, JobseekerProfile profile)
   {
-    boolean isOutside = (!jobseeker.isPremium() && (
-        profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
-        profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
-        profile.getStatus().equals(ProfileStatus.REMOVED)));
-    
+    ProfileStatus status = profile.getStatus();
+    boolean isOutside = 
+      (!jobseeker.isPremium() &&
+        (
+          status.equals(ProfileStatus.INCOMPLETE) ||
+          status.equals(ProfileStatus.NO_PROFILE) ||
+          status.equals(ProfileStatus.REMOVED)
+        )
+      );    
     return isOutside;
   }
   
