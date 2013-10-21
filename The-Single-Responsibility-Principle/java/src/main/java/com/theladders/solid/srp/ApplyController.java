@@ -19,7 +19,9 @@ public class ApplyController
   {
     JobApplication jobApplication = new JobApplication(this.managers);
     
-    IViewProvider viewProvider = jobApplication.handle(request, response, origFileName);
+    SessionData sessionData = new SessionData(request);
+    
+    IViewProvider viewProvider = jobApplication.handle(sessionData, origFileName);
 
     Result result = viewProvider.getViewResult();
     response.setResult(result);    
