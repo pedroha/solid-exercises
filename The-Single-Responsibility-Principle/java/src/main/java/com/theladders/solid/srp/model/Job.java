@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.job;
+package com.theladders.solid.srp.model;
 
 public class Job
 {

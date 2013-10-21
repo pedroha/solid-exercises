@@ -1,8 +1,11 @@
 package com.theladders.solid.srp;
 
+import com.theladders.solid.srp.business.JobApplication;
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
-import com.theladders.solid.srp.interfaces.IViewProvider;
+import com.theladders.solid.srp.util.IViewProvider;
+import com.theladders.solid.srp.util.Result;
+import com.theladders.solid.srp.util.SessionData;
 
 public class ApplyController
 {
@@ -17,7 +20,7 @@ public class ApplyController
                              HttpResponse response,
                              String origFileName)
   {
-    JobApplicationBusiness jobApplication = new JobApplicationBusiness(this.managers);
+    JobApplication jobApplication = new JobApplication(this.managers);
     SessionData sessionData = new SessionData(request);
     
     IViewProvider viewProvider = jobApplication.getViewProvider(sessionData, origFileName);

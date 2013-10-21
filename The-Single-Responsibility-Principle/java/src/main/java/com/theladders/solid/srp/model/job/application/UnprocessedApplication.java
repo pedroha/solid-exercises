@@ -1,8 +1,8 @@
-package com.theladders.solid.srp.job.application;
+package com.theladders.solid.srp.model.job.application;
 
-import com.theladders.solid.srp.job.Job;
-import com.theladders.solid.srp.jobseeker.Jobseeker;
-import com.theladders.solid.srp.resume.Resume;
+import com.theladders.solid.srp.model.Job;
+import com.theladders.solid.srp.model.Jobseeker;
+import com.theladders.solid.srp.model.Resume;
 
 public class UnprocessedApplication
 {

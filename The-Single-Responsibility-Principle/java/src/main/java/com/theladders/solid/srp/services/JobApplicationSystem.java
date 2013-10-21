@@ -1,5 +1,9 @@
-package com.theladders.solid.srp.job.application;
+package com.theladders.solid.srp.services;
 
+import com.theladders.solid.srp.model.job.application.FailedApplication;
+import com.theladders.solid.srp.model.job.application.JobApplicationResult;
+import com.theladders.solid.srp.model.job.application.SuccessfulApplication;
+import com.theladders.solid.srp.model.job.application.UnprocessedApplication;
 import com.theladders.solid.srp.persistence.JobApplicationRepository;
 
 

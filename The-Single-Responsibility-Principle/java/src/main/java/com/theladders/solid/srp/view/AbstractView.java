@@ -3,7 +3,7 @@ package com.theladders.solid.srp.view;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.theladders.solid.srp.interfaces.IViewProvider;
+import com.theladders.solid.srp.util.IViewProvider;
 
 public abstract class AbstractView implements IViewProvider
 {  

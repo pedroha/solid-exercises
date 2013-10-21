@@ -1,13 +1,15 @@
-package com.theladders.solid.srp;
+package com.theladders.solid.srp.business;
 
-import com.theladders.solid.srp.jobseeker.Jobseeker;
-import com.theladders.solid.srp.resume.Resume;
+import com.theladders.solid.srp.Managers;
+import com.theladders.solid.srp.model.Jobseeker;
+import com.theladders.solid.srp.model.Resume;
+import com.theladders.solid.srp.util.SessionData;
 
-public class ResumeBusiness
+public class ResumeHandler
 {
   private Managers managers;
   
-  public ResumeBusiness(Managers managers)
+  public ResumeHandler(Managers managers)
   {
     this.managers = managers;
   }

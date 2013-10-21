@@ -1,6 +1,6 @@
 package com.theladders.solid.srp;
 
-import com.theladders.solid.srp.job.application.JobApplicationSystem;
+import com.theladders.solid.srp.services.JobApplicationSystem;
 import com.theladders.solid.srp.services.JobSearchService;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;

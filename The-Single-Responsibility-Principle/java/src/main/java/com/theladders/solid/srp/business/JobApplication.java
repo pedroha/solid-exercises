@@ -1,22 +1,24 @@
-package com.theladders.solid.srp;
+package com.theladders.solid.srp.business;
 
-import com.theladders.solid.srp.interfaces.IViewProvider;
-import com.theladders.solid.srp.job.Job;
-import com.theladders.solid.srp.job.application.ApplicationFailureException;
-import com.theladders.solid.srp.job.application.JobApplicationResult;
-import com.theladders.solid.srp.job.application.UnprocessedApplication;
-import com.theladders.solid.srp.jobseeker.JobseekerProfile;
-import com.theladders.solid.srp.jobseeker.ProfileStatus;
-import com.theladders.solid.srp.jobseeker.Jobseeker;
-import com.theladders.solid.srp.resume.Resume;
+import com.theladders.solid.srp.Managers;
+import com.theladders.solid.srp.model.Job;
+import com.theladders.solid.srp.model.Jobseeker;
+import com.theladders.solid.srp.model.JobseekerProfile;
+import com.theladders.solid.srp.model.ProfileStatus;
+import com.theladders.solid.srp.model.Resume;
+import com.theladders.solid.srp.model.job.application.ApplicationFailureException;
+import com.theladders.solid.srp.model.job.application.JobApplicationResult;
+import com.theladders.solid.srp.model.job.application.UnprocessedApplication;
+import com.theladders.solid.srp.util.IViewProvider;
+import com.theladders.solid.srp.util.SessionData;
 import com.theladders.solid.srp.view.*;
 
 
-public class JobApplicationBusiness
+public class JobApplication
 {
   private Managers managers;
 
-  public JobApplicationBusiness(Managers managers)
+  public JobApplication(Managers managers)
   {
     this.managers = managers;
   }
@@ -74,7 +76,7 @@ public class JobApplicationBusiness
                                                      Job job,
                                                      SessionData sessionData) 
   {
-    ResumeBusiness resumeBusiness = new ResumeBusiness(managers);
+    ResumeHandler resumeBusiness = new ResumeHandler(managers);
     Resume resume = resumeBusiness.saveNewOrRetrieveExistingResume(origFileName,jobseeker, sessionData);  
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = managers.getJobApplicationSystem().apply(application);

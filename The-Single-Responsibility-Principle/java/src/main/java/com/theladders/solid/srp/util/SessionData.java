@@ -1,8 +1,8 @@
-package com.theladders.solid.srp;
+package com.theladders.solid.srp.util;
 
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpSession;
-import com.theladders.solid.srp.jobseeker.Jobseeker;
+import com.theladders.solid.srp.model.Jobseeker;
 
 public class SessionData
 {

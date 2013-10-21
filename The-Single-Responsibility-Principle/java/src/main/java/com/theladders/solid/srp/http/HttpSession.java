@@ -1,6 +1,6 @@
 package com.theladders.solid.srp.http;
 
-import com.theladders.solid.srp.jobseeker.Jobseeker;
+import com.theladders.solid.srp.model.Jobseeker;
 
 public class HttpSession
 {

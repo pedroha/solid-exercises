@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.resume;
+package com.theladders.solid.srp.model;
 
 public class Resume
 {

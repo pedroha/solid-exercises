@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.jobseeker;
+package com.theladders.solid.srp.model;
 
 public enum ProfileStatus
 {

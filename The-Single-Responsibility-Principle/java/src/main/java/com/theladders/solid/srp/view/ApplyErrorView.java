@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.theladders.solid.srp.Result;
+import com.theladders.solid.srp.util.Result;
 
 public class ApplyErrorView extends AbstractView
 {

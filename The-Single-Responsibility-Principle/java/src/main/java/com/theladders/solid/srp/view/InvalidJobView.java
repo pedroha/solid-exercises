@@ -2,7 +2,7 @@ package com.theladders.solid.srp.view;
 
 import java.util.Map;
 
-import com.theladders.solid.srp.Result;
+import com.theladders.solid.srp.util.Result;
 
 public class InvalidJobView extends AbstractView
 {

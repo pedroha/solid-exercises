@@ -1,7 +1,7 @@
 package com.theladders.solid.srp.view;
 
-import com.theladders.solid.srp.Result;
-import com.theladders.solid.srp.job.Job;
+import com.theladders.solid.srp.model.Job;
+import com.theladders.solid.srp.util.Result;
 
 public class ApplySuccessView extends AbtractViewWithJob
 {

@@ -2,7 +2,7 @@ package com.theladders.solid.srp.view;
 
 import java.util.Map;
 
-import com.theladders.solid.srp.job.Job;
+import com.theladders.solid.srp.model.Job;
 
 public abstract class AbtractViewWithJob extends AbstractView
 {
