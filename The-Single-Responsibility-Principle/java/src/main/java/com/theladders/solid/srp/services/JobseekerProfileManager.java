@@ -16,6 +16,6 @@ public class JobseekerProfileManager
 
   public JobseekerProfile getJobSeekerProfile(Jobseeker jobseeker)
   {
-    return  repository.getProfile(jobseeker.getId());
+    return repository.getProfile(jobseeker.getId());
   }
 }

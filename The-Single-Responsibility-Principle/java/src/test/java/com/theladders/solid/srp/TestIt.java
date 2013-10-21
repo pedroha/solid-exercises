@@ -21,8 +21,8 @@ import com.theladders.solid.srp.persistence.JobApplicationRepository;
 import com.theladders.solid.srp.persistence.JobRepository;
 import com.theladders.solid.srp.persistence.JobseekerProfileRepository;
 import com.theladders.solid.srp.persistence.ResumeRepository;
-import com.theladders.solid.srp.services.JobApplicationService;
-import com.theladders.solid.srp.services.JobSearchService;
+import com.theladders.solid.srp.services.JobApplicationManager;
+import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
@@ -289,8 +289,8 @@ public class TestIt
   private void setupController()
   {
     JobseekerProfileManager jobseekerProfileManager = new JobseekerProfileManager(jobseekerProfileRepository);
-    JobSearchService jobSearchService = new JobSearchService(jobRepository);
-    JobApplicationService jobApplicationSystem = new JobApplicationService(jobApplicationRepository);
+    JobManager jobSearchService = new JobManager(jobRepository);
+    JobApplicationManager jobApplicationSystem = new JobApplicationManager(jobApplicationRepository);
     ResumeManager resumeManager = new ResumeManager(resumeRepository);
     MyResumeManager myResumeManager = new MyResumeManager(activeResumeRepository);
 

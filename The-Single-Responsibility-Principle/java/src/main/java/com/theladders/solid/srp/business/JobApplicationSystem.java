@@ -11,7 +11,7 @@ import com.theladders.solid.srp.model.job.application.FailedApplication;
 import com.theladders.solid.srp.model.job.application.JobApplicationResult;
 import com.theladders.solid.srp.model.job.application.SuccessfulApplication;
 import com.theladders.solid.srp.model.job.application.UnprocessedApplication;
-import com.theladders.solid.srp.services.JobApplicationService;
+import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.util.IViewProvider;
 import com.theladders.solid.srp.util.SessionData;
 import com.theladders.solid.srp.view.*;
@@ -31,7 +31,7 @@ public class JobApplicationSystem
     Jobseeker jobseeker = sessionData.getJobseeker();
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
     int jobId = sessionData.getJobId();
-    Job job = managers.getJobSearchService().getJob(jobId);
+    Job job = managers.getJobManager().getJob(jobId);
 
     ApplyErrorView errorView = new ApplyErrorView();
     IViewProvider viewProvider = errorView;
@@ -79,7 +79,7 @@ public class JobApplicationSystem
                                                      Job job,
                                                      SessionData sessionData) 
   {
-    ResumeHandler resumeBusiness = new ResumeHandler(managers.getResumeManager(), managers.getMyResumeManager());
+    ResumeSystem resumeBusiness = new ResumeSystem(managers.getResumeManager(), managers.getMyResumeManager());
     Resume resume = resumeBusiness.saveNewOrRetrieveExistingResume(origFileName,jobseeker, sessionData);  
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = applyForJob(application);
@@ -89,12 +89,12 @@ public class JobApplicationSystem
   private JobApplicationResult applyForJob(UnprocessedApplication application)
   {
     if (application.isValid() &&
-        !getJobApplicationService().applicationExistsFor(application.getJobseeker(), application.getJob()))
+        !getJobApplicationManager().applicationExistsFor(application.getJobseeker(), application.getJob()))
     {
       SuccessfulApplication success = new SuccessfulApplication(application.getJobseeker(),
                                                                 application.getJob(),
                                                                 application.getResume());
-      getJobApplicationService().add(success);
+      getJobApplicationManager().add(success);
 
       return success;
     }
@@ -122,8 +122,8 @@ public class JobApplicationSystem
     return profile;
   }  
 
-  private JobApplicationService getJobApplicationService()
+  private JobApplicationManager getJobApplicationManager()
   {
-    return managers.getJobApplicationService();
+    return managers.getJobApplicationManager();
   }
 }
