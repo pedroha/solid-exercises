@@ -79,10 +79,10 @@ public class JobApplicationSystem
                                                      Job job,
                                                      SessionData sessionData) 
   {
-    ResumeSystem resumeBusiness = new ResumeSystem(managers.getResumeManager(), managers.getMyResumeManager());
-    Resume resume = resumeBusiness.retrieveExistingResume(jobseeker, sessionData);
+    ResumeSystem resumeSystem = new ResumeSystem(managers.getResumeManager(), managers.getMyResumeManager());
+    Resume resume = resumeSystem.retrieveExistingResume(jobseeker, sessionData);
     if (resume == null) {
-      resume = resumeBusiness.saveNewResume(origFileName,jobseeker, sessionData);
+      resume = resumeSystem.saveNewResume(origFileName,jobseeker, sessionData);
     }
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = applyForJob(application);
