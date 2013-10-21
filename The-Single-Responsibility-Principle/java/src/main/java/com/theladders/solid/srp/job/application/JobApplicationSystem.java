@@ -1,5 +1,7 @@
 package com.theladders.solid.srp.job.application;
 
+import com.theladders.solid.persistence.JobApplicationRepository;
+
 
 public class JobApplicationSystem
 {
