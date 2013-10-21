@@ -15,7 +15,6 @@ import com.theladders.solid.srp.util.IViewProvider;
 import com.theladders.solid.srp.util.SessionData;
 import com.theladders.solid.srp.view.*;
 
-
 public class JobApplicationSystem
 {
   private Managers managers;
@@ -99,8 +98,7 @@ public class JobApplicationSystem
       getJobApplicationManager().add(success);
 
       return success;
-    }
-    
+    }    
     return new FailedApplication();
   }
   
