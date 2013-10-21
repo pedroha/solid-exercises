@@ -3,15 +3,19 @@ package com.theladders.solid.srp.business;
 import com.theladders.solid.srp.Managers;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.Resume;
+import com.theladders.solid.srp.services.MyResumeManager;
+import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.SessionData;
 
 public class ResumeHandler
 {
-  private Managers managers;
+  private ResumeManager resumeManager;
+  private MyResumeManager myResumeManager;
   
   public ResumeHandler(Managers managers)
   {
-    this.managers = managers;
+    this.resumeManager = managers.getResumeManager();
+    this.myResumeManager = managers.getMyResumeManager();    
   }
   
   public Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
@@ -41,13 +45,13 @@ public class ResumeHandler
   }
   
   private Resume saveResume(Jobseeker jobseeker, String newResumeFileName) {
-    Resume resume = managers.getResumeManager().saveResume(jobseeker, newResumeFileName);
+    Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
     return resume;
   }
   
   private void saveResumeAsActive(Jobseeker jobseeker, Resume resume)
   {
-    managers.getMyResumeManager().saveAsActive(jobseeker, resume);
+    myResumeManager.saveAsActive(jobseeker, resume);
   }
   
   private static boolean makeResumeActive(Resume resume, SessionData sessionData) {
@@ -58,13 +62,14 @@ public class ResumeHandler
   
   private Resume getActiveResume(Jobseeker jobseeker)
   {
-    Resume resume = managers.getMyResumeManager().getActiveResume(jobseeker.getId());
+    Resume resume = myResumeManager.getActiveResume(jobseeker.getId());
     return resume;
   }
   
   private static boolean activeResumeExists(SessionData sessionData)
   {
-    boolean exists = ("existing".equals(sessionData.getParameter("whichResume")));
+    String whichResume = sessionData.getParameter("whichResume");
+    boolean exists = ("existing".equals(whichResume));
     return exists;
   }
 }

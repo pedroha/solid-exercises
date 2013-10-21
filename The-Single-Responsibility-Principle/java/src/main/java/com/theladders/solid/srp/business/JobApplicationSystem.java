@@ -19,8 +19,8 @@ import com.theladders.solid.srp.view.*;
 
 public class JobApplicationSystem
 {
-  private JobApplicationService jobApplicationService = null;
   private Managers managers;
+  private JobApplicationService jobApplicationService;
 
   public JobApplicationSystem(Managers managers)
   {
