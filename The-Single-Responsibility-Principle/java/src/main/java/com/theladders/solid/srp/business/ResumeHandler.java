@@ -29,7 +29,8 @@ public class ResumeHandler
     }
     else
     {
-      if (newResumeFileName == null) {
+      if (newResumeFileName == null)
+      {
         throw new IllegalArgumentException("JobApplication.saveNewOrRetrieveExistingResume(): newResumeFileName is null");
       }
       resume = saveResume(jobseeker, newResumeFileName);
@@ -43,7 +44,8 @@ public class ResumeHandler
     return resume;
   }
   
-  private Resume saveResume(Jobseeker jobseeker, String newResumeFileName) {
+  private Resume saveResume(Jobseeker jobseeker, String newResumeFileName)
+  {
     Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
     return resume;
   }
@@ -53,7 +55,8 @@ public class ResumeHandler
     myResumeManager.saveAsActive(jobseeker, resume);
   }
   
-  private static boolean makeResumeActive(Resume resume, SessionData sessionData) {
+  private static boolean makeResumeActive(Resume resume, SessionData sessionData)
+  {
     String makeActiveValue = sessionData.getParameter("makeResumeActive");
     boolean makeActive = (resume != null && "yes".equals(makeActiveValue));
     return makeActive;
