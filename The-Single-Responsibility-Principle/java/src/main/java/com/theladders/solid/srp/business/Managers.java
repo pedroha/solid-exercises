@@ -1,4 +1,4 @@
-package com.theladders.solid.srp;
+package com.theladders.solid.srp.business;
 
 import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.services.JobManager;

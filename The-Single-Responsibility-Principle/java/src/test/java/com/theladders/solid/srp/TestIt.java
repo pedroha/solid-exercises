@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.junit.*;
 
+import com.theladders.solid.srp.business.Managers;
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 import com.theladders.solid.srp.http.HttpSession;

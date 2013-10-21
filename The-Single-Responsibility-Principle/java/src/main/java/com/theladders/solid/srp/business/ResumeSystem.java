@@ -21,7 +21,7 @@ public class ResumeSystem
   {
     Resume resume = null;
     
-    if (activeResumeExists(sessionData))
+    if (sessionData.activeResumeExists())
     {
       resume = getActiveResume(jobseeker);
     }
@@ -38,7 +38,7 @@ public class ResumeSystem
     }
     Resume resume = saveResume(jobseeker, newResumeFileName);
     
-    if (makeResumeActive(resume, sessionData))
+    if (sessionData.makeResumeActive(resume))
     {
       saveResumeAsActive(jobseeker, resume);
     }
@@ -57,23 +57,9 @@ public class ResumeSystem
     myResumeManager.saveAsActive(jobseeker, resume);
   }
   
-  private static boolean makeResumeActive(Resume resume, SessionData sessionData)
-  {
-    String makeActiveValue = sessionData.getParameter("makeResumeActive");
-    boolean makeActive = (resume != null && "yes".equals(makeActiveValue));
-    return makeActive;
-  }
-  
   private Resume getActiveResume(Jobseeker jobseeker)
   {
     Resume resume = myResumeManager.getActiveResume(jobseeker.getId());
     return resume;
-  }
-  
-  private static boolean activeResumeExists(SessionData sessionData)
-  {
-    String whichResume = sessionData.getParameter("whichResume");
-    boolean exists = ("existing".equals(whichResume));
-    return exists;
-  }
+  }  
 }

@@ -3,6 +3,7 @@ package com.theladders.solid.srp.util;
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpSession;
 import com.theladders.solid.srp.model.Jobseeker;
+import com.theladders.solid.srp.model.Resume;
 
 public class SessionData
 {
@@ -17,11 +18,6 @@ public class SessionData
     this.request = request;
   }
   
-  public String getParameter(String name) {
-    String value = request.getParameter(name);
-    return value;
-  }
-  
   public Jobseeker getJobseeker() {
     return session.getJobseeker();
   }
@@ -32,5 +28,23 @@ public class SessionData
     int jobId = Integer.parseInt(jobIdString);
     return jobId;
   }
+  
+  public boolean makeResumeActive(Resume resume)
+  {
+    String makeActiveValue = getParameter(IResume.MAKE_RESUME_ACTIVE);
+    boolean makeActive = (resume != null && IResume.YES.equals(makeActiveValue));
+    return makeActive;
+  }
+    
+  public boolean activeResumeExists()
+  {
+    String whichResume = getParameter(IResume.WHICH_RESUME);
+    boolean exists = (IResume.EXISTING.equals(whichResume));
+    return exists;
+  }
 
+  private String getParameter(String name) {
+    String value = request.getParameter(name);
+    return value;
+  }
 }

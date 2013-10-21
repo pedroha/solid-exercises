@@ -1,6 +1,5 @@
 package com.theladders.solid.srp.business;
 
-import com.theladders.solid.srp.Managers;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.JobseekerProfile;
