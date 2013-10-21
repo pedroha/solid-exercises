@@ -294,10 +294,12 @@ public class TestIt
     ResumeManager resumeManager = new ResumeManager(resumeRepository);
     MyResumeManager myResumeManager = new MyResumeManager(activeResumeRepository);
 
-    controller = new ApplyController(jobseekerProfileManager,
+    Managers managers = new Managers(jobseekerProfileManager,
                                      jobSearchService,
                                      jobApplicationSystem,
                                      resumeManager,
                                      myResumeManager);
+   
+    controller = new ApplyController(managers);
   }
 }
