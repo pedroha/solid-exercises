@@ -20,16 +20,13 @@ import com.theladders.solid.srp.view.*;
 public class JobApplicationSystem
 {
   private Managers managers;
-  private JobApplicationService jobApplicationService;
 
   public JobApplicationSystem(Managers managers)
   {
     this.managers = managers;
-    this.jobApplicationService = managers.getJobApplicationService();
   }
   
-  public IViewProvider getViewProvider(SessionData sessionData,
-                              String origFileName)
+  public IViewProvider getViewProvider(SessionData sessionData, String origFileName)
   {
     Jobseeker jobseeker = sessionData.getJobseeker();
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
@@ -38,6 +35,7 @@ public class JobApplicationSystem
 
     ApplyErrorView errorView = new ApplyErrorView();
     IViewProvider viewProvider = errorView;
+
     try
     {
       if (job == null)
@@ -81,7 +79,7 @@ public class JobApplicationSystem
                                                      Job job,
                                                      SessionData sessionData) 
   {
-    ResumeHandler resumeBusiness = new ResumeHandler(managers);
+    ResumeHandler resumeBusiness = new ResumeHandler(managers.getResumeManager(), managers.getMyResumeManager());
     Resume resume = resumeBusiness.saveNewOrRetrieveExistingResume(origFileName,jobseeker, sessionData);  
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = applyForJob(application);
@@ -91,12 +89,12 @@ public class JobApplicationSystem
   private JobApplicationResult applyForJob(UnprocessedApplication application)
   {
     if (application.isValid() &&
-        !jobApplicationService.applicationExistsFor(application.getJobseeker(), application.getJob()))
+        !getJobApplicationService().applicationExistsFor(application.getJobseeker(), application.getJob()))
     {
       SuccessfulApplication success = new SuccessfulApplication(application.getJobseeker(),
                                                                 application.getJob(),
                                                                 application.getResume());
-      jobApplicationService.add(success);
+      getJobApplicationService().add(success);
 
       return success;
     }
@@ -123,4 +121,9 @@ public class JobApplicationSystem
     JobseekerProfile profile = managers.getJobseekerProfileManager().getJobSeekerProfile(jobseeker);
     return profile;
   }  
+
+  private JobApplicationService getJobApplicationService()
+  {
+    return managers.getJobApplicationService();
+  }
 }

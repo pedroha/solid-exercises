@@ -1,6 +1,5 @@
 package com.theladders.solid.srp.business;
 
-import com.theladders.solid.srp.Managers;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.services.MyResumeManager;
@@ -12,15 +11,15 @@ public class ResumeHandler
   private ResumeManager resumeManager;
   private MyResumeManager myResumeManager;
   
-  public ResumeHandler(Managers managers)
+  public ResumeHandler(ResumeManager resumeManager, MyResumeManager myResumeManager)
   {
-    this.resumeManager = managers.getResumeManager();
-    this.myResumeManager = managers.getMyResumeManager();    
+    this.resumeManager = resumeManager;
+    this.myResumeManager = myResumeManager; 
   }
   
   public Resume saveNewOrRetrieveExistingResume(String newResumeFileName,
-                                                 Jobseeker jobseeker,
-                                                 SessionData sessionData)
+                                                Jobseeker jobseeker,
+                                                SessionData sessionData)
   {
     Resume resume = null;
 
