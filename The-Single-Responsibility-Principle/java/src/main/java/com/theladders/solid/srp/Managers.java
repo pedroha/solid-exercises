@@ -1,10 +1,10 @@
 package com.theladders.solid.srp;
 
-import com.theladders.solid.srp.job.JobSearchService;
 import com.theladders.solid.srp.job.application.JobApplicationSystem;
-import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
-import com.theladders.solid.srp.resume.MyResumeManager;
-import com.theladders.solid.srp.resume.ResumeManager;
+import com.theladders.solid.srp.services.JobSearchService;
+import com.theladders.solid.srp.services.JobseekerProfileManager;
+import com.theladders.solid.srp.services.MyResumeManager;
+import com.theladders.solid.srp.services.ResumeManager;
 
 public class Managers
 {

@@ -48,7 +48,7 @@ public class ResumeBusiness
     managers.getMyResumeManager().saveAsActive(jobseeker, resume);
   }
   
-  private boolean makeResumeActive(Resume resume, SessionData sessionData) {
+  private static boolean makeResumeActive(Resume resume, SessionData sessionData) {
     String makeActiveValue = sessionData.getParameter("makeResumeActive");
     boolean makeActive = (resume != null && "yes".equals(makeActiveValue));
     return makeActive;
@@ -60,7 +60,7 @@ public class ResumeBusiness
     return resume;
   }
   
-  private boolean activeResumeExists(SessionData sessionData)
+  private static boolean activeResumeExists(SessionData sessionData)
   {
     boolean exists = ("existing".equals(sessionData.getParameter("whichResume")));
     return exists;

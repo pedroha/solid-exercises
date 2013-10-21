@@ -34,4 +34,9 @@ public class SuccessfulApplication implements JobApplicationResult
   {
     return job;
   }
+
+  public Resume getResume()
+  {
+    return resume;
+  }
 }

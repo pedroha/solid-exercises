@@ -11,11 +11,9 @@ import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 import com.theladders.solid.srp.http.HttpSession;
 import com.theladders.solid.srp.job.Job;
-import com.theladders.solid.srp.job.JobSearchService;
 import com.theladders.solid.srp.job.application.JobApplicationSystem;
 import com.theladders.solid.srp.job.application.SuccessfulApplication;
 import com.theladders.solid.srp.jobseeker.JobseekerProfile;
-import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 import com.theladders.solid.srp.jobseeker.ProfileStatus;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
 import com.theladders.solid.srp.persistence.ActiveResumeRepository;
@@ -23,9 +21,11 @@ import com.theladders.solid.srp.persistence.JobApplicationRepository;
 import com.theladders.solid.srp.persistence.JobRepository;
 import com.theladders.solid.srp.persistence.JobseekerProfileRepository;
 import com.theladders.solid.srp.persistence.ResumeRepository;
-import com.theladders.solid.srp.resume.MyResumeManager;
 import com.theladders.solid.srp.resume.Resume;
-import com.theladders.solid.srp.resume.ResumeManager;
+import com.theladders.solid.srp.services.JobSearchService;
+import com.theladders.solid.srp.services.JobseekerProfileManager;
+import com.theladders.solid.srp.services.MyResumeManager;
+import com.theladders.solid.srp.services.ResumeManager;
 
 public class TestIt
 {
