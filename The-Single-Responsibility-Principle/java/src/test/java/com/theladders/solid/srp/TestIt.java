@@ -7,11 +7,6 @@ import java.util.Map;
 
 import org.junit.*;
 
-import com.theladders.solid.persistence.ActiveResumeRepository;
-import com.theladders.solid.persistence.JobApplicationRepository;
-import com.theladders.solid.persistence.JobRepository;
-import com.theladders.solid.persistence.JobseekerProfileRepository;
-import com.theladders.solid.persistence.ResumeRepository;
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 import com.theladders.solid.srp.http.HttpSession;
@@ -23,6 +18,11 @@ import com.theladders.solid.srp.jobseeker.JobseekerProfile;
 import com.theladders.solid.srp.jobseeker.JobseekerProfileManager;
 import com.theladders.solid.srp.jobseeker.ProfileStatus;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
+import com.theladders.solid.srp.persistence.ActiveResumeRepository;
+import com.theladders.solid.srp.persistence.JobApplicationRepository;
+import com.theladders.solid.srp.persistence.JobRepository;
+import com.theladders.solid.srp.persistence.JobseekerProfileRepository;
+import com.theladders.solid.srp.persistence.ResumeRepository;
 import com.theladders.solid.srp.resume.MyResumeManager;
 import com.theladders.solid.srp.resume.Resume;
 import com.theladders.solid.srp.resume.ResumeManager;

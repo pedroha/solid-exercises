@@ -1,7 +1,7 @@
 package com.theladders.solid.srp.resume;
 
-import com.theladders.solid.persistence.ResumeRepository;
 import com.theladders.solid.srp.jobseeker.Jobseeker;
+import com.theladders.solid.srp.persistence.ResumeRepository;
 
 public class ResumeManager
 {

@@ -1,6 +1,6 @@
 package com.theladders.solid.srp.job;
 
-import com.theladders.solid.persistence.JobRepository;
+import com.theladders.solid.srp.persistence.JobRepository;
 
 
 public class JobSearchService

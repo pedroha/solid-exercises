@@ -1,6 +1,6 @@
 package com.theladders.solid.srp.jobseeker;
 
-import com.theladders.solid.persistence.JobseekerProfileRepository;
+import com.theladders.solid.srp.persistence.JobseekerProfileRepository;
 
 
 public class JobseekerProfileManager
