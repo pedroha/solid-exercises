@@ -22,29 +22,12 @@ public class JobApplication
     this.managers = managers;
   }
   
-  private static boolean isApplicationComingOutsideTheLadders(Jobseeker jobseeker, JobseekerProfile profile) {
-    // TODO: Should come from the ApplicationLogic (not from this controller!!)
-    boolean isOutside = (!jobseeker.isPremium() && (
-        profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
-        profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
-        profile.getStatus().equals(ProfileStatus.REMOVED)));
-    
-    return isOutside;
-  }
-  
-  /*
-   * Do Application Logic -> Return some state to identify which provider
-   * 
-   * GetNextViewProvider()
-   * 
-   */
-  
-  public IViewProvider handle(SessionData sessionData,
+  public IViewProvider getViewProvider(SessionData sessionData,
                               String origFileName)
   {
-    Jobseeker jobseeker = getJobSeeker(sessionData);
+    Jobseeker jobseeker = sessionData.getJobseeker();
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
-    int jobId = getJobId(sessionData);
+    int jobId = sessionData.getJobId();
     Job job = managers.getJobSearchService().getJob(jobId);
 
     ApplyErrorView errorView = new ApplyErrorView();
@@ -87,23 +70,21 @@ public class JobApplication
     return viewProvider;
   }
 
-  private int getJobId(SessionData sessionData)
-  {
-    String jobIdString = sessionData.getParameter("jobId");
-    int jobId = Integer.parseInt(jobIdString);
-    return jobId;
+  private static boolean isApplicationComingOutsideTheLadders(Jobseeker jobseeker, JobseekerProfile profile) {
+    // TODO: Should come from the ApplicationLogic (not from this controller!!)
+    boolean isOutside = (!jobseeker.isPremium() && (
+        profile.getStatus().equals(ProfileStatus.INCOMPLETE) ||
+        profile.getStatus().equals(ProfileStatus.NO_PROFILE) ||
+        profile.getStatus().equals(ProfileStatus.REMOVED)));
+    
+    return isOutside;
   }
+  
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
   {
     JobseekerProfile profile = managers.getJobseekerProfileManager().getJobSeekerProfile(jobseeker);
     return profile;
-  }
-
-  private Jobseeker getJobSeeker(SessionData sessionData)
-  {
-    Jobseeker jobseeker = sessionData.getJobseeker();
-    return jobseeker;
   }
   
   private JobApplicationResult processJobApplication(String origFileName,
@@ -112,6 +93,7 @@ public class JobApplication
                                                      SessionData sessionData) 
   {
     Resume resume = saveNewOrRetrieveExistingResume(origFileName,jobseeker, sessionData);
+    
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = managers.getJobApplicationSystem().apply(application);
     return applicationResult;
@@ -121,22 +103,47 @@ public class JobApplication
                                                  Jobseeker jobseeker,
                                                  SessionData sessionData)
   {
-    Resume resume;
+    Resume resume = null;
 
-    if (!"existing".equals(sessionData.getParameter("whichResume")))
+    if (activeResumeExists(sessionData))
     {
-      resume = managers.getResumeManager().saveResume(jobseeker, newResumeFileName);
-
-      if (resume != null && "yes".equals(sessionData.getParameter("makeResumeActive")))
-      {
-        managers.getMyResumeManager().saveAsActive(jobseeker, resume);
-      }
+      resume = getActiveResume(jobseeker);
     }
     else
     {
-      resume = managers.getMyResumeManager().getActiveResume(jobseeker.getId());
+      if (newResumeFileName != null) {
+        resume = managers.getResumeManager().saveResume(jobseeker, newResumeFileName);
+      }
+
+      if (makeResumeActive(resume, sessionData))
+      {
+        saveResumeAsActive(jobseeker, resume);
+      }
     }
 
     return resume;
+  }
+  
+  private void saveResumeAsActive(Jobseeker jobseeker, Resume resume)
+  {
+    managers.getMyResumeManager().saveAsActive(jobseeker, resume);
+  }
+  
+  private boolean makeResumeActive(Resume resume, SessionData sessionData) {
+    String makeActiveValue = sessionData.getParameter("makeResumeActive");
+    boolean makeActive = (resume != null && "yes".equals(makeActiveValue));
+    return makeActive;
+  }
+  
+  private Resume getActiveResume(Jobseeker jobseeker)
+  {
+    Resume resume = managers.getMyResumeManager().getActiveResume(jobseeker.getId());
+    return resume;
+  }
+  
+  private boolean activeResumeExists(SessionData sessionData)
+  {
+    boolean exists = ("existing".equals(sessionData.getParameter("whichResume")));
+    return exists;
   }
 }

@@ -25,4 +25,12 @@ public class SessionData
   public Jobseeker getJobseeker() {
     return session.getJobseeker();
   }
+  
+  public int getJobId()
+  {
+    String jobIdString = request.getParameter("jobId");
+    int jobId = Integer.parseInt(jobIdString);
+    return jobId;
+  }
+
 }

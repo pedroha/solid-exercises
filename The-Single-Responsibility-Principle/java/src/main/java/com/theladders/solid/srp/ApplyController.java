@@ -18,11 +18,9 @@ public class ApplyController
                              String origFileName)
   {
     JobApplication jobApplication = new JobApplication(this.managers);
-    
     SessionData sessionData = new SessionData(request);
     
-    IViewProvider viewProvider = jobApplication.handle(sessionData, origFileName);
-
+    IViewProvider viewProvider = jobApplication.getViewProvider(sessionData, origFileName);
     Result result = viewProvider.getViewResult();
     response.setResult(result);    
     return response;
