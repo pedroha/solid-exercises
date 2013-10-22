@@ -29,8 +29,8 @@ public class ResumeEntity
   }
   
   public Resume saveNewResume(String newResumeFileName,
-                                     Jobseeker jobseeker,
-                                     SessionData sessionData)
+                              Jobseeker jobseeker,
+                              SessionData sessionData)
   {
     if (newResumeFileName == null)
     {

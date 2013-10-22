@@ -37,20 +37,18 @@ public class JobApplicationUseCase
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager;
   }
- 
-  public ViewProvider handle(SessionData sessionData, String origFileName)
+  
+  public ViewProvider handle(SessionData sessionData, ResumeFile resumeFile)
   {
-    try {
-      return handle2(sessionData, origFileName);      
-    }
-    catch (Exception e) {
-      ApplyErrorView errorView = new ApplyErrorView();
-      errorView.addMessage("We could not process your application.");
-      return errorView;
-    }
+    return handle2(sessionData, resumeFile);      
+  }
+  
+  public void applyForJob(Jobseeker jobseeker, Job job, ResumeFile resumeFile)
+  {
+    
   }
    
-  private ViewProvider handle2(SessionData sessionData, String origFileName)
+  private ViewProvider handle2(SessionData sessionData, ResumeFile resumeFile)
   {
     JobApplicationEntity jobApplicationSystem = new JobApplicationEntity(jobApplicationManager);
                                                                          
@@ -67,10 +65,11 @@ public class JobApplicationUseCase
       return viewProvider;
     }
 
-    ResumeEntity resumeSystem = new ResumeEntity(resumeManager, myResumeManager);
-    Resume resume = resumeSystem.retrieveExistingResume(jobseeker, sessionData);
+    ResumeEntity resumeEntity = new ResumeEntity(resumeManager, myResumeManager);
+    Resume resume = resumeEntity.retrieveExistingResume(jobseeker, sessionData);
     if (resume == null) {
-      resume = resumeSystem.saveNewResume(origFileName,jobseeker, sessionData);
+      String origFileName = resumeFile.getFileName();
+      resume = resumeEntity.saveNewResume(origFileName,jobseeker, sessionData);
     }
 
     JobApplicationResult applicationResult = jobApplicationSystem.apply(resume, jobseeker, job);
@@ -84,11 +83,17 @@ public class JobApplicationUseCase
       viewProvider = new ApplySuccessView(job);
       return viewProvider;        
     }
+    return null;
+
+    /*    
     // Removing:
     // throw new ApplicationFailureException(applicationResult.toString());
+    
     ApplyErrorView errorView = new ApplyErrorView();
     errorView.addMessage("We could not process your application.");
     return errorView;
+   
+    */
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
