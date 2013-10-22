@@ -37,7 +37,7 @@ public class ResumeEntity
     }
 
     Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
-    if (makeResumeActive)
+    if (resume != null && makeResumeActive)
     {
       myResumeManager.saveAsActive(jobseeker, resume);
     }

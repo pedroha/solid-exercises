@@ -7,8 +7,6 @@ import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
-import com.theladders.solid.srp.model.JobseekerProfile;
-import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
@@ -18,7 +16,6 @@ import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResumeConstants;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.util.Result;
-import com.theladders.solid.srp.util.SessionData;
 import com.theladders.solid.srp.view.ApplyErrorView;
 
 public class ApplyController
@@ -28,8 +25,6 @@ public class ApplyController
   private final JobApplicationManager   jobApplicationManager;
   private final ResumeManager           resumeManager;
   private final MyResumeManager         myResumeManager;
-  
-  private SessionData sessionData;
 
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobManager jobManager,
@@ -48,8 +43,6 @@ public class ApplyController
                              HttpResponse response,
                              String origFileName)
   {
-    this.sessionData = new SessionData(request);
-    
     // We'd like to pass: RequestModel and return a ResponseModel
     // ResponseModel -> Presenter -> returns the proper View
     
@@ -57,16 +50,15 @@ public class ApplyController
                                                                      jobApplicationManager,
                                                                      resumeManager,
                                                                      myResumeManager);
-    ResumeFile resumeFile = new ResumeFile(origFileName);
-
     RequestModel model = buildRequestModel(request);
     jobApplication.setRequestModel(model);
     
     ViewProvider viewProvider = null;    
     try {
-      Job job = jobManager.getJob(model.getJobId());
-      Jobseeker jobseeker = model.getJobseeker();
-
+      Job         job = jobManager.getJob(model.getJobId());
+      Jobseeker   jobseeker = model.getJobseeker();
+      ResumeFile  resumeFile = new ResumeFile(origFileName);
+      
       viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile);
       if (viewProvider == null) {
         viewProvider = getErrorView("We could not process your application.");
