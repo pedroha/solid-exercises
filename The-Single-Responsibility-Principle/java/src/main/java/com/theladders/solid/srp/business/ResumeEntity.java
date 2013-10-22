@@ -6,12 +6,12 @@ import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.SessionData;
 
-public class ResumeSystem
+public class ResumeEntity
 {
   private ResumeManager   resumeManager;
   private MyResumeManager myResumeManager;
   
-  public ResumeSystem(ResumeManager resumeManager, MyResumeManager myResumeManager)
+  public ResumeEntity(ResumeManager resumeManager, MyResumeManager myResumeManager)
   {
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager; 
@@ -48,8 +48,7 @@ public class ResumeSystem
   
   private Resume saveResume(Jobseeker jobseeker, String newResumeFileName)
   {
-    Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
-    return resume;
+    return resumeManager.saveResume(jobseeker, newResumeFileName);
   }
   
   private void saveResumeAsActive(Jobseeker jobseeker, Resume resume)
@@ -59,7 +58,6 @@ public class ResumeSystem
   
   private Resume getActiveResume(Jobseeker jobseeker)
   {
-    Resume resume = myResumeManager.getActiveResume(jobseeker.getId());
-    return resume;
+    return myResumeManager.getActiveResume(jobseeker.getId());
   }  
 }

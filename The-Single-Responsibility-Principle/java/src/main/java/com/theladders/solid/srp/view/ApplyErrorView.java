@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.theladders.solid.srp.util.Result;
 
-public class ApplyErrorView extends AbstractView
+public class ApplyErrorView extends View
 {
   private List<String> errList = new ArrayList<>();    
   

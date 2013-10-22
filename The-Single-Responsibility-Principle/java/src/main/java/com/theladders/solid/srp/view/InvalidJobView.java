@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.theladders.solid.srp.util.Result;
 
-public class InvalidJobView extends AbstractView
+public class InvalidJobView extends View
 {
   public InvalidJobView(int jobId)
   {

@@ -1,7 +1,7 @@
 package com.theladders.solid.srp.util;
 
 
-public interface IViewProvider
+public interface ViewProvider
 {
   Result getViewResult();
 }

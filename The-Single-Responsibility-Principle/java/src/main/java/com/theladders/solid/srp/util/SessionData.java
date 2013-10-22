@@ -10,15 +10,18 @@ public class SessionData
   private HttpRequest request;
   private HttpSession session;
   
-  public SessionData(HttpRequest request) {
-    if (request == null) {
+  public SessionData(HttpRequest request)
+  {
+    if (request == null)
+    {
       throw new IllegalArgumentException("SessionData(): missing request.");
     }
     this.session = request.getSession();
     this.request = request;
   }
   
-  public Jobseeker getJobseeker() {
+  public Jobseeker getJobseeker()
+  {
     return session.getJobseeker();
   }
   
@@ -31,15 +34,15 @@ public class SessionData
   
   public boolean makeResumeActive(Resume resume)
   {
-    String makeActiveValue = getParameter(IResume.MAKE_RESUME_ACTIVE);
-    boolean makeActive = (resume != null && IResume.YES.equals(makeActiveValue));
+    String makeActiveValue = getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
+    boolean makeActive = (resume != null && ResumeConstants.YES.equals(makeActiveValue));
     return makeActive;
   }
     
   public boolean activeResumeExists()
   {
-    String whichResume = getParameter(IResume.WHICH_RESUME);
-    boolean exists = (IResume.EXISTING.equals(whichResume));
+    String whichResume = getParameter(ResumeConstants.WHICH_RESUME);
+    boolean exists = (ResumeConstants.EXISTING.equals(whichResume));
     return exists;
   }
 

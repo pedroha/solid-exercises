@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.junit.*;
 
-import com.theladders.solid.srp.business.Managers;
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
 import com.theladders.solid.srp.http.HttpSession;
@@ -27,6 +26,7 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.web.ApplyController;
 
 public class TestIt
 {
@@ -290,17 +290,15 @@ public class TestIt
   private void setupController()
   {
     JobseekerProfileManager jobseekerProfileManager = new JobseekerProfileManager(jobseekerProfileRepository);
-    JobManager jobSearchService = new JobManager(jobRepository);
-    JobApplicationManager jobApplicationSystem = new JobApplicationManager(jobApplicationRepository);
+    JobManager jobManager = new JobManager(jobRepository);
+    JobApplicationManager jobApplicationManager = new JobApplicationManager(jobApplicationRepository);
     ResumeManager resumeManager = new ResumeManager(resumeRepository);
     MyResumeManager myResumeManager = new MyResumeManager(activeResumeRepository);
 
-    Managers managers = new Managers(jobseekerProfileManager,
-                                     jobSearchService,
-                                     jobApplicationSystem,
+    controller = new ApplyController(jobseekerProfileManager,
+                                     jobManager,
+                                     jobApplicationManager,
                                      resumeManager,
                                      myResumeManager);
-   
-    controller = new ApplyController(managers);
   }
 }

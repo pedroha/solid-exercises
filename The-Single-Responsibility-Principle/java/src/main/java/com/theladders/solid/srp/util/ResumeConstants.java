@@ -1,6 +1,6 @@
 package com.theladders.solid.srp.util;
 
-public interface IResume
+public interface ResumeConstants
 {
 
   // Specific to RESUME constants

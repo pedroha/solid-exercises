@@ -10,15 +10,23 @@ import com.theladders.solid.srp.model.job.application.JobApplicationResult;
 import com.theladders.solid.srp.model.job.application.SuccessfulApplication;
 import com.theladders.solid.srp.model.job.application.UnprocessedApplication;
 import com.theladders.solid.srp.services.JobApplicationManager;
+import com.theladders.solid.srp.services.MyResumeManager;
+import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.SessionData;
 
-public class JobApplicationSystem
+public class JobApplicationEntity
 {
-  private Managers managers;
+  private ResumeManager         resumeManager;
+  private MyResumeManager       myResumeManager;
+  private JobApplicationManager jobApplicationManager;
 
-  public JobApplicationSystem(Managers managers)
+  public JobApplicationEntity(JobApplicationManager jobApplicationManager,
+                              ResumeManager resumeManager,
+                              MyResumeManager myResumeManager)
   {
-    this.managers = managers;
+    this.resumeManager = resumeManager;
+    this.myResumeManager = myResumeManager;
+    this.jobApplicationManager = jobApplicationManager;
   }
 
   public JobApplicationResult apply(String origFileName,
@@ -26,7 +34,7 @@ public class JobApplicationSystem
                                     Job job,
                                     SessionData sessionData) 
   {
-    ResumeSystem resumeSystem = new ResumeSystem(managers.getResumeManager(), managers.getMyResumeManager());
+    ResumeEntity resumeSystem = new ResumeEntity(resumeManager, myResumeManager);
     Resume resume = resumeSystem.retrieveExistingResume(jobseeker, sessionData);
     if (resume == null) {
       resume = resumeSystem.saveNewResume(origFileName,jobseeker, sessionData);
@@ -39,12 +47,12 @@ public class JobApplicationSystem
   private JobApplicationResult getApplicationResult(UnprocessedApplication application)
   {
     if (application.isValid() &&
-        !getJobApplicationManager().applicationExistsFor(application.getJobseeker(), application.getJob()))
+        !jobApplicationManager.applicationExistsFor(application.getJobseeker(), application.getJob()))
     {
       SuccessfulApplication success = new SuccessfulApplication(application.getJobseeker(),
                                                                 application.getJob(),
                                                                 application.getResume());
-      getJobApplicationManager().add(success);
+      jobApplicationManager.add(success);
 
       return success;
     }    
@@ -63,10 +71,5 @@ public class JobApplicationSystem
         )
       );    
     return isOutside;
-  }
-
-  private JobApplicationManager getJobApplicationManager()
-  {
-    return managers.getJobApplicationManager();
   }
 }
