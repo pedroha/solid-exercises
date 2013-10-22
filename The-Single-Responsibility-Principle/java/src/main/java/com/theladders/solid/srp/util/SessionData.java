@@ -32,21 +32,7 @@ public class SessionData
     return jobId;
   }
   
-  public boolean makeResumeActive(Resume resume)
-  {
-    String makeActiveValue = getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
-    boolean makeActive = (resume != null && ResumeConstants.YES.equals(makeActiveValue));
-    return makeActive;
-  }
-    
-  public boolean activeResumeExists()
-  {
-    String whichResume = getParameter(ResumeConstants.WHICH_RESUME);
-    boolean exists = (ResumeConstants.EXISTING.equals(whichResume));
-    return exists;
-  }
-
-  private String getParameter(String name) {
+  public String getParameter(String name) {
     String value = request.getParameter(name);
     return value;
   }

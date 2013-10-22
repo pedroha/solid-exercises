@@ -20,9 +20,9 @@ public class JobApplicationEntity
     this.jobApplicationManager = jobApplicationManager;
   }
 
-  public JobApplicationResult apply(Resume resume,
-                                    Jobseeker jobseeker,
-                                    Job job) 
+  public JobApplicationResult apply(Jobseeker jobseeker,
+                                    Job job,
+                                    Resume resume) 
   {
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     JobApplicationResult applicationResult = getApplicationResult(application);

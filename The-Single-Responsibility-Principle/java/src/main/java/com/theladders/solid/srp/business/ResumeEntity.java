@@ -4,7 +4,6 @@ import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
-import com.theladders.solid.srp.util.SessionData;
 
 public class ResumeEntity
 {
@@ -17,11 +16,11 @@ public class ResumeEntity
     this.myResumeManager = myResumeManager; 
   }
   
-  public Resume retrieveExistingResume(Jobseeker jobseeker, SessionData sessionData)
+  public Resume retrieveExistingResume(Jobseeker jobseeker, boolean hasExistingResume)
   {
     Resume resume = null;
     
-    if (sessionData.activeResumeExists())
+    if (hasExistingResume)
     {
       resume = getActiveResume(jobseeker);
     }
@@ -30,30 +29,19 @@ public class ResumeEntity
   
   public Resume saveNewResume(String newResumeFileName,
                               Jobseeker jobseeker,
-                              SessionData sessionData)
+                              boolean makeResumeActive)
   {
     if (newResumeFileName == null)
     {
       throw new IllegalArgumentException("JobApplication.saveNewOrRetrieveExistingResume(): newResumeFileName is null");
     }
-    Resume resume = saveResume(jobseeker, newResumeFileName);
-    
-    if (sessionData.makeResumeActive(resume))
-    {
-      saveResumeAsActive(jobseeker, resume);
-    }
 
+    Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
+    if (makeResumeActive)
+    {
+      myResumeManager.saveAsActive(jobseeker, resume);
+    }
     return resume;
-  }
-  
-  private Resume saveResume(Jobseeker jobseeker, String newResumeFileName)
-  {
-    return resumeManager.saveResume(jobseeker, newResumeFileName);
-  }
-  
-  private void saveResumeAsActive(Jobseeker jobseeker, Resume resume)
-  {
-    myResumeManager.saveAsActive(jobseeker, resume);
   }
   
   private Resume getActiveResume(Jobseeker jobseeker)
@@ -61,3 +49,4 @@ public class ResumeEntity
     return myResumeManager.getActiveResume(jobseeker.getId());
   }  
 }
+
