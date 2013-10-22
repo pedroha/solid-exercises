@@ -1,6 +1,7 @@
 package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.business.JobApplicationUseCase;
+import com.theladders.solid.srp.business.JobRequestModel;
 import com.theladders.solid.srp.business.ResumeFile;
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.http.HttpResponse;
@@ -13,6 +14,7 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResumeConstants;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.util.Result;
@@ -63,9 +65,11 @@ public class ApplyController
       String jobIdString = request.getParameter("jobId");
       int jobId = Integer.parseInt(jobIdString);
 
+      jobApplication.setRequestModel(buildRequestModel(request, jobseeker, jobId));
+
       Job job = jobManager.getJob(jobId);
       
-      viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile, jobId, hasExistingResume(), makeResumeActive());
+      viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile, jobId);
       if (viewProvider == null) {
         viewProvider = getErrorView("We could not process your application.");
       }
@@ -85,15 +89,13 @@ public class ApplyController
     return errorView;
   }
   
-  private boolean hasExistingResume()
-  {
-    String whichResume = sessionData.getParameter(ResumeConstants.WHICH_RESUME);
-    return (ResumeConstants.EXISTING.equals(whichResume));
-  }
-
-  private boolean makeResumeActive()
-  {
-    String makeActiveValue = sessionData.getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
-    return (ResumeConstants.YES.equals(makeActiveValue));
-  }
+  private RequestModel buildRequestModel(HttpRequest request, Jobseeker jobseeker, int jobId) {
+    String whichResume = request.getParameter(ResumeConstants.WHICH_RESUME);
+    boolean hasExistingResume = (ResumeConstants.EXISTING.equals(whichResume));
+    
+    String makeActiveValue = request.getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
+    boolean makeResumeActive = (ResumeConstants.YES.equals(makeActiveValue));
+    
+    return new JobRequestModel(jobseeker, jobId, hasExistingResume, makeResumeActive);
+  }  
 }

@@ -9,6 +9,7 @@ import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.view.ApplySuccessView;
 import com.theladders.solid.srp.view.InvalidJobView;
@@ -21,11 +22,12 @@ public class JobApplicationUseCase
   private JobApplicationManager   jobApplicationManager;
   private ResumeManager           resumeManager;
   private MyResumeManager         myResumeManager;
+  private RequestModel            requestModel;
 
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
-                                  JobApplicationManager jobApplicationManager,
-                                  ResumeManager resumeManager,
-                                  MyResumeManager myResumeManager) {
+                               JobApplicationManager jobApplicationManager,
+                               ResumeManager resumeManager,
+                               MyResumeManager myResumeManager) {
   
     this.jobseekerProfileManager = jobseekerProfileManager;
     this.jobApplicationManager = jobApplicationManager;
@@ -33,12 +35,15 @@ public class JobApplicationUseCase
     this.myResumeManager = myResumeManager;
   }
   
+  public void setRequestModel(RequestModel model)
+  {
+    this.requestModel = model;
+  }
+  
   public ViewProvider applyForJob(Jobseeker jobseeker,
                                   Job job,
                                   ResumeFile resumeFile,
-                                  int jobId,
-                                  boolean hasExistingResume,
-                                  boolean makeResumeActive)
+                                  int jobId)
   {
     JobApplicationEntity jobApplicationEntity = new JobApplicationEntity(jobApplicationManager);
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
@@ -51,10 +56,11 @@ public class JobApplicationUseCase
       return viewProvider;
     }   
     ResumeEntity resumeEntity = new ResumeEntity(resumeManager, myResumeManager);
-    Resume resume = resumeEntity.retrieveExistingResume(jobseeker, hasExistingResume);
+    
+    Resume resume = resumeEntity.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
     if (resume == null) {
       String origFileName = resumeFile.getFileName();
-      resume = resumeEntity.saveNewResume(origFileName, jobseeker, makeResumeActive);
+      resume = resumeEntity.saveNewResume(origFileName, jobseeker, requestModel.makeResumeActive());
     }
 
     JobApplicationResult applicationResult = jobApplicationEntity.apply(jobseeker, job, resume);

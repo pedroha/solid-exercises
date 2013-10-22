@@ -32,7 +32,7 @@ public class SessionData
     return jobId;
   }
   
-  public String getParameter(String name) {
+  private String getParameter(String name) {
     String value = request.getParameter(name);
     return value;
   }
