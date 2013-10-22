@@ -3,7 +3,7 @@ package com.theladders.solid.srp.business;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.JobseekerProfile;
-import com.theladders.solid.srp.model.job.application.ApplicationFailureException;
+import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.model.job.application.JobApplicationResult;
 import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.services.JobManager;
@@ -37,62 +37,62 @@ public class JobApplicationUseCase
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager;
   }
-  
+ 
   public ViewProvider handle(SessionData sessionData, String origFileName)
   {
-    JobApplicationEntity jobApplicationSystem = new JobApplicationEntity(jobApplicationManager, 
-                                                                         resumeManager,
-                                                                         myResumeManager);
-
+    try {
+      return handle2(sessionData, origFileName);      
+    }
+    catch (Exception e) {
+      ApplyErrorView errorView = new ApplyErrorView();
+      errorView.addMessage("We could not process your application.");
+      return errorView;
+    }
+  }
+   
+  private ViewProvider handle2(SessionData sessionData, String origFileName)
+  {
+    JobApplicationEntity jobApplicationSystem = new JobApplicationEntity(jobApplicationManager);
+                                                                         
     Jobseeker jobseeker = sessionData.getJobseeker();
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
     int jobId = sessionData.getJobId();
     Job job = jobManager.getJob(jobId);
 
-    ApplyErrorView errorView = new ApplyErrorView();
-    ViewProvider viewProvider = errorView;
+    ViewProvider viewProvider = null;
 
-    try
+    if (job == null)
     {
-      if (job == null)
-      {
-        viewProvider = new InvalidJobView(jobId);
-      }
-      else
-      {
-        JobApplicationResult applicationResult = jobApplicationSystem.apply(origFileName, 
-                                                                            jobseeker, 
-                                                                            job,
-                                                                            sessionData);
-        if (applicationResult.success())
-        {
-          if (JobApplicationEntity.isApplicationComingOutsideTheLadders(jobseeker, profile))
-          {
-            viewProvider = new ResumeCompletionView(job);
-          }
-          else
-          {
-            viewProvider = new ApplySuccessView(job);
-          }        
-        }
-        else
-        {
-          throw new ApplicationFailureException(applicationResult.toString());
-        }        
-      }
+      viewProvider = new InvalidJobView(jobId);
+      return viewProvider;
     }
-    catch (Exception e)
+
+    ResumeEntity resumeSystem = new ResumeEntity(resumeManager, myResumeManager);
+    Resume resume = resumeSystem.retrieveExistingResume(jobseeker, sessionData);
+    if (resume == null) {
+      resume = resumeSystem.saveNewResume(origFileName,jobseeker, sessionData);
+    }
+
+    JobApplicationResult applicationResult = jobApplicationSystem.apply(resume, jobseeker, job);
+    if (applicationResult.success())
     {
-      //errorView.addMessage(e.getMessage()); // This catches error for Missing resume and adds to the list
-      errorView.addMessage("We could not process your application.");
-      viewProvider = errorView;
+      if (JobApplicationEntity.requiresProfileCompletion(jobseeker, profile))
+      {
+        viewProvider = new ResumeCompletionView(job);
+        return viewProvider;
+      }
+      viewProvider = new ApplySuccessView(job);
+      return viewProvider;        
     }
-    return viewProvider;
+    // Removing:
+    // throw new ApplicationFailureException(applicationResult.toString());
+    ApplyErrorView errorView = new ApplyErrorView();
+    errorView.addMessage("We could not process your application.");
+    return errorView;
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
   {
-    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
-    return profile;
+    return jobseekerProfileManager.getJobSeekerProfile(jobseeker);
   }
 }
