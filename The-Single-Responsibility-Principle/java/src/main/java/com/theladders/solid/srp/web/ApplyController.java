@@ -53,18 +53,25 @@ public class ApplyController
     RequestModel model = buildRequestModel(request);
     jobApplication.setRequestModel(model);
     
+    boolean showError = false;
+    
     ViewProvider viewProvider = null;    
     try {
       Job         job = jobManager.getJob(model.getJobId());
       Jobseeker   jobseeker = model.getJobseeker();
       ResumeFile  resumeFile = new ResumeFile(origFileName);
       
-      viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile);
+      viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile);      
       if (viewProvider == null) {
-        viewProvider = getErrorView("We could not process your application.");
+        showError = true;
       }
     }
     catch (Exception e)
+    {
+      showError = true;
+    }
+    
+    if (showError)
     {
       viewProvider = getErrorView("We could not process your application.");
     }
@@ -75,11 +82,11 @@ public class ApplyController
   
   private static ApplyErrorView getErrorView(String message) {
     ApplyErrorView errorView = new ApplyErrorView();
-    errorView.addMessage("We could not process your application.");
+    errorView.addMessage(message);
     return errorView;
   }
   
-  private RequestModel buildRequestModel(HttpRequest request) {
+  private static RequestModel buildRequestModel(HttpRequest request) {
     Jobseeker jobseeker = request.getSession().getJobseeker();
     String jobIdString = request.getParameter("jobId");
   
