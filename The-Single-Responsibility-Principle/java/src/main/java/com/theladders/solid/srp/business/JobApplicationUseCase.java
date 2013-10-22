@@ -42,8 +42,7 @@ public class JobApplicationUseCase
   
   public ViewProvider applyForJob(Jobseeker jobseeker,
                                   Job job,
-                                  ResumeFile resumeFile,
-                                  int jobId)
+                                  ResumeFile resumeFile)
   {
     JobApplicationEntity jobApplicationEntity = new JobApplicationEntity(jobApplicationManager);
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
@@ -52,7 +51,7 @@ public class JobApplicationUseCase
 
     if (job == null)
     {
-      viewProvider = new InvalidJobView(jobId);
+      viewProvider = new InvalidJobView(requestModel.getJobId());
       return viewProvider;
     }   
     ResumeEntity resumeEntity = new ResumeEntity(resumeManager, myResumeManager);

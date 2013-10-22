@@ -58,18 +58,16 @@ public class ApplyController
                                                                      resumeManager,
                                                                      myResumeManager);
     ResumeFile resumeFile = new ResumeFile(origFileName);
+
+    RequestModel model = buildRequestModel(request);
+    jobApplication.setRequestModel(model);
     
     ViewProvider viewProvider = null;    
     try {
-      Jobseeker jobseeker = request.getSession().getJobseeker();
-      String jobIdString = request.getParameter("jobId");
-      int jobId = Integer.parseInt(jobIdString);
+      Job job = jobManager.getJob(model.getJobId());
+      Jobseeker jobseeker = model.getJobseeker();
 
-      jobApplication.setRequestModel(buildRequestModel(request, jobseeker, jobId));
-
-      Job job = jobManager.getJob(jobId);
-      
-      viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile, jobId);
+      viewProvider = jobApplication.applyForJob(jobseeker, job, resumeFile);
       if (viewProvider == null) {
         viewProvider = getErrorView("We could not process your application.");
       }
@@ -89,7 +87,12 @@ public class ApplyController
     return errorView;
   }
   
-  private RequestModel buildRequestModel(HttpRequest request, Jobseeker jobseeker, int jobId) {
+  private RequestModel buildRequestModel(HttpRequest request) {
+    Jobseeker jobseeker = request.getSession().getJobseeker();
+    String jobIdString = request.getParameter("jobId");
+  
+    int jobId = Integer.parseInt(jobIdString);
+
     String whichResume = request.getParameter(ResumeConstants.WHICH_RESUME);
     boolean hasExistingResume = (ResumeConstants.EXISTING.equals(whichResume));
     
