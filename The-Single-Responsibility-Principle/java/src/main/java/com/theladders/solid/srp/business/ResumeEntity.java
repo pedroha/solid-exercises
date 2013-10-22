@@ -49,4 +49,3 @@ public class ResumeEntity
     return myResumeManager.getActiveResume(jobseeker.getId());
   }  
 }
-

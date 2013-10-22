@@ -55,7 +55,7 @@ public class ApplyController
     
     boolean showError = false;
     
-    ViewProvider viewProvider = null;    
+    ViewProvider viewProvider = null;
     try {
       Job         job = jobManager.getJob(model.getJobId());
       Jobseeker   jobseeker = model.getJobseeker();

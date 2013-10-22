@@ -2,7 +2,7 @@ package com.theladders.solid.srp.business;
 
 public class ResumeFile
 {
-  String fileName;
+  private String fileName;
   
   public ResumeFile(String fileName) {
     this.fileName = fileName;
