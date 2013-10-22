@@ -21,10 +21,10 @@ public class JobApplicationSystem
     this.managers = managers;
   }
 
-  public JobApplicationResult processJobApplication(String origFileName,
-                                                     Jobseeker jobseeker,
-                                                     Job job,
-                                                     SessionData sessionData) 
+  public JobApplicationResult apply(String origFileName,
+                                    Jobseeker jobseeker,
+                                    Job job,
+                                    SessionData sessionData) 
   {
     ResumeSystem resumeSystem = new ResumeSystem(managers.getResumeManager(), managers.getMyResumeManager());
     Resume resume = resumeSystem.retrieveExistingResume(jobseeker, sessionData);

@@ -32,13 +32,13 @@ public class ApplyController
   {
     SessionData sessionData = new SessionData(request);
     
-    IViewProvider viewProvider = getViewProvider(sessionData, origFileName);
+    IViewProvider viewProvider = handle(sessionData, origFileName);
     Result result = viewProvider.getViewResult();
     response.setResult(result);
     return response;
   }
 
-  private IViewProvider getViewProvider(SessionData sessionData, String origFileName)
+  private IViewProvider handle(SessionData sessionData, String origFileName)
   {
     JobApplicationSystem jobApplicationSystem = new JobApplicationSystem(managers);
 
@@ -58,10 +58,10 @@ public class ApplyController
       }
       else
       {
-        JobApplicationResult applicationResult = jobApplicationSystem.processJobApplication(origFileName, 
-                                                                       jobseeker, 
-                                                                       job,
-                                                                       sessionData);
+        JobApplicationResult applicationResult = jobApplicationSystem.apply(origFileName, 
+                                                                            jobseeker, 
+                                                                            job,
+                                                                            sessionData);
         if (applicationResult.success())
         {
           if (JobApplicationSystem.isApplicationComingOutsideTheLadders(jobseeker, profile))
