@@ -12,7 +12,7 @@ import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.view.ApplyErrorView;
 
-// JobApplyCommand translates between HTTP to domain language
+// JobApplyCommand interacts between HTTP and the Use Case: JobApplicationUseCase
 
 public class JobApplyCommand
 {
@@ -35,42 +35,43 @@ public class JobApplyCommand
     this.requestModel = model;
   }
   
+  public ViewProvider execute() {
+
+    ViewProvider viewProvider = null;
+    try {
+      jobApplication.setRequestModel(requestModel);
+      
+      Jobseeker   jobseeker = getJobseeker();
+      Job         job = getJob();
+      
+      viewProvider = jobApplication.applyForJob(jobseeker, job);
+
+      if (viewProvider == null) {
+        viewProvider = getErrorView();
+      }
+      return viewProvider;
+    }
+    catch (Exception e)
+    {
+      viewProvider = getErrorView();
+      return viewProvider;
+    }
+  }
+  
+  private static ApplyErrorView getErrorView() {
+    String message = "We could not process your application.";
+    ApplyErrorView errorView = new ApplyErrorView();
+    errorView.addMessage(message);
+    return errorView;
+  }
+
   private Job getJob()
   {
     return jobManager.getJob(requestModel.getJobId());
   }
   
-  public ViewProvider execute() {
-    
-    jobApplication.setRequestModel(requestModel);
-    
-    boolean showError = false;
-    
-    ViewProvider viewProvider = null;
-    try {
-      Jobseeker   jobseeker = requestModel.getJobseeker();
-      Job         job = getJob();
-      
-      viewProvider = jobApplication.applyForJob(jobseeker, job);      
-      if (viewProvider == null) {
-        showError = true;
-      }
-    }
-    catch (Exception e)
-    {
-      showError = true;
-    }
-    
-    if (showError)
-    {
-      viewProvider = getErrorView("We could not process your application.");
-    }
-    return viewProvider;
+  private Jobseeker getJobseeker()
+  {
+    return requestModel.getJobseeker();
   }
-  
-  private static ApplyErrorView getErrorView(String message) {
-    ApplyErrorView errorView = new ApplyErrorView();
-    errorView.addMessage(message);
-    return errorView;
-  }  
 }
