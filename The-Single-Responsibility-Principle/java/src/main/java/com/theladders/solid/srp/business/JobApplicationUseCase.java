@@ -46,8 +46,7 @@ public class JobApplicationUseCase
   {
     if (job == null)
     {
-      ViewProvider viewProvider = new InvalidJobView(requestModel.getJobId());
-      return viewProvider;
+      return new InvalidJobView(requestModel.getJobId());
     }
     Resume resume = handleResumeInteraction(jobseeker);
 
@@ -65,11 +64,9 @@ public class JobApplicationUseCase
       JobseekerProfile profile = getJobseekerProfile(jobseeker);
       if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
       {
-        ViewProvider viewProvider = new ResumeCompletionView(job);
-        return viewProvider;
+        return new ResumeCompletionView(job);
       }
-      ViewProvider viewProvider = new ApplySuccessView(job);
-      return viewProvider;        
+      return new ApplySuccessView(job);   
     }
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
     return getErrorView();
@@ -95,7 +92,8 @@ public class JobApplicationUseCase
     return jobseekerProfileManager.getJobSeekerProfile(jobseeker);
   }
   
-  public static ApplyErrorView getErrorView() {
+  public static ApplyErrorView getErrorView()
+  {
     String message = "We could not process your application.";
     ApplyErrorView errorView = new ApplyErrorView();
     errorView.addMessage(message);
