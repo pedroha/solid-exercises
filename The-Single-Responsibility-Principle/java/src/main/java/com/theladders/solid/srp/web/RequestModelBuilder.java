@@ -8,10 +8,6 @@ import com.theladders.solid.srp.util.ResumeFile;
 
 public class RequestModelBuilder
 {
-  public RequestModelBuilder()
-  {
-  }
-  
   public RequestModel buildRequestModel(HttpRequest request, String origFileName) {
     ResumeFile resumeFile = new ResumeFile(origFileName);
     
@@ -25,12 +21,6 @@ public class RequestModelBuilder
     return new JobRequestModel(jobseeker, jobId, resumeFile, hasExistingResume, makeResumeActive);
   }
   
-  private static int getJobId(HttpRequest request)
-  {
-    String jobIdString = request.getParameter("jobId");
-    return Integer.parseInt(jobIdString);    
-  }
-  
   private static boolean getWhichResume(HttpRequest request)
   {
     String whichResume = request.getParameter(ResumeConstants.WHICH_RESUME);
@@ -41,5 +31,11 @@ public class RequestModelBuilder
   {
     String makeActive = request.getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
     return (ResumeConstants.YES.equals(makeActive));
+  }
+
+  private static int getJobId(HttpRequest request)
+  {
+    String jobIdString = request.getParameter("jobId");
+    return Integer.parseInt(jobIdString);    
   }
 }
