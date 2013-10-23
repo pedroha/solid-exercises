@@ -4,8 +4,9 @@ import com.theladders.solid.srp.model.Jobseeker;
 
 public interface RequestModel
 {
-  boolean hasExistingResume();
-  boolean makeResumeActive();
   Jobseeker getJobseeker();
   int getJobId();
+  ResumeFile getResumeFile();
+  boolean hasExistingResume();
+  boolean makeResumeActive();
 }

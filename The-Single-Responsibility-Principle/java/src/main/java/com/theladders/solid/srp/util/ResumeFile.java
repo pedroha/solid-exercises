@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.business;
+package com.theladders.solid.srp.util;
 
 public class ResumeFile
 {

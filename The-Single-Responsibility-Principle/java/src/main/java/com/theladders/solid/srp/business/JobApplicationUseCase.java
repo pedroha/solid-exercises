@@ -10,6 +10,7 @@ import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.RequestModel;
+import com.theladders.solid.srp.util.ResumeFile;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.view.ApplySuccessView;
 import com.theladders.solid.srp.view.InvalidJobView;
@@ -40,9 +41,7 @@ public class JobApplicationUseCase
     this.requestModel = model;
   }
   
-  public ViewProvider applyForJob(Jobseeker jobseeker,
-                                  Job job,
-                                  ResumeFile resumeFile)
+  public ViewProvider applyForJob(Jobseeker jobseeker, Job job)
   {
     JobApplicationEntity jobApplicationEntity = new JobApplicationEntity(jobApplicationManager);
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
@@ -58,6 +57,7 @@ public class JobApplicationUseCase
     
     Resume resume = resumeEntity.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
     if (resume == null) {
+      ResumeFile resumeFile = requestModel.getResumeFile();
       String origFileName = resumeFile.getFileName();
       resume = resumeEntity.saveNewResume(origFileName, jobseeker, requestModel.makeResumeActive());
     }
