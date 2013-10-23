@@ -4,9 +4,8 @@ import com.theladders.solid.srp.util.Result;
 
 public class InvalidJobView extends View
 {
-  public InvalidJobView(int jobId)
+  public InvalidJobView()
   {
-    putData("jobId", jobId);
   }
   
   public Result getViewResult()

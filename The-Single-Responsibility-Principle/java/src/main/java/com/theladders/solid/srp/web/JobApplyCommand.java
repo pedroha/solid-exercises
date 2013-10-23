@@ -39,7 +39,7 @@ public class JobApplyCommand
   }
   
   public ResponseModel execute() {
-    ResponseModel response = new JobResponseModel();
+    JobResponseModel response = new JobResponseModel();
     try {
       Jobseeker     jobseeker = getJobseeker();
       Job           job = getJob();
@@ -49,7 +49,7 @@ public class JobApplyCommand
     }
     catch(Exception e)
     {
-      response.setResult(JobApplicationStatus.ERROR, null);
+      response.setResult(JobApplicationStatus.ERROR);
     }
     return response;
   }

@@ -34,21 +34,11 @@ public class JobApplicationUseCase
     this.myResumeManager = myResumeManager;
   }
   
-  public void setRequestModel(RequestModel model)
-  {
-    this.requestModel = model;
-  }
-  
-  public void setResponseModel(ResponseModel model)
-  {
-    this.responseModel = model;
-  }
-  
   public void applyForJob(Jobseeker jobseeker, Job job)
   {
     if (job == null)
     {
-      responseModel.setResult(JobApplicationStatus.INVALID_JOB, requestModel.getJobId());
+      responseModel.setResult(JobApplicationStatus.INVALID_JOB, "jobId", requestModel.getJobId());
       return;
     }
     Resume resume = handleResumeInteraction(jobseeker);
@@ -83,15 +73,25 @@ public class JobApplicationUseCase
       JobseekerProfile profile = getJobseekerProfile(jobseeker);
       if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
       {
-        responseModel.setResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job);
+        responseModel.setResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, "job", job);
         return;
       }
-      responseModel.setResult(JobApplicationStatus.COMPLETE, job);
+      responseModel.setResult(JobApplicationStatus.COMPLETE, "job", job);
       return;
     }
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
     String message = "We could not process your application.";
-    responseModel.setResult(JobApplicationStatus.ERROR, message);
+    responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
+  }
+
+  public void setRequestModel(RequestModel model)
+  {
+    this.requestModel = model;
+  }
+  
+  public void setResponseModel(ResponseModel model)
+  {
+    this.responseModel = model;
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)

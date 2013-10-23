@@ -4,7 +4,7 @@ import com.theladders.solid.srp.model.Job;
 
 public abstract class ViewWithJob extends View
 {
-  public ViewWithJob(Job job)
+  public void setJob(Job job)
   {
     putData("jobId", job.getJobId());
     putData("jobTitle", job.getTitle());
