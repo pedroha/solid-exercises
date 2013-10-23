@@ -38,7 +38,7 @@ public class ViewResolver
       if (key != null)
       {
         Object data = responseModel.getData();
-        viewProvider.putData(key, data);        
+        viewProvider.putData(key, data);    
       }
       return viewProvider;
     }

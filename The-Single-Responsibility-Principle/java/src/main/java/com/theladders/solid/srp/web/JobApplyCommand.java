@@ -20,6 +20,7 @@ public class JobApplyCommand
   private JobApplicationUseCase jobApplication;
   private JobManager            jobManager;
   private RequestModel          requestModel;
+  private ResponseModel         responseModel;
 
   public JobApplyCommand(RequestModel requestModel,
                          JobseekerProfileManager jobseekerProfileManager,
@@ -28,30 +29,31 @@ public class JobApplyCommand
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.jobApplication =  new JobApplicationUseCase(jobseekerProfileManager,
+    this.responseModel = new JobResponseModel();
+
+    this.jobApplication =  new JobApplicationUseCase(requestModel,
+                                                     responseModel,
+                                                     jobseekerProfileManager,
                                                      jobApplicationManager,
                                                      resumeManager,
                                                      myResumeManager);
     this.jobManager = jobManager;
     this.requestModel = requestModel;
-
-    jobApplication.setRequestModel(requestModel);
   }
   
   public ResponseModel execute() {
-    JobResponseModel response = new JobResponseModel();
     try {
       Jobseeker     jobseeker = getJobseeker();
       Job           job = getJob();
       
-      jobApplication.setResponseModel(response);
       jobApplication.applyForJob(jobseeker, job);    
     }
     catch(Exception e)
     {
-      response.setResult(JobApplicationStatus.ERROR);
+      String message = "We could not process your application.";
+      responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
     }
-    return response;
+    return responseModel;
   }
   
   private Job getJob()

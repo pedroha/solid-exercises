@@ -23,11 +23,15 @@ public class JobApplicationUseCase
   private RequestModel            requestModel;
   private ResponseModel           responseModel;
   
-  public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
+  public JobApplicationUseCase(RequestModel requestModel,
+                               ResponseModel responseModel,
+                               JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
                                ResumeManager resumeManager,
                                MyResumeManager myResumeManager)
   {
+    this.requestModel = requestModel;
+    this.responseModel = responseModel;
     this.jobseekerProfileManager = jobseekerProfileManager;
     this.jobApplicationManager = jobApplicationManager;
     this.resumeManager = resumeManager;
@@ -82,16 +86,6 @@ public class JobApplicationUseCase
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
     String message = "We could not process your application.";
     responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
-  }
-
-  public void setRequestModel(RequestModel model)
-  {
-    this.requestModel = model;
-  }
-  
-  public void setResponseModel(ResponseModel model)
-  {
-    this.responseModel = model;
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
