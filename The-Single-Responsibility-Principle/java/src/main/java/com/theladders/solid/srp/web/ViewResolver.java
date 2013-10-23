@@ -45,12 +45,19 @@ public class ViewResolver
     return getErrorView();
   }
   
+  private static ApplyErrorView getErrorView()
+  {
+    String message = "We could not process your application.";
+    ApplyErrorView errorView = new ApplyErrorView();
+    errorView.addMessage(message);
+    return errorView;
+  }
+
   private static ViewProvider instantiate(Class clazz)
   {
-    ViewProvider viewProvider = null;
     try
     {
-      viewProvider = (ViewProvider) clazz.newInstance();
+      return (ViewProvider) clazz.newInstance();
     }
     catch (InstantiationException e)
     {
@@ -60,14 +67,6 @@ public class ViewResolver
     {
       e.printStackTrace();
     }
-    return viewProvider;
-  }
-  
-  private static ApplyErrorView getErrorView()
-  {
-    String message = "We could not process your application.";
-    ApplyErrorView errorView = new ApplyErrorView();
-    errorView.addMessage(message);
-    return errorView;
+    return null;
   }
 }
