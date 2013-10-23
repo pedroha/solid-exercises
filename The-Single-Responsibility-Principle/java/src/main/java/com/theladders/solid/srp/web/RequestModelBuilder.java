@@ -21,24 +21,23 @@ public class RequestModelBuilder
     boolean makeResumeActive = getMakeActive(request);
     
     int jobId = getJobId(request);
-    // Job job = jobManager.getJob(jobId);
-    
+
     return new JobRequestModel(jobseeker, jobId, resumeFile, hasExistingResume, makeResumeActive);
   }
   
-  private int getJobId(HttpRequest request)
+  private static int getJobId(HttpRequest request)
   {
     String jobIdString = request.getParameter("jobId");
     return Integer.parseInt(jobIdString);    
   }
   
-  private boolean getWhichResume(HttpRequest request)
+  private static boolean getWhichResume(HttpRequest request)
   {
     String whichResume = request.getParameter(ResumeConstants.WHICH_RESUME);
     return (ResumeConstants.EXISTING.equals(whichResume));
   }
   
-  private boolean getMakeActive(HttpRequest request)
+  private static boolean getMakeActive(HttpRequest request)
   {
     String makeActive = request.getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
     return (ResumeConstants.YES.equals(makeActive));

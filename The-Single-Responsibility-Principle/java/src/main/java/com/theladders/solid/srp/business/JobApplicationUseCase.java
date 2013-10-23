@@ -74,7 +74,7 @@ public class JobApplicationUseCase
       viewProvider = new ApplySuccessView(job);
       return viewProvider;        
     }
-    // Don't want to throw an exception to signal a FailedApplication
+    // Don't want to throw an exception to signal a FailedApplication (as in original application)
     return getErrorView();    
   }
 

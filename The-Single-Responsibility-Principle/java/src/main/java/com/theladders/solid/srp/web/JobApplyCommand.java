@@ -10,7 +10,6 @@ import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ViewProvider;
-import com.theladders.solid.srp.view.ApplyErrorView;
 
 // JobApplyCommand interacts between HTTP and the Use Case: JobApplicationUseCase
 
@@ -43,7 +42,7 @@ public class JobApplyCommand
       
       Jobseeker   jobseeker = getJobseeker();
       Job         job = getJob();
-      
+
       viewProvider = jobApplication.applyForJob(jobseeker, job);
       return viewProvider;
     }
