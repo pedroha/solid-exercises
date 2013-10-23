@@ -45,26 +45,15 @@ public class JobApplyCommand
       Job         job = getJob();
       
       viewProvider = jobApplication.applyForJob(jobseeker, job);
-
-      if (viewProvider == null) {
-        viewProvider = getErrorView();
-      }
       return viewProvider;
     }
     catch (Exception e)
     {
-      viewProvider = getErrorView();
+      viewProvider = JobApplicationUseCase.getErrorView();
       return viewProvider;
     }
   }
   
-  private static ApplyErrorView getErrorView() {
-    String message = "We could not process your application.";
-    ApplyErrorView errorView = new ApplyErrorView();
-    errorView.addMessage(message);
-    return errorView;
-  }
-
   private Job getJob()
   {
     return jobManager.getJob(requestModel.getJobId());

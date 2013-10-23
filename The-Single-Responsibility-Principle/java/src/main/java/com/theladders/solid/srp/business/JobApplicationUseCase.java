@@ -12,6 +12,7 @@ import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResumeFile;
 import com.theladders.solid.srp.util.ViewProvider;
+import com.theladders.solid.srp.view.ApplyErrorView;
 import com.theladders.solid.srp.view.ApplySuccessView;
 import com.theladders.solid.srp.view.InvalidJobView;
 import com.theladders.solid.srp.view.ResumeCompletionView;
@@ -73,11 +74,19 @@ public class JobApplicationUseCase
       viewProvider = new ApplySuccessView(job);
       return viewProvider;        
     }
-    return null;    
+    // Don't want to throw an exception to signal a FailedApplication
+    return getErrorView();    
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
   {
     return jobseekerProfileManager.getJobSeekerProfile(jobseeker);
   }
+  
+  public static ApplyErrorView getErrorView() {
+    String message = "We could not process your application.";
+    ApplyErrorView errorView = new ApplyErrorView();
+    errorView.addMessage(message);
+    return errorView;
+  }  
 }
