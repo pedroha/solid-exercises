@@ -13,7 +13,6 @@ import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.RequestModel;
-import com.theladders.solid.srp.util.ResumeConstants;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.util.Result;
 import com.theladders.solid.srp.view.ApplyErrorView;
@@ -45,12 +44,15 @@ public class ApplyController
   {
     // We'd like to pass: RequestModel and return a ResponseModel
     // ResponseModel -> Presenter -> returns the proper View
+    RequestModelBuilder builder = new RequestModelBuilder();
+    RequestModel model = builder.buildRequestModel(request);
     
     JobApplicationUseCase jobApplication = new JobApplicationUseCase(jobseekerProfileManager,
                                                                      jobApplicationManager,
                                                                      resumeManager,
                                                                      myResumeManager);
-    RequestModel model = buildRequestModel(request);
+    
+
     jobApplication.setRequestModel(model);
     
     boolean showError = false;
@@ -85,19 +87,5 @@ public class ApplyController
     errorView.addMessage(message);
     return errorView;
   }
-  
-  private static RequestModel buildRequestModel(HttpRequest request) {
-    Jobseeker jobseeker = request.getSession().getJobseeker();
-    String jobIdString = request.getParameter("jobId");
-  
-    int jobId = Integer.parseInt(jobIdString);
 
-    String whichResume = request.getParameter(ResumeConstants.WHICH_RESUME);
-    boolean hasExistingResume = (ResumeConstants.EXISTING.equals(whichResume));
-    
-    String makeActiveValue = request.getParameter(ResumeConstants.MAKE_RESUME_ACTIVE);
-    boolean makeResumeActive = (ResumeConstants.YES.equals(makeActiveValue));
-    
-    return new JobRequestModel(jobseeker, jobId, hasExistingResume, makeResumeActive);
-  }  
 }

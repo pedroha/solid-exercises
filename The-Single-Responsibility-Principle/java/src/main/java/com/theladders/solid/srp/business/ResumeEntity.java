@@ -20,6 +20,7 @@ public class ResumeEntity
   {
     Resume resume = null;
     
+    // Commenting out 'hasExistingResume': STILL WORKS!. getActiveResume() returns null when not Active found (?)
     if (hasExistingResume)
     {
       resume = getActiveResume(jobseeker);
