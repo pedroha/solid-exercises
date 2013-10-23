@@ -9,14 +9,10 @@ import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.RequestModel;
+import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ResumeFile;
-import com.theladders.solid.srp.util.ViewProvider;
-import com.theladders.solid.srp.view.ApplyErrorView;
-import com.theladders.solid.srp.view.ApplySuccessView;
-import com.theladders.solid.srp.view.InvalidJobView;
-import com.theladders.solid.srp.view.ResumeCompletionView;
-
 
 public class JobApplicationUseCase
 {
@@ -25,7 +21,8 @@ public class JobApplicationUseCase
   private ResumeManager           resumeManager;
   private MyResumeManager         myResumeManager;
   private RequestModel            requestModel;
-
+  private ResponseModel           responseModel;
+  
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
                                ResumeManager resumeManager,
@@ -42,34 +39,21 @@ public class JobApplicationUseCase
     this.requestModel = model;
   }
   
-  public ViewProvider applyForJob(Jobseeker jobseeker, Job job)
+  public void setResponseModel(ResponseModel model)
+  {
+    this.responseModel = model;
+  }
+  
+  public void applyForJob(Jobseeker jobseeker, Job job)
   {
     if (job == null)
     {
-      return new InvalidJobView(requestModel.getJobId());
+      responseModel.setResult(JobApplicationStatus.INVALID_JOB, requestModel.getJobId());
+      return;
     }
     Resume resume = handleResumeInteraction(jobseeker);
 
-    return handleJobApplicationInteraction(jobseeker, job, resume);
-  }
-
-  private ViewProvider handleJobApplicationInteraction(Jobseeker jobseeker,
-                                                       Job job,
-                                                       Resume resume)
-  {
-    JobApplicationInteraction jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
-    JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    if (applicationResult.success())
-    {
-      JobseekerProfile profile = getJobseekerProfile(jobseeker);
-      if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
-      {
-        return new ResumeCompletionView(job);
-      }
-      return new ApplySuccessView(job);   
-    }
-    // Don't want to throw an exception to signal a FailedApplication (as in original application)
-    return getErrorView();
+    handleJobApplicationInteraction(jobseeker, job, resume);
   }
 
   private Resume handleResumeInteraction(Jobseeker jobseeker)
@@ -87,16 +71,31 @@ public class JobApplicationUseCase
     return resume;
   }
 
+  private void handleJobApplicationInteraction(Jobseeker jobseeker,
+                                                       Job job,
+                                                       Resume resume)
+  {
+    JobApplicationInteraction jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
+    JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
+    
+    if (applicationResult.success())
+    {
+      JobseekerProfile profile = getJobseekerProfile(jobseeker);
+      if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
+      {
+        responseModel.setResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job);
+        return;
+      }
+      responseModel.setResult(JobApplicationStatus.COMPLETE, job);
+      return;
+    }
+    // Don't want to throw an exception to signal a FailedApplication (as in original application)
+    String message = "We could not process your application.";
+    responseModel.setResult(JobApplicationStatus.ERROR, message);
+  }
+
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
   {
     return jobseekerProfileManager.getJobSeekerProfile(jobseeker);
   }
-  
-  public static ApplyErrorView getErrorView()
-  {
-    String message = "We could not process your application.";
-    ApplyErrorView errorView = new ApplyErrorView();
-    errorView.addMessage(message);
-    return errorView;
-  }  
 }

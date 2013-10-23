@@ -1,6 +1,7 @@
 package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.business.JobApplicationUseCase;
+import com.theladders.solid.srp.business.JobResponseModel;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.services.JobApplicationManager;
@@ -8,18 +9,19 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.RequestModel;
-import com.theladders.solid.srp.util.ViewProvider;
+import com.theladders.solid.srp.util.ResponseModel;
 
 // JobApplyCommand interacts between HTTP and the Use Case: JobApplicationUseCase
 
 public class JobApplyCommand
 {
   private JobApplicationUseCase jobApplication;
-  private JobManager      jobManager;
+  private JobManager            jobManager;
   private RequestModel          requestModel;
 
-  public JobApplyCommand(RequestModel model,
+  public JobApplyCommand(RequestModel requestModel,
                          JobseekerProfileManager jobseekerProfileManager,
                          JobManager jobManager,
                          JobApplicationManager jobApplicationManager,
@@ -31,22 +33,25 @@ public class JobApplyCommand
                                                      resumeManager,
                                                      myResumeManager);
     this.jobManager = jobManager;
-    this.requestModel = model;
+    this.requestModel = requestModel;
+
+    jobApplication.setRequestModel(requestModel);
   }
   
-  public ViewProvider execute() {
+  public ResponseModel execute() {
+    ResponseModel response = new JobResponseModel();
     try {
-      jobApplication.setRequestModel(requestModel);
-
-      Jobseeker   jobseeker = getJobseeker();
-      Job         job = getJob();
+      Jobseeker     jobseeker = getJobseeker();
+      Job           job = getJob();
       
-      return jobApplication.applyForJob(jobseeker, job);
+      jobApplication.setResponseModel(response);
+      jobApplication.applyForJob(jobseeker, job);    
     }
-    catch (Exception e)
+    catch(Exception e)
     {
-      return JobApplicationUseCase.getErrorView();
+      response.setResult(JobApplicationStatus.ERROR, null);
     }
+    return response;
   }
   
   private Job getJob()

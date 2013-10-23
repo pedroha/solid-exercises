@@ -8,6 +8,7 @@ import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.RequestModel;
+import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.util.Result;
 
@@ -47,7 +48,11 @@ public class ApplyController
                                                    resumeManager,
                                                    myResumeManager);
     
-    ViewProvider viewProvider = jobApply.execute();
+    ResponseModel responseModel = jobApply.execute();
+    
+    ViewResolver viewResolver = new ViewResolver(responseModel);
+    
+    ViewProvider viewProvider = viewResolver.getViewProvider();
     Result result = viewProvider.getViewResult();
     response.setResult(result);
     return response;
