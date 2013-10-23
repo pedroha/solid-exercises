@@ -33,7 +33,7 @@ Single Responsibility Principle
  *      IF Exception
  *              Couldn't process application -> ErrorView()
  *      Else
- *              Add job data into the model? Why???
+ *              Add job data into the model?
  *              
  *              if (Job application from outside the Ladders)
  *                      ResumeCompletionView()

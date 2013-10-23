@@ -35,21 +35,17 @@ public class JobApplyCommand
   }
   
   public ViewProvider execute() {
-
-    ViewProvider viewProvider = null;
     try {
       jobApplication.setRequestModel(requestModel);
-      
+
       Jobseeker   jobseeker = getJobseeker();
       Job         job = getJob();
-
-      viewProvider = jobApplication.applyForJob(jobseeker, job);
-      return viewProvider;
+      
+      return jobApplication.applyForJob(jobseeker, job);
     }
     catch (Exception e)
     {
-      viewProvider = JobApplicationUseCase.getErrorView();
-      return viewProvider;
+      return JobApplicationUseCase.getErrorView();
     }
   }
   

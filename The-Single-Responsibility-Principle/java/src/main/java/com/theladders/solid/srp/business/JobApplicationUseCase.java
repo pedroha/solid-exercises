@@ -29,8 +29,8 @@ public class JobApplicationUseCase
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
                                ResumeManager resumeManager,
-                               MyResumeManager myResumeManager) {
-  
+                               MyResumeManager myResumeManager)
+  {
     this.jobseekerProfileManager = jobseekerProfileManager;
     this.jobApplicationManager = jobApplicationManager;
     this.resumeManager = resumeManager;
@@ -44,38 +44,50 @@ public class JobApplicationUseCase
   
   public ViewProvider applyForJob(Jobseeker jobseeker, Job job)
   {
-    JobApplicationInteraction jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
-    JobseekerProfile profile = getJobseekerProfile(jobseeker);
-    
-    ViewProvider viewProvider = null;
-
     if (job == null)
     {
-      viewProvider = new InvalidJobView(requestModel.getJobId());
+      ViewProvider viewProvider = new InvalidJobView(requestModel.getJobId());
       return viewProvider;
-    }   
+    }
+    Resume resume = handleResumeInteraction(jobseeker);
+
+    return handleJobApplicationInteraction(jobseeker, job, resume);
+  }
+
+  private ViewProvider handleJobApplicationInteraction(Jobseeker jobseeker,
+                                                       Job job,
+                                                       Resume resume)
+  {
+    JobApplicationInteraction jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
+    JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
+    if (applicationResult.success())
+    {
+      JobseekerProfile profile = getJobseekerProfile(jobseeker);
+      if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
+      {
+        ViewProvider viewProvider = new ResumeCompletionView(job);
+        return viewProvider;
+      }
+      ViewProvider viewProvider = new ApplySuccessView(job);
+      return viewProvider;        
+    }
+    // Don't want to throw an exception to signal a FailedApplication (as in original application)
+    return getErrorView();
+  }
+
+  private Resume handleResumeInteraction(Jobseeker jobseeker)
+  {
     ResumeInteraction resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
     
     Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
-    if (resume == null) {
+    boolean saveResume =  (resume == null);
+    if (saveResume)
+    {
       ResumeFile resumeFile = requestModel.getResumeFile();
       String origFileName = resumeFile.getFileName();
       resume = resumeInteraction.saveNewResume(origFileName, jobseeker, requestModel.makeResumeActive());
     }
-
-    JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    if (applicationResult.success())
-    {
-      if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
-      {
-        viewProvider = new ResumeCompletionView(job);
-        return viewProvider;
-      }
-      viewProvider = new ApplySuccessView(job);
-      return viewProvider;        
-    }
-    // Don't want to throw an exception to signal a FailedApplication (as in original application)
-    return getErrorView();    
+    return resume;
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
