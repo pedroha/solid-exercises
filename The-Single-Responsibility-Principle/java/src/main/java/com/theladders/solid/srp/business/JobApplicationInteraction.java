@@ -11,11 +11,11 @@ import com.theladders.solid.srp.model.job.application.SuccessfulApplication;
 import com.theladders.solid.srp.model.job.application.UnprocessedApplication;
 import com.theladders.solid.srp.services.JobApplicationManager;
 
-public class JobApplicationEntity
+public class JobApplicationInteraction
 {
   private JobApplicationManager jobApplicationManager;
 
-  public JobApplicationEntity(JobApplicationManager jobApplicationManager)
+  public JobApplicationInteraction(JobApplicationManager jobApplicationManager)
   {
     this.jobApplicationManager = jobApplicationManager;
   }

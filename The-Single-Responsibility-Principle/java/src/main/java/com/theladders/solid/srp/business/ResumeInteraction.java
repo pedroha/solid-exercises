@@ -5,12 +5,12 @@ import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 
-public class ResumeEntity
+public class ResumeInteraction
 {
   private ResumeManager   resumeManager;
   private MyResumeManager myResumeManager;
   
-  public ResumeEntity(ResumeManager resumeManager, MyResumeManager myResumeManager)
+  public ResumeInteraction(ResumeManager resumeManager, MyResumeManager myResumeManager)
   {
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager; 

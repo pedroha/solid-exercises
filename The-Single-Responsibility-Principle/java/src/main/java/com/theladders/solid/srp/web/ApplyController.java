@@ -47,7 +47,7 @@ public class ApplyController
                                                    resumeManager,
                                                    myResumeManager);
     
-    ViewProvider viewProvider = jobApply.execute();   
+    ViewProvider viewProvider = jobApply.execute();
     Result result = viewProvider.getViewResult();
     response.setResult(result);
     return response;

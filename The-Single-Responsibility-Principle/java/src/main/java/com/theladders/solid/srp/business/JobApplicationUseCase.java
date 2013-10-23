@@ -43,7 +43,7 @@ public class JobApplicationUseCase
   
   public ViewProvider applyForJob(Jobseeker jobseeker, Job job)
   {
-    JobApplicationEntity jobApplicationEntity = new JobApplicationEntity(jobApplicationManager);
+    JobApplicationInteraction jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
     JobseekerProfile profile = getJobseekerProfile(jobseeker);
     
     ViewProvider viewProvider = null;
@@ -53,19 +53,19 @@ public class JobApplicationUseCase
       viewProvider = new InvalidJobView(requestModel.getJobId());
       return viewProvider;
     }   
-    ResumeEntity resumeEntity = new ResumeEntity(resumeManager, myResumeManager);
+    ResumeInteraction resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
     
-    Resume resume = resumeEntity.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
+    Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
     if (resume == null) {
       ResumeFile resumeFile = requestModel.getResumeFile();
       String origFileName = resumeFile.getFileName();
-      resume = resumeEntity.saveNewResume(origFileName, jobseeker, requestModel.makeResumeActive());
+      resume = resumeInteraction.saveNewResume(origFileName, jobseeker, requestModel.makeResumeActive());
     }
 
-    JobApplicationResult applicationResult = jobApplicationEntity.apply(jobseeker, job, resume);
+    JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
     if (applicationResult.success())
     {
-      if (JobApplicationEntity.requiresProfileCompletion(jobseeker, profile))
+      if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
       {
         viewProvider = new ResumeCompletionView(job);
         return viewProvider;
