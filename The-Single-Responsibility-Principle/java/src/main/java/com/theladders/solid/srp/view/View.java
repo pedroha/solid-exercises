@@ -9,7 +9,13 @@ public abstract class View implements ViewProvider
 {  
   private Map<String, Object> model = new HashMap<>();
   
-  protected Map<String, Object> getModel() {
-    return model;
+  public void putData(String key, Object value)
+  {
+    model.put(key, value);
+  }
+  
+  protected Map<String, Object>getModel()
+  {
+    return model;    
   }
 }

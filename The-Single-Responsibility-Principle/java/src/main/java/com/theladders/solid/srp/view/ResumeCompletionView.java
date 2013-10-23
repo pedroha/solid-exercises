@@ -12,7 +12,6 @@ public class ResumeCompletionView extends ViewWithJob
   
   public Result getViewResult()
   {
-    Result result = new Result("completeResumePlease", getModel());
-    return result;
+    return new Result("completeResumePlease", getModel());
   }
 }

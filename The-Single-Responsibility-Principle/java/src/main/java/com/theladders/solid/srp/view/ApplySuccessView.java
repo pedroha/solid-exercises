@@ -12,7 +12,6 @@ public class ApplySuccessView extends ViewWithJob
 
   public Result getViewResult()
   {
-    Result result = new Result("success", getModel());
-    return result;
+    return new Result("success", getModel());
   }
 }
