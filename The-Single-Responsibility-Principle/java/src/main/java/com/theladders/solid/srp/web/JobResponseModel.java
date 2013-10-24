@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.business;
+package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.ResponseModel;

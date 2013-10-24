@@ -1,7 +1,6 @@
 package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.business.JobApplicationUseCase;
-import com.theladders.solid.srp.business.JobResponseModel;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.services.JobApplicationManager;

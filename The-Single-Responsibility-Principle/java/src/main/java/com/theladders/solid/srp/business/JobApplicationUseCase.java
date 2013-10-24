@@ -84,6 +84,7 @@ public class JobApplicationUseCase
       return;
     }
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
+    // String message = applicationResult.toString();
     String message = "We could not process your application.";
     responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
   }

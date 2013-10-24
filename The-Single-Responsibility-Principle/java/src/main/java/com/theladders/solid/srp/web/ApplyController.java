@@ -32,7 +32,7 @@ public class ApplyController
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager;
   }
-  
+
   public HttpResponse handle(HttpRequest request,
                              HttpResponse response,
                              String origFileName)
@@ -40,18 +40,18 @@ public class ApplyController
     RequestModelBuilder builder = new RequestModelBuilder();
 
     RequestModel model = builder.buildRequestModel(request, origFileName);
-    
+
     JobApplyCommand jobApply = new JobApplyCommand(model,
                                                    jobseekerProfileManager,
                                                    jobManager,
                                                    jobApplicationManager,
                                                    resumeManager,
                                                    myResumeManager);
-    
+
     ResponseModel responseModel = jobApply.execute();
-    
+
     ViewResolver viewResolver = new ViewResolver(responseModel);
-    
+
     ViewProvider viewProvider = viewResolver.getViewProvider();
     Result result = viewProvider.getViewResult();
     response.setResult(result);

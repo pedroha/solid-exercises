@@ -1,4 +1,4 @@
-package com.theladders.solid.srp.business;
+package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.util.RequestModel;
