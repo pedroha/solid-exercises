@@ -14,23 +14,19 @@ import com.theladders.solid.srp.util.Result;
 
 public class ApplyController
 {
-  private final JobseekerProfileManager jobseekerProfileManager;
-  private final JobManager              jobManager;
-  private final JobApplicationManager   jobApplicationManager;
-  private final ResumeManager           resumeManager;
-  private final MyResumeManager         myResumeManager;
-
+  private CommandFactory commandFactory;
+  
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobManager jobManager,
                          JobApplicationManager jobApplicationManager,
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.jobseekerProfileManager = jobseekerProfileManager;
-    this.jobManager = jobManager;
-    this.jobApplicationManager = jobApplicationManager;
-    this.resumeManager = resumeManager;
-    this.myResumeManager = myResumeManager;
+    this.commandFactory = new CommandFactory(jobseekerProfileManager,
+                                             jobManager,
+                                             jobApplicationManager,
+                                             resumeManager,
+                                             myResumeManager);
   }
 
   public HttpResponse handle(HttpRequest request,
@@ -38,23 +34,21 @@ public class ApplyController
                              String origFileName)
   {
     RequestModelBuilder builder = new RequestModelBuilder();
+    RequestModel        requestModel = builder.buildRequestModel(request, origFileName);
+    ResponseModel       responseModel = new JobResponseModel();
 
-    RequestModel model = builder.buildRequestModel(request, origFileName);
+    JobApplyCommand jobApply = commandFactory.createJobApply(requestModel, responseModel);
 
-    JobApplyCommand jobApply = new JobApplyCommand(model,
-                                                   jobseekerProfileManager,
-                                                   jobManager,
-                                                   jobApplicationManager,
-                                                   resumeManager,
-                                                   myResumeManager);
+    jobApply.execute();
 
-    ResponseModel responseModel = jobApply.execute();
-
-    ViewResolver viewResolver = new ViewResolver(responseModel);
-
-    ViewProvider viewProvider = viewResolver.getViewProvider();
-    Result result = viewProvider.getViewResult();
-    response.setResult(result);
+    response.setResult(getResult(responseModel));
     return response;
+  }
+  
+  private static Result getResult(ResponseModel responseModel) 
+  {
+    ViewResolver viewResolver = new ViewResolver(responseModel);
+    ViewProvider viewProvider = viewResolver.getViewProvider();
+    return viewProvider.getViewResult();
   }
 }

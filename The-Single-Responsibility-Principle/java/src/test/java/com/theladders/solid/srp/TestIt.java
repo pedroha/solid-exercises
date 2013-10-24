@@ -132,7 +132,7 @@ public class TestIt
     HttpResponse response = new HttpResponse();
 
     controller.handle(request, response, null);
-
+    
     assertEquals("error", response.getResultType());
   }
 

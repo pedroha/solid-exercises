@@ -8,13 +8,14 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.util.Command;
 import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 
 // JobApplyCommand interacts between HTTP and the Use Case: JobApplicationUseCase
 
-public class JobApplyCommand
+public class JobApplyCommand implements Command
 {
   private JobApplicationUseCase jobApplication;
   private JobManager            jobManager;
@@ -22,14 +23,13 @@ public class JobApplyCommand
   private ResponseModel         responseModel;
 
   public JobApplyCommand(RequestModel requestModel,
+                         ResponseModel responseModel,
                          JobseekerProfileManager jobseekerProfileManager,
                          JobManager jobManager,
                          JobApplicationManager jobApplicationManager,
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.responseModel = new JobResponseModel();
-
     this.jobApplication =  new JobApplicationUseCase(requestModel,
                                                      responseModel,
                                                      jobseekerProfileManager,
@@ -38,13 +38,14 @@ public class JobApplyCommand
                                                      myResumeManager);
     this.jobManager = jobManager;
     this.requestModel = requestModel;
+    this.responseModel = responseModel;
   }
   
-  public ResponseModel execute() {
+  public void execute() {
     try {
       Jobseeker     jobseeker = getJobseeker();
       Job           job = getJob();
-      
+
       jobApplication.applyForJob(jobseeker, job);    
     }
     catch(Exception e)
@@ -52,7 +53,6 @@ public class JobApplyCommand
       String message = "We could not process your application.";
       responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
     }
-    return responseModel;
   }
   
   private Job getJob()
