@@ -16,19 +16,9 @@ public class App
     ConfidentialResumeHandler confidentialResumeHandler = new ConfidentialResumeHandler(jobseekerProfileManager, jobseekerConfidentialityProfileDao);
     ResumeConfidentialityManager resumeConfidentialityManager = new ResumeConfidentialityManager(confidentialResumeHandler);
 
-    int id = 1; // get from command line?
+    int id = 1;
     User user = new User(id);
 
-    System.out.println("Hello Ruby: " + ExtensibleConfidentialPhraseCategory.FavouritePet);
-    
-//    Field[] fields = ExtensibleConfidentialPhraseCategory.class.getFields();
-//    for (Field f: fields)
-//    {
-//      System.out.println(f.getName());
-//    }
-    
-    ExtensibleConfidentialPhraseCategory.values();
-    
     resumeConfidentialityManager.makeAllContactInfoNonConfidential(user);
     resumeConfidentialityManager.makeAllCategoriesNonConfidential(user);
   }

@@ -46,7 +46,7 @@ public class ConfidentialResumeHandler
 
     for (ConfidentialPhraseCategory category : ConfidentialPhraseCategory.values())
     {
-      if (!category.isContactInfo())
+      if (!category.isType(ConfidentialPhraseCategoryType.CONTACT))
       {
         isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
       }
@@ -60,7 +60,7 @@ public class ConfidentialResumeHandler
 
     for (ConfidentialPhraseCategory category : ConfidentialPhraseCategory.values())
     {
-      if (category.isContactInfo())
+      if (category.isType(ConfidentialPhraseCategoryType.CONTACT))
       {
         isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
       }
