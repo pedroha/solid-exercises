@@ -1,10 +1,8 @@
 package com.theladders.solid.ocp;
 
-import java.lang.reflect.Field;
-
 import com.theladders.solid.ocp.jobseeker.JobseekerConfidentialityProfileDao;
-import com.theladders.solid.ocp.resume.ConfidentialPhraseCategory;
 import com.theladders.solid.ocp.resume.ConfidentialResumeHandler;
+import com.theladders.solid.ocp.resume.ExtensibleConfidentialPhraseCategory;
 import com.theladders.solid.ocp.resume.JobseekerProfileManager;
 import com.theladders.solid.ocp.resume.ResumeConfidentialityManager;
 import com.theladders.solid.ocp.user.User;
@@ -21,13 +19,15 @@ public class App
     int id = 1; // get from command line?
     User user = new User(id);
 
-    System.out.println("Hello Ruby: " + ConfidentialPhraseCategory.Name);
+    System.out.println("Hello Ruby: " + ExtensibleConfidentialPhraseCategory.FavouritePet);
     
-    Field[] fields = ConfidentialPhraseCategory.class.getFields();
-    for (Field f: fields)
-    {
-      System.out.println(f.getName());
-    }
+//    Field[] fields = ExtensibleConfidentialPhraseCategory.class.getFields();
+//    for (Field f: fields)
+//    {
+//      System.out.println(f.getName());
+//    }
+    
+    ExtensibleConfidentialPhraseCategory.values();
     
     resumeConfidentialityManager.makeAllContactInfoNonConfidential(user);
     resumeConfidentialityManager.makeAllCategoriesNonConfidential(user);
