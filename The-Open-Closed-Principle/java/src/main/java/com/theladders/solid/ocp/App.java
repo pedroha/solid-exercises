@@ -20,5 +20,7 @@ public class App
 
     resumeConfidentialityManager.makeAllContactInfoNonConfidential(user);
     resumeConfidentialityManager.makeAllCategoriesNonConfidential(user);
+        
+    System.out.println("Hello Ruby");
   }
 }

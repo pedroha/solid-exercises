@@ -21,15 +21,7 @@ public class ConfidentialResumeHandler
     JobseekerProfile jsp = jobSeekerProfileManager.getJobSeekerProfile(user);
     JobseekerConfidentialityProfile profile = jobseekerConfidentialityProfileDao.fetchJobSeekerConfidentialityProfile(jsp.getId());
 
-    boolean isChanged = false;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.Name) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.PhoneNumber) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.EmailAddress) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.MailingAddress) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.ContactInfo) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.CompanyName) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.WorkExperience) || isChanged;
-
+    boolean isChanged = convertAllToNonConfidential(profile);
     if (isChanged)
     {
       generatePermanentConfidentialFiles(user, profile);
@@ -40,16 +32,40 @@ public class ConfidentialResumeHandler
   {
     JobseekerProfile jsp = jobSeekerProfileManager.getJobSeekerProfile(user);
     JobseekerConfidentialityProfile profile = jobseekerConfidentialityProfileDao.fetchJobSeekerConfidentialityProfile(jsp.getId());
-    boolean isChanged = false;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.PhoneNumber) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.EmailAddress) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.MailingAddress) || isChanged;
-    isChanged = profile.resetConfidentialFlagsForCategory(ConfidentialPhraseCategory.ContactInfo) || isChanged;
 
+    boolean isChanged = convertContactInfoNonConfidential(profile);
     if (isChanged)
     {
       generatePermanentConfidentialFiles(user, profile);
     }
+  }
+
+  private static boolean convertAllToNonConfidential(JobseekerConfidentialityProfile profile)
+  {
+    boolean isChanged = convertContactInfoNonConfidential(profile);
+
+    for (ConfidentialPhraseCategory category : ConfidentialPhraseCategory.values())
+    {
+      if (!category.isContactInfo())
+      {
+        isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
+      }
+    }
+    return isChanged;
+  }
+
+  private static boolean convertContactInfoNonConfidential(JobseekerConfidentialityProfile profile)
+  {
+    boolean isChanged = false;
+
+    for (ConfidentialPhraseCategory category : ConfidentialPhraseCategory.values())
+    {
+      if (category.isContactInfo())
+      {
+        isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
+      }
+    }
+    return isChanged;
   }
 
   @SuppressWarnings("unused")
