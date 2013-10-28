@@ -2,7 +2,6 @@ package com.theladders.solid.ocp;
 
 import com.theladders.solid.ocp.jobseeker.JobseekerConfidentialityProfileDao;
 import com.theladders.solid.ocp.resume.ConfidentialResumeHandler;
-import com.theladders.solid.ocp.resume.ExtensibleConfidentialPhraseCategory;
 import com.theladders.solid.ocp.resume.JobseekerProfileManager;
 import com.theladders.solid.ocp.resume.ResumeConfidentialityManager;
 import com.theladders.solid.ocp.user.User;
