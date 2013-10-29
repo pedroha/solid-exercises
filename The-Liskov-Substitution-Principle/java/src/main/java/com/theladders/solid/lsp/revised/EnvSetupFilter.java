@@ -1,4 +1,4 @@
-package com.theladders.solid.lsp;
+package com.theladders.solid.lsp.revised;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +71,7 @@ public class EnvSetupFilter
     this.hostName = hostName;
   }
 
-  public Environmentable getEnvironment(boolean isSecure, boolean loggedInUser)
+  public EnvironmentStore getEnvironment(boolean isSecure, boolean loggedInUser)
   {
     Environment baseEnv = EnvironmentFactory.getEnvironmentFor(hostName);
 
@@ -91,7 +91,7 @@ public class EnvSetupFilter
       keyMap = new HashMap<>(insecurePropMap);
     }
 
-    Environmentable dynamicEnv = new DynamicEnvironment(baseEnv, keyMap);
+    EnvironmentStore dynamicEnv = new DynamicEnvironment(baseEnv, keyMap);
 
     new SiteConfiguration().seedEnvironment(dynamicEnv);
 

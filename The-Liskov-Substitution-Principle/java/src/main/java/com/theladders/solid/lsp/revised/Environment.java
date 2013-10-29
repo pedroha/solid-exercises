@@ -1,11 +1,11 @@
-package com.theladders.solid.lsp;
+package com.theladders.solid.lsp.revised;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Environment implements Environmentable
+public class Environment implements EnvironmentStore
 {
   public static final String KEY_EMAIL_DOMAIN = "emaildomain";
 
@@ -33,8 +33,6 @@ public class Environment implements Environmentable
     Object val = get(key);
     return (val != null) ? val.toString().trim() : "";
   }
-  
-  
 
   public String get(String name)
   {

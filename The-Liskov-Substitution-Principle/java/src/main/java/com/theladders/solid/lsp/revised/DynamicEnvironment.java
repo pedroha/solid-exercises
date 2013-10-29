@@ -1,4 +1,4 @@
-package com.theladders.solid.lsp;
+package com.theladders.solid.lsp.revised;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -13,12 +13,11 @@ import java.util.Set;
  * @author Zhi-Da Zhong &lt;zz@theladders.com&gt;
  */
 
-public class DynamicEnvironment implements Environmentable
+public class DynamicEnvironment implements EnvironmentStore
 {
-  private final Environment         base;
-  private final Map<String, String> keyMap; // map insecure prop names to secure ones
-  
-  private Map <String, String> dynamicMapping;
+  private final Environment             base;
+  private final Map<String, String>     keyMap; // map insecure prop names to secure ones
+  private final Map <String, String>    dynamicMapping;
 
   public DynamicEnvironment(Environment base, Map<String, String> propKeyMap)
   {
@@ -74,7 +73,7 @@ public class DynamicEnvironment implements Environmentable
     return value;
   }
 
-  public String getString(String key) // Keep Environment.getString() (i.e. super.getString())
+  public String getString(String key) // Keep Environment.getString() (i.e. original Environment.getString())
   {
     Object val = dynamicMapping.get(key);
     return (val != null) ? val.toString().trim() : "";

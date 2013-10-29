@@ -1,4 +1,4 @@
-package com.theladders.solid.lsp;
+package com.theladders.solid.lsp.revised;
 
 import java.util.Scanner;
 
@@ -13,11 +13,10 @@ public class App
     boolean isSecure = ask("Is the HTTP request secure?");
     boolean loggedInUser = ask("Is a user logged into the site?");
 
-    Environmentable env = filter.getEnvironment(isSecure, loggedInUser);
+    EnvironmentStore env = filter.getEnvironment(isSecure, loggedInUser);
 
     System.out.println(env);
-
-    System.out.println(env.get("secureHome"));
+    // System.out.println(env.get("secureHome"));
   }
 
   @SuppressWarnings("resource")

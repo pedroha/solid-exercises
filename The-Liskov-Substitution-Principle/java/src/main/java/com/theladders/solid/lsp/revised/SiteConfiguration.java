@@ -1,4 +1,4 @@
-package com.theladders.solid.lsp;
+package com.theladders.solid.lsp.revised;
 
 /**
  * Represents the current website configuration
@@ -86,7 +86,7 @@ public class SiteConfiguration
    *          The current environment (for legacy compatibility)
    */
 
-  public void seedEnvironment(Environmentable environment)
+  public void seedEnvironment(EnvironmentStore environment)
   {
     environment.put(GUEST_SITE_HOME, environment.get("home"));
     environment.put(SECURE_GUEST_SITE_HOME, environment.get("secureHome"));

@@ -1,4 +1,4 @@
-package com.theladders.solid.lsp;
+package com.theladders.solid.lsp.revised;
 
 // Just a stub. Nothing to see here.
 
