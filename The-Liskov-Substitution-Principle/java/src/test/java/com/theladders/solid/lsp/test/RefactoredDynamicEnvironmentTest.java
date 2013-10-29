@@ -12,7 +12,6 @@ import com.theladders.solid.lsp.refactored.BaseEnvironment;
 import com.theladders.solid.lsp.refactored.DynamicEnvironment;
 import com.theladders.solid.lsp.refactored.Environment;
 
-
 public class RefactoredDynamicEnvironmentTest extends TestCase
 {
   @Test
@@ -136,4 +135,3 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
     assertEquals(values[0], "http://www.theladders.com/home");
   }
 }
-

@@ -15,7 +15,6 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
   @Before
   public void setup()
   {   
-    // System.out.println(env);
   }
 
   public void testSecuredLoggedIn()
@@ -123,6 +122,7 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
     assertEquals(env.get("secureFalconSiteHome"), "https://www.theladders.com/");
     assertEquals(env.get("secureGuestSiteHome"), "https://www.theladders.com/");
 
+    // Check that we are accounting for all elements
     assertEquals(env.keySet().size(), 12);
     assertEquals(env.entrySet().size(), 9);
     assertEquals(env.values().size(), 3);
@@ -150,9 +150,9 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
     assertEquals(env.get("secureFalconSiteHome"), "https://www.theladders.com/");
     assertEquals(env.get("secureGuestSiteHome"), "https://www.theladders.com/");
 
+    // Check that we are accounting for all elements
     assertEquals(env.keySet().size(), 12);
     assertEquals(env.entrySet().size(), 11);
     assertEquals(env.values().size(), 3);
-
   }
 }
