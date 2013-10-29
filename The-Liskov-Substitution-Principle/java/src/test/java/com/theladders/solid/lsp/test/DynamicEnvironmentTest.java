@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.theladders.solid.lsp.DynamicEnvironment;
 import com.theladders.solid.lsp.Environment;
 
-
 public class DynamicEnvironmentTest extends TestCase
 {
   @Test
