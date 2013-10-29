@@ -48,8 +48,7 @@ public class ConfidentialResumeHandler
     {
       if (!category.isType(ConfidentialPhraseCategoryType.CONTACT))
       {
-        System.out.println("NON-CONTACT: " + category.name());
-        isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
+         isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
       }
     }
     return isChanged;
@@ -63,7 +62,6 @@ public class ConfidentialResumeHandler
     {
       if (category.isType(ConfidentialPhraseCategoryType.CONTACT))
       {
-        System.out.println("CONTACT: " + category.name());
         isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
       }
     }

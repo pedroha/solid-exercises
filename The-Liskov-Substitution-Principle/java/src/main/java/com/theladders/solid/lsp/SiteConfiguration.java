@@ -86,7 +86,7 @@ public class SiteConfiguration
    *          The current environment (for legacy compatibility)
    */
 
-  public void seedEnvironment(Environment environment)
+  public void seedEnvironment(Environmentable environment)
   {
     environment.put(GUEST_SITE_HOME, environment.get("home"));
     environment.put(SECURE_GUEST_SITE_HOME, environment.get("secureHome"));

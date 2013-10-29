@@ -5,8 +5,8 @@ public class ExtensibleConfidentialPhraseCategory extends ConfidentialPhraseCate
   public final static ConfidentialPhraseCategory FavouritePet    = new ConfidentialPhraseCategory(80, "FavouritePet", ConfidentialPhraseCategoryType.CONTACT);
   public final static ConfidentialPhraseCategory FavouriteFood   = new ConfidentialPhraseCategory(81, "FavouriteFood");
 
-  ExtensibleConfidentialPhraseCategory(int id, String name)
+  ExtensibleConfidentialPhraseCategory(int id, String name, ConfidentialPhraseCategoryType type)
   {
-    super(id, name);
+    super(id, name, type);
   }
 }

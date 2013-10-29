@@ -13,9 +13,11 @@ public class App
     boolean isSecure = ask("Is the HTTP request secure?");
     boolean loggedInUser = ask("Is a user logged into the site?");
 
-    Environment env = filter.getEnvironment(isSecure, loggedInUser);
+    Environmentable env = filter.getEnvironment(isSecure, loggedInUser);
 
     System.out.println(env);
+
+    System.out.println(env.get("secureHome"));
   }
 
   @SuppressWarnings("resource")
