@@ -75,7 +75,7 @@ public class EnvSetupFilter
   {
     Environment baseEnv = EnvironmentFactory.getEnvironmentFor(hostName);
 
-    boolean sslIsSupported = Boolean.parseBoolean((String) baseEnv.get("isSSL"));
+    boolean sslIsSupported = Boolean.parseBoolean(baseEnv.get("isSSL"));
 
     Map<String, String> keyMap;
     if (!sslIsSupported)

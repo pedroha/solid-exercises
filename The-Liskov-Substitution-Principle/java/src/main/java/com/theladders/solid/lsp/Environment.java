@@ -11,7 +11,7 @@ public class Environment implements Environmentable
 
   public Environment()
   {
-    this.mapping = new HashMap<String, String>();
+    this.mapping = new HashMap<>();
   }
 
   /**
