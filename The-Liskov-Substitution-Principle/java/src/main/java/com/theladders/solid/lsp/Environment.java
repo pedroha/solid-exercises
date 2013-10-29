@@ -1,17 +1,14 @@
-package com.theladders.solid.lsp.revised;
+package com.theladders.solid.lsp;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
-public class Environment implements EnvironmentStore
+public class Environment extends HashMap<Object, Object>
 {
   public static final String KEY_EMAIL_DOMAIN = "emaildomain";
 
   public Environment()
   {
-    this.mapping = new HashMap<>();
+    super();
   }
 
   /**
@@ -33,31 +30,4 @@ public class Environment implements EnvironmentStore
     Object val = get(key);
     return (val != null) ? val.toString().trim() : "";
   }
-
-  public String get(String name)
-  {
-    return mapping.get(name);
-  }
-
-  public void put(String key, String value)
-  {
-    mapping.put(key, value);
-  }
-  
-  public Collection<String>values()
-  {
-    return mapping.values();
-  }
-  
-  public Set<Map.Entry<String, String>> entrySet()
-  {
-    return mapping.entrySet();
-  }
-
-  public Set<String> keySet()
-  {
-    return mapping.keySet();
-  }
-
-  private Map<String, String> mapping;
 }

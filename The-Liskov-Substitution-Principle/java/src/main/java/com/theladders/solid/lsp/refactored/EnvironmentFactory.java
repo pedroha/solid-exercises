@@ -1,12 +1,12 @@
-package com.theladders.solid.lsp.revised;
+package com.theladders.solid.lsp.refactored;
 
 // Just a stub. Nothing to see here.
 
 public class EnvironmentFactory
 {
-  public static Environment getEnvironmentFor(String hostName)
+  public static BaseEnvironment getEnvironmentFor(String hostName)
   {
-    Environment env = new Environment();
+    BaseEnvironment env = new BaseEnvironment();
 
     env.put("isSSL", "true");
     env.put("home", "http://" + hostName);

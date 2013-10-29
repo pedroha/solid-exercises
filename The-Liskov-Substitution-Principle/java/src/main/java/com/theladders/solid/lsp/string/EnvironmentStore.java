@@ -1,4 +1,4 @@
-package com.theladders.solid.lsp.revised;
+package com.theladders.solid.lsp.string;
 
 import java.util.Collection;
 import java.util.Map;
