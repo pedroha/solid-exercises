@@ -1,8 +1,8 @@
 package com.theladders.solid.srp.web;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.JobApplyResult;
 import com.theladders.solid.srp.util.ResponseModel;
@@ -16,16 +16,8 @@ public class ViewResolver
 {
   private ResponseModel responseModel;
   
-  private Map<JobApplicationStatus, Class>viewMap;
-  
   public ViewResolver(ResponseModel responseModel) {
     this.responseModel = responseModel;
-    this.viewMap = new HashMap<>();
-    
-    viewMap.put(JobApplicationStatus.INVALID_JOB, InvalidJobView.class);
-    viewMap.put(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, ResumeCompletionView.class);
-    viewMap.put(JobApplicationStatus.COMPLETE, ApplySuccessView.class);
-    viewMap.put(JobApplicationStatus.ERROR, ApplyErrorView.class);
   }
 
   public ViewProvider getViewProvider()
@@ -34,67 +26,31 @@ public class ViewResolver
     
     JobApplicationStatus status = result.getStatus();
     Map<String, Object> resultData = result.getData();
-
-    ViewProvider viewProvider = null;
     
     if (status.equals(JobApplicationStatus.COMPLETE))
     {
-      return new ApplySuccessView(resultData);
+      ApplySuccessView success = new ApplySuccessView();
+      success.setJob((Job)resultData.get("job"));
+      return success;
     }
     else
     if (status.equals(JobApplicationStatus.NEEDS_PROFILE_COMPLETION))
     {
-      return new ResumeCompletionView(resultData);
+      ResumeCompletionView resume = new ResumeCompletionView();
+      resume.setJob((Job)resultData.get("job"));
+      return resume;
     }
     else
     if (status.equals(JobApplicationStatus.INVALID_JOB))
     {
-      return new InvalidJobView(resultData);
+      InvalidJobView invalid =  new InvalidJobView();
+      invalid.putData("jobId", resultData.get("jobId"));
+      return invalid;
     }
-    else
-    if (status.equals(JobApplicationStatus.ERROR))
-    {
-      return new ApplyErrorView(resultData);
-    }
+    // (status.equals(JobApplicationStatus.ERROR))
+    ApplyErrorView error =  new ApplyErrorView();
+    error.addMessage("We could not process your application.");
 
-    return viewProvider;
-
-//    ViewProvider viewProvider = instantiate(viewMap.get(status));
-//    if (viewProvider != null)
-//    {
-//      String key = responseModel.getKey();
-//      if (key != null)
-//      {
-//        Object data = responseModel.getData();
-//        viewProvider.putData(key, data);    
-//      }
-//      return viewProvider;
-//    }
-//    return getErrorView();
+    return error;
   }
-//  
-//  private static ApplyErrorView getErrorView()
-//  {
-//    String message = "We could not process your application.";
-//    ApplyErrorView errorView = new ApplyErrorView();
-//    errorView.addMessage(message);
-//    return errorView;
-//  }
-//
-//  private static ViewProvider instantiate(Class clazz)
-//  {
-//    try
-//    {
-//      return (ViewProvider) clazz.newInstance();
-//    }
-//    catch (InstantiationException e)
-//    {
-//      e.printStackTrace();
-//    }
-//    catch (IllegalAccessException e)
-//    {
-//      e.printStackTrace();
-//    }
-//    return null;
-//  }
 }
