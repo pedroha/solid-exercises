@@ -42,14 +42,12 @@ public class ConfidentialResumeHandler
 
   private static boolean convertAllToNonConfidential(JobseekerConfidentialityProfile profile)
   {
-    boolean isChanged = convertContactInfoNonConfidential(profile);
+    boolean isChanged = false;
 
     for (ConfidentialPhraseCategory category : ConfidentialPhraseCategory.values())
     {
-      if (!category.isType(ConfidentialPhraseCategoryType.CONTACT))
-      {
-         isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
-      }
+      System.out.println("Category: " + category.name());
+      isChanged = profile.resetConfidentialFlagsForCategory(category) || isChanged;
     }
     return isChanged;
   }
