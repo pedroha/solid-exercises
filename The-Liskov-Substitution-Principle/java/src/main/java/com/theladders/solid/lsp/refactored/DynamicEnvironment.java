@@ -15,22 +15,24 @@ import java.util.Set;
 
 public class DynamicEnvironment implements Environment
 {
-  private BaseEnvironment       base;
+  private BaseEnvironment       baseMap;
   private Map<String, String>   keyMap; // map insecure prop names to secure ones
   private Map<Object, Object>   dynamicMap;
+  // private BaseEnvironment       dynamicMap; // Should we keep a base environment? Not much different than a hash map except for getString(), getAdminEmail()
 
-  public DynamicEnvironment(BaseEnvironment base, Map<String, String> propKeyMap)
+  public DynamicEnvironment(BaseEnvironment baseMap, Map<String, String> propKeyMap)
   {
-    this.base = base;
+    this.baseMap = baseMap;
     this.keyMap = propKeyMap;
     this.dynamicMap = new HashMap<>();
+    //this.dynamicMap = new BaseEnvironment();
   }
 
   public Collection<Object> values()
   {
     // TODO remove masked values
     // TODO join local instance values
-    return base.values();
+    return baseMap.values();
   }
 
   /**
@@ -48,7 +50,7 @@ public class DynamicEnvironment implements Environment
     Object value = dynamicMap.get(realKey != null ? realKey : key);
     if (value == null)
     {
-      return base.get(realKey != null ? realKey : key);
+      return baseMap.get(realKey != null ? realKey : key);
     }
     return value;
   }
@@ -56,7 +58,7 @@ public class DynamicEnvironment implements Environment
   public Set<Map.Entry<Object, Object>> entrySet()
   {
     Set<Map.Entry<Object, Object>> entrySet = new HashSet<>(dynamicMap.entrySet());
-    entrySet.addAll(base.entrySet());
+    entrySet.addAll(baseMap.entrySet());
     return Collections.unmodifiableSet(entrySet);
   }
 
@@ -64,7 +66,7 @@ public class DynamicEnvironment implements Environment
   {
     Set<Object> keySet = new HashSet<>(dynamicMap.keySet());
     keySet.addAll(keyMap.keySet());
-    keySet.addAll(base.keySet());
+    keySet.addAll(baseMap.keySet());
     return Collections.unmodifiableSet(keySet);
   }
 
