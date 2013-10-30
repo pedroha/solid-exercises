@@ -10,6 +10,7 @@ import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.JobApplicationStatus;
+import com.theladders.solid.srp.util.JobApplyResult;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ResumeFile;
@@ -42,7 +43,9 @@ public class JobApplicationUseCase
   {
     if (job == null)
     {
-      responseModel.setResult(JobApplicationStatus.INVALID_JOB, "jobId", requestModel.getJobId());
+      JobApplyResult result = new JobApplyResult(JobApplicationStatus.INVALID_JOB);
+      result.set("jobId", requestModel.getJobId());
+      responseModel.setResult(result);
       return;
     }
     Resume resume = handleResumeInteraction(jobseeker);
@@ -77,16 +80,23 @@ public class JobApplicationUseCase
       JobseekerProfile profile = getJobseekerProfile(jobseeker);
       if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
       {
-        responseModel.setResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, "job", job);
+        JobApplyResult result = new JobApplyResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION);
+        result.set("job",  job);
+        responseModel.setResult(result);
         return;
       }
-      responseModel.setResult(JobApplicationStatus.COMPLETE, "job", job);
+      JobApplyResult result = new JobApplyResult(JobApplicationStatus.COMPLETE);
+      result.set("job",  job);
+      responseModel.setResult(result);
       return;
     }
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
     // String message = applicationResult.toString();
     String message = "We could not process your application.";
-    responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
+
+    JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
+    result.set("errorMessage",  message);
+    responseModel.setResult(result);
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)

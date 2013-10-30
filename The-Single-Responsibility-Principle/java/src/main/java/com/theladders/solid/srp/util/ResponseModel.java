@@ -2,9 +2,7 @@ package com.theladders.solid.srp.util;
 
 public interface ResponseModel
 {
-  void setResult(JobApplicationStatus applicationStatus, String key, Object data);
+  void setResult(JobApplyResult result);
 
-  JobApplicationStatus getApplicationStatus();
-  String getKey();
-  Object getData();
+  JobApplyResult getJobApplyResult();
 }

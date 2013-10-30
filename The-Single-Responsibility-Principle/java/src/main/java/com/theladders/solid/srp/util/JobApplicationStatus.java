@@ -17,4 +17,3 @@ public enum JobApplicationStatus
     this.name = name;
   }
 }
-

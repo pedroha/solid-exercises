@@ -10,6 +10,7 @@ import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.Command;
 import com.theladders.solid.srp.util.JobApplicationStatus;
+import com.theladders.solid.srp.util.JobApplyResult;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 
@@ -50,8 +51,9 @@ public class JobApplyCommand implements Command
     }
     catch(Exception e)
     {
-      String message = "We could not process your application.";
-      responseModel.setResult(JobApplicationStatus.ERROR, "errorMessage", message);
+      JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
+      result.set("error", "We could not process your application.");
+      responseModel.setResult(result);
     }
   }
   
