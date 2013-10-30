@@ -52,7 +52,7 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
     assertEquals(env.get("landingFlash"), null);
     assertEquals(env.get("css"), null);
     
-    // Check that we are accounting for all elements
+    // Check that we are accounting for all elements as in the original App
     
     assertEquals(env.keySet().size(), 25);
     assertEquals(env.entrySet().size(), 11);
@@ -94,7 +94,8 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
     assertEquals(env.get("landingFlash"), null);
     assertEquals(env.get("css"), null);
 
-    // Check that we are accounting for all elements
+    // Check that we are accounting for all elements as in the original App
+    
     assertEquals(env.keySet().size(), 25);
     assertEquals(env.entrySet().size(), 9);
     assertEquals(env.values().size(), 3);
@@ -122,7 +123,8 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
     assertEquals(env.get("secureFalconSiteHome"), "https://www.theladders.com/");
     assertEquals(env.get("secureGuestSiteHome"), "https://www.theladders.com/");
 
-    // Check that we are accounting for all elements
+    // Check that we are accounting for all elements as in the original App
+
     assertEquals(env.keySet().size(), 12);
     assertEquals(env.entrySet().size(), 9);
     assertEquals(env.values().size(), 3);
@@ -150,7 +152,8 @@ public class DynamicEnvironmentIntegrationTest extends TestCase
     assertEquals(env.get("secureFalconSiteHome"), "https://www.theladders.com/");
     assertEquals(env.get("secureGuestSiteHome"), "https://www.theladders.com/");
 
-    // Check that we are accounting for all elements
+    // Check that we are accounting for all elements as in the original App
+
     assertEquals(env.keySet().size(), 12);
     assertEquals(env.entrySet().size(), 11);
     assertEquals(env.values().size(), 3);

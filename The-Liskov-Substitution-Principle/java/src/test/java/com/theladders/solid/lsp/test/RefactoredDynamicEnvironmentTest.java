@@ -8,9 +8,7 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.theladders.solid.lsp.refactored.BaseEnvironment;
-import com.theladders.solid.lsp.refactored.DynamicEnvironment;
-import com.theladders.solid.lsp.refactored.Environment;
+import com.theladders.solid.lsp.refactored.*;
 
 public class RefactoredDynamicEnvironmentTest extends TestCase
 {
@@ -28,7 +26,7 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
   }
   
   @Test
-  public void testPropertyInBaseEnvironment()
+  public void testPutAndGetInBaseEnvironment()
   {
     String key = "home";
     String value = "http://www.theladders.com/home";
@@ -44,7 +42,7 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
   }
 
   @Test
-  public void testGenericPrecedesBaseProperty()
+  public void testPropertyInDynamicPrecedesBase()
   {
     BaseEnvironment base = new BaseEnvironment();
     Map<String, String> keyMap = new HashMap<>();
@@ -59,7 +57,7 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
   }
 
   @Test
-  public void testMappedPropertyInBase()
+  public void testMappedPropertyInBaseEnvironment()
   {
     BaseEnvironment base = new BaseEnvironment();
     Map<String, String> keyMap = new HashMap<>();
@@ -71,8 +69,8 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
     Environment dynEnv = new DynamicEnvironment(base, keyMap);
     
     // Unmapped and mapped property should return the same
-    assertEquals(dynEnv.get("memberHome"), "http://www.theladders.com/home");
-    assertEquals(dynEnv.get("home"), "http://www.theladders.com/home");
+    assertEquals(dynEnv.get("memberHome"), "http://www.theladders.com/home"); // mapped
+    assertEquals(dynEnv.get("home"), "http://www.theladders.com/home"); // unmapped
   }
 
   @Test
@@ -90,8 +88,8 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
     dynEnv.put("home", "http://www.theladders.com/generic");
     
     // Unmapped and mapped property should return the same
-    assertEquals(dynEnv.get("memberHome"), "http://www.theladders.com/generic");
-    assertEquals(dynEnv.get("home"), "http://www.theladders.com/generic");
+    assertEquals(dynEnv.get("memberHome"), "http://www.theladders.com/home"); // mapped
+    assertEquals(dynEnv.get("home"), "http://www.theladders.com/home"); // unmapped
   }
 
   @Test
@@ -116,7 +114,7 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
   }
 
   @Test
-  public void testValuesOnlyComingFromBase()
+  public void testValuesOnlyComingFromBaseEnvironment()
   {
     BaseEnvironment env = new BaseEnvironment();
     Map<String, String> keyMap = new HashMap<>();
@@ -135,3 +133,4 @@ public class RefactoredDynamicEnvironmentTest extends TestCase
     assertEquals(values[0], "http://www.theladders.com/home");
   }
 }
+
