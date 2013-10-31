@@ -44,9 +44,9 @@ public class ViewResolver
     }
     else if (status.equals(JobApplicationStatus.INVALID_JOB))
     {
-      InvalidJobView invalid = new InvalidJobView();
-      invalid.putData("jobId", jobId);
-      return invalid;
+      InvalidJobView invalidJob = new InvalidJobView();
+      invalidJob.putData("jobId", jobId);
+      return invalidJob;
     }
     // Else we reach some error!
     // assert (status.equals(JobApplicationStatus.ERROR));
