@@ -55,12 +55,6 @@ public class JobApplicationUseCase
     return createJobApplyForError(JobApplicationStatus.ERROR, message);
   }
   
-  private boolean requiresProfileCompletion(Jobseeker jobseeker)
-  {
-    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
-    return (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile));
-  }
-
   private Resume handleResumeInteraction(Jobseeker jobseeker,
                                          ResumeProfile resumeProfile)
   {
@@ -74,6 +68,12 @@ public class JobApplicationUseCase
       resume = resumeInteraction.saveNewResume(resumeFile, jobseeker, resumeProfile.makeResumeActive());
     }
     return resume;
+  }
+
+  private boolean requiresProfileCompletion(Jobseeker jobseeker)
+  {
+    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
+    return (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile));
   }
 
   private static JobApplyResult createJobApplyForJob(JobApplicationStatus status, Job job)
