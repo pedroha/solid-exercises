@@ -11,7 +11,6 @@ import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.JobApplyResult;
-import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ResumeFile;
 import com.theladders.solid.srp.util.ResumeProfile;
@@ -43,8 +42,7 @@ public class JobApplicationUseCase
   {
     if (job == null)
     {
-      JobApplyResult result = new JobApplyResult(JobApplicationStatus.INVALID_JOB);
-      responseModel.setResult(result);
+      responseModel.setResult(new JobApplyResult(JobApplicationStatus.INVALID_JOB));
       return;
     }
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
@@ -92,9 +90,8 @@ public class JobApplicationUseCase
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
     // String message = applicationResult.toString();
     String message = "We could not process your application.";
-
     JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
-    result.set("errorMessage", message);
+    result.set("error", message);
     responseModel.setResult(result);
   }
 

@@ -17,8 +17,9 @@ public class ViewResolver
 {
   private RequestModel  requestModel;
   private ResponseModel responseModel;
-  
-  public ViewResolver(RequestModel requestModel, ResponseModel responseModel)
+
+  public ViewResolver(RequestModel requestModel,
+                      ResponseModel responseModel)
   {
     this.requestModel = requestModel;
     this.responseModel = responseModel;
@@ -27,33 +28,38 @@ public class ViewResolver
   public ViewProvider getViewProvider()
   {
     JobApplyResult result = responseModel.getJobApplyResult();
-    
+
     JobApplicationStatus status = result.getStatus();
-    Map<String, Object> resultData = result.getData();
-    
+
     if (status.equals(JobApplicationStatus.COMPLETE))
     {
       ApplySuccessView success = new ApplySuccessView();
-      success.setJob((Job)resultData.get("job"));
+      success.setJob(getJob(result));
       return success;
     }
-    else
-    if (status.equals(JobApplicationStatus.NEEDS_PROFILE_COMPLETION))
+    else if (status.equals(JobApplicationStatus.NEEDS_PROFILE_COMPLETION))
     {
-      ResumeCompletionView resume = new ResumeCompletionView();
-      resume.setJob((Job)resultData.get("job"));
-      return resume;
+      ResumeCompletionView resumeCompletion = new ResumeCompletionView();
+      resumeCompletion.setJob(getJob(result));
+      return resumeCompletion;
     }
-    else
-    if (status.equals(JobApplicationStatus.INVALID_JOB))
+    else if (status.equals(JobApplicationStatus.INVALID_JOB))
     {
-      InvalidJobView invalid =  new InvalidJobView();
+      InvalidJobView invalid = new InvalidJobView();
       invalid.putData("jobId", requestModel.getJobId());
       return invalid;
     }
-    // else if (status.equals(JobApplicationStatus.ERROR))
-    ApplyErrorView error =  new ApplyErrorView();
+    // Else we reach some error!
+    // assert (status.equals(JobApplicationStatus.ERROR));
+
+    ApplyErrorView error = new ApplyErrorView();
     error.addMessage("We could not process your application.");
     return error;
+  }
+
+  private static Job getJob(JobApplyResult result)
+  {
+    Map<String, Object> resultData = result.getData();
+    return (Job) resultData.get("job");
   }
 }
