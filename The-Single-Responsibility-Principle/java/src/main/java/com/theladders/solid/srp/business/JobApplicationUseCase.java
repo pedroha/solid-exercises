@@ -22,17 +22,14 @@ public class JobApplicationUseCase
   private JobApplicationManager   jobApplicationManager;
   private ResumeManager           resumeManager;
   private MyResumeManager         myResumeManager;
-  private RequestModel            requestModel;
   private ResponseModel           responseModel;
   
-  public JobApplicationUseCase(RequestModel requestModel,
-                               ResponseModel responseModel,
+  public JobApplicationUseCase(ResponseModel responseModel,
                                JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
                                ResumeManager resumeManager,
                                MyResumeManager myResumeManager)
   {
-    this.requestModel = requestModel;
     this.responseModel = responseModel;
     this.jobseekerProfileManager = jobseekerProfileManager;
     this.jobApplicationManager = jobApplicationManager;
@@ -47,7 +44,6 @@ public class JobApplicationUseCase
     if (job == null)
     {
       JobApplyResult result = new JobApplyResult(JobApplicationStatus.INVALID_JOB);
-      result.set("jobId", requestModel.getJobId());
       responseModel.setResult(result);
       return;
     }

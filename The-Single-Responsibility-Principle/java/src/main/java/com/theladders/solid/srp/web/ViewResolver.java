@@ -5,6 +5,7 @@ import java.util.Map;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.JobApplyResult;
+import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.view.ApplyErrorView;
@@ -14,9 +15,12 @@ import com.theladders.solid.srp.view.ResumeCompletionView;
 
 public class ViewResolver
 {
+  private RequestModel  requestModel;
   private ResponseModel responseModel;
   
-  public ViewResolver(ResponseModel responseModel) {
+  public ViewResolver(RequestModel requestModel, ResponseModel responseModel)
+  {
+    this.requestModel = requestModel;
     this.responseModel = responseModel;
   }
 
@@ -44,7 +48,7 @@ public class ViewResolver
     if (status.equals(JobApplicationStatus.INVALID_JOB))
     {
       InvalidJobView invalid =  new InvalidJobView();
-      invalid.putData("jobId", resultData.get("jobId"));
+      invalid.putData("jobId", requestModel.getJobId());
       return invalid;
     }
     // else if (status.equals(JobApplicationStatus.ERROR))

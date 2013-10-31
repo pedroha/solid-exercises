@@ -32,8 +32,7 @@ public class JobApplyCommand implements Command
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.jobApplication = new JobApplicationUseCase(requestModel,
-                                                    responseModel,
+    this.jobApplication = new JobApplicationUseCase(responseModel,
                                                     jobseekerProfileManager,
                                                     jobApplicationManager,
                                                     resumeManager,

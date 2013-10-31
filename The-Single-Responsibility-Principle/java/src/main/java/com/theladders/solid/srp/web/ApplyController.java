@@ -41,13 +41,13 @@ public class ApplyController
 
     jobApply.execute();
 
-    response.setResult(getResult(responseModel));
+    response.setResult(getResult(requestModel, responseModel));
     return response;
   }
   
-  private static Result getResult(ResponseModel responseModel) 
+  private static Result getResult(RequestModel requestModel, ResponseModel responseModel) 
   {
-    ViewResolver viewResolver = new ViewResolver(responseModel);
+    ViewResolver viewResolver = new ViewResolver(requestModel, responseModel);
     ViewProvider viewProvider = viewResolver.getViewProvider();
     return viewProvider.getViewResult();
   }
