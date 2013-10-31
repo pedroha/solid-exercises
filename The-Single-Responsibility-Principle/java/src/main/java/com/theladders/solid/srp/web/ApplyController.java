@@ -47,7 +47,7 @@ public class ApplyController
   
   private static Result getResult(RequestModel requestModel, ResponseModel responseModel) 
   {
-    ViewResolver viewResolver = new ViewResolver(requestModel, responseModel);
+    ViewResolver viewResolver = new ViewResolver(responseModel, requestModel.getJobId());
     ViewProvider viewProvider = viewResolver.getViewProvider();
     return viewProvider.getViewResult();
   }

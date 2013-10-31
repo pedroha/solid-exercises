@@ -40,9 +40,9 @@ public class JobApplyCommand implements Command
 
   public void execute()
   {
-      Jobseeker jobseeker = getJobseeker();
-      Job job = getJob();
-      ResumeProfile resumeProfile = getResumeProfile();
+      Jobseeker         jobseeker = getJobseeker();
+      Job               job = getJob();
+      ResumeProfile     resumeProfile = getResumeProfile();
 
       jobApplication.applyForJob(jobseeker, job, resumeProfile);
   }

@@ -15,14 +15,13 @@ import com.theladders.solid.srp.view.ResumeCompletionView;
 
 public class ViewResolver
 {
-  private RequestModel  requestModel;
   private ResponseModel responseModel;
+  private int           jobId;
 
-  public ViewResolver(RequestModel requestModel,
-                      ResponseModel responseModel)
+  public ViewResolver(ResponseModel responseModel, int jobId)
   {
-    this.requestModel = requestModel;
     this.responseModel = responseModel;
+    this.jobId = jobId;
   }
 
   public ViewProvider getViewProvider()
@@ -46,7 +45,7 @@ public class ViewResolver
     else if (status.equals(JobApplicationStatus.INVALID_JOB))
     {
       InvalidJobView invalid = new InvalidJobView();
-      invalid.putData("jobId", requestModel.getJobId());
+      invalid.putData("jobId", jobId);
       return invalid;
     }
     // Else we reach some error!
