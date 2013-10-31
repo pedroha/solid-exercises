@@ -33,13 +33,13 @@ public class ViewResolver
     if (status.equals(JobApplicationStatus.COMPLETE))
     {
       ApplySuccessView success = new ApplySuccessView();
-      setJobFields(success, result);
+      setJobFields(success, getJob(result));
       return success;
     }
     else if (status.equals(JobApplicationStatus.NEEDS_PROFILE_COMPLETION))
     {
       ResumeCompletionView resumeCompletion = new ResumeCompletionView();
-      setJobFields(resumeCompletion, result);
+      setJobFields(resumeCompletion, getJob(result));
       return resumeCompletion;
     }
     else if (status.equals(JobApplicationStatus.INVALID_JOB))
@@ -55,13 +55,17 @@ public class ViewResolver
     error.addMessage("We could not process your application.");
     return error;
   }
+
+  private static void setJobFields(View view, Job job)
+  {
+    view.putData("jobId", job.getJobId());
+    view.putData("jobTitle", job.getTitle());
+  }
   
-  private static void setJobFields(View view, JobApplyResult result)
+  private static Job getJob(JobApplyResult result)
   {
     Map<String, Object> resultData = result.getData();
     Job job = (Job) resultData.get("job");
-    
-    view.putData("jobId", job.getJobId());
-    view.putData("jobTitle", job.getTitle());
+    return job;
   }
 }
