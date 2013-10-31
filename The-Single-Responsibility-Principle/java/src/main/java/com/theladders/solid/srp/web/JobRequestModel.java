@@ -3,15 +3,14 @@ package com.theladders.solid.srp.web;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResumeFile;
+import com.theladders.solid.srp.util.ResumeProfile;
 
 public class JobRequestModel implements RequestModel
 {
   private int           jobId;
   private Jobseeker     jobseeker;
-  private boolean       existingResume;
-  private boolean       resumeActive;
-  private ResumeFile    resumeFile;
-  
+  private ResumeProfile resumeProfile;
+
   public JobRequestModel(Jobseeker jobseeker,
                          int jobId,
                          ResumeFile resumeFile,
@@ -20,31 +19,20 @@ public class JobRequestModel implements RequestModel
   {
     this.jobseeker = jobseeker;
     this.jobId = jobId;
-    this.resumeFile = resumeFile;
-    this.existingResume = existingResume;
-    this.resumeActive = resumeActive;
-  }
-  
-  public ResumeFile getResumeFile()
-  {
-    return resumeFile;
-  }
-  
-  public boolean hasExistingResume()
-  {
-    return existingResume;
+
+    this.resumeProfile = new ResumeProfile(resumeFile, existingResume, resumeActive);
   }
 
-  public boolean makeResumeActive()
+  public ResumeProfile getResumeProfile()
   {
-    return resumeActive;
+    return resumeProfile;
   }
 
   public Jobseeker getJobseeker()
   {
     return jobseeker;
   }
-  
+
   public int getJobId()
   {
     return jobId;

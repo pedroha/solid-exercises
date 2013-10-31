@@ -28,7 +28,7 @@ import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.web.ApplyController;
 
-public class TestIt
+public class Test_SRP
 {
   private static final int INVALID_JOB_ID        = 555;
   private static final String SHARED_RESUME_NAME = "A Resume";

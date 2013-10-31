@@ -14,6 +14,7 @@ import com.theladders.solid.srp.util.JobApplyResult;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ResumeFile;
+import com.theladders.solid.srp.util.ResumeProfile;
 
 public class JobApplicationUseCase
 {
@@ -23,7 +24,7 @@ public class JobApplicationUseCase
   private MyResumeManager         myResumeManager;
   private RequestModel            requestModel;
   private ResponseModel           responseModel;
-
+  
   public JobApplicationUseCase(RequestModel requestModel,
                                ResponseModel responseModel,
                                JobseekerProfileManager jobseekerProfileManager,
@@ -40,7 +41,8 @@ public class JobApplicationUseCase
   }
 
   public void applyForJob(Jobseeker jobseeker,
-                          Job job)
+                          Job job,
+                          ResumeProfile resumeProfile)
   {
     if (job == null)
     {
@@ -49,22 +51,22 @@ public class JobApplicationUseCase
       responseModel.setResult(result);
       return;
     }
-    Resume resume = handleResumeInteraction(jobseeker);
+    Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
 
     handleJobApplicationInteraction(jobseeker, job, resume);
   }
 
-  private Resume handleResumeInteraction(Jobseeker jobseeker)
+  private Resume handleResumeInteraction(Jobseeker jobseeker, ResumeProfile resumeProfile)
   {
     ResumeInteraction resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
-
-    Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
+    
+    Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, resumeProfile.hasExistingResume());
     boolean saveResume = (resume == null);
     if (saveResume)
     {
-      ResumeFile resumeFile = requestModel.getResumeFile();
+      ResumeFile resumeFile = resumeProfile.getResumeFile();
       String origFileName = resumeFile.getFileName();
-      resume = resumeInteraction.saveNewResume(origFileName, jobseeker, requestModel.makeResumeActive());
+      resume = resumeInteraction.saveNewResume(origFileName, jobseeker, resumeProfile.makeResumeActive());
     }
     return resume;
   }

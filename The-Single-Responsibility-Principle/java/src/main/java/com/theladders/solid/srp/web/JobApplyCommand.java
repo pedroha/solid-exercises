@@ -13,6 +13,7 @@ import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.JobApplyResult;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
+import com.theladders.solid.srp.util.ResumeProfile;
 
 // JobApplyCommand interacts between HTTP and the Use Case: JobApplicationUseCase
 
@@ -31,37 +32,45 @@ public class JobApplyCommand implements Command
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.jobApplication =  new JobApplicationUseCase(requestModel,
-                                                     responseModel,
-                                                     jobseekerProfileManager,
-                                                     jobApplicationManager,
-                                                     resumeManager,
-                                                     myResumeManager);
+    this.jobApplication = new JobApplicationUseCase(requestModel,
+                                                    responseModel,
+                                                    jobseekerProfileManager,
+                                                    jobApplicationManager,
+                                                    resumeManager,
+                                                    myResumeManager);
     this.jobManager = jobManager;
     this.requestModel = requestModel;
     this.responseModel = responseModel;
   }
-  
-  public void execute() {
-    try {
-      Jobseeker     jobseeker = getJobseeker();
-      Job           job = getJob();
 
-      jobApplication.applyForJob(jobseeker, job);    
+  public void execute()
+  {
+    try
+    {
+      Jobseeker jobseeker = getJobseeker();
+      Job job = getJob();
+      ResumeProfile resumeProfile = getResumeProfile();
+
+      jobApplication.applyForJob(jobseeker, job, resumeProfile);
     }
-    catch(Exception e)
+    catch (Exception e)
     {
       JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
       result.set("error", "We could not process your application.");
       responseModel.setResult(result);
     }
   }
-  
+
+  private ResumeProfile getResumeProfile()
+  {
+    return requestModel.getResumeProfile();
+  }
+
   private Job getJob()
   {
     return jobManager.getJob(requestModel.getJobId());
   }
-  
+
   private Jobseeker getJobseeker()
   {
     return requestModel.getJobseeker();

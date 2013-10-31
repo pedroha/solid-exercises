@@ -6,7 +6,5 @@ public interface RequestModel
 {
   Jobseeker getJobseeker();
   int getJobId();
-  ResumeFile getResumeFile();
-  boolean hasExistingResume();
-  boolean makeResumeActive();
+  ResumeProfile getResumeProfile();
 }
