@@ -5,7 +5,6 @@ import java.util.Map;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.util.JobApplicationStatus;
 import com.theladders.solid.srp.util.JobApplyResult;
-import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ViewProvider;
 import com.theladders.solid.srp.view.ApplyErrorView;

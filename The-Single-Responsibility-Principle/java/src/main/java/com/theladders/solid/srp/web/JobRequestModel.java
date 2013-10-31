@@ -19,7 +19,6 @@ public class JobRequestModel implements RequestModel
   {
     this.jobseeker = jobseeker;
     this.jobId = jobId;
-
     this.resumeProfile = new ResumeProfile(resumeFile, existingResume, resumeActive);
   }
 
