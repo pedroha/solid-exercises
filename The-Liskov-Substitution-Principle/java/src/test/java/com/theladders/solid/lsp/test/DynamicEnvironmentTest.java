@@ -106,8 +106,8 @@ public class DynamicEnvironmentTest extends TestCase
     Set<Object> keys = dynEnv.keySet();
     Set<Map.Entry<Object, Object>> values = dynEnv.entrySet();
 
-    assertEquals(keys.size(), values.size());
     assertEquals(keys.size(), 2);
+    assertEquals(keys.size(), values.size());
   }
 
   @Test
