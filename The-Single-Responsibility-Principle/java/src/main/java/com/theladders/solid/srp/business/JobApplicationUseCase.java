@@ -43,7 +43,7 @@ public class JobApplicationUseCase
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
 
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    if (applicationResult.success())
+    if (!applicationResult.failure())
     {
       JobseekerProfile profile = getJobseekerProfile(jobseeker);
       if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
@@ -55,7 +55,7 @@ public class JobApplicationUseCase
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
     // String message = "We could not process your application.";
     String message = applicationResult.toString(); // ignored later on.
-    return createJobApplyForError(message);
+    return createJobApplyForError(JobApplicationStatus.ERROR, message);
   }
 
   private Resume handleResumeInteraction(Jobseeker jobseeker,
@@ -81,9 +81,9 @@ public class JobApplicationUseCase
     return result;
   }
 
-  private static JobApplyResult createJobApplyForError(String message)
+  private static JobApplyResult createJobApplyForError(JobApplicationStatus status, String message)
   {
-    JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
+    JobApplyResult result = new JobApplyResult(status);
     result.set("error", message);
     return result;
   }
