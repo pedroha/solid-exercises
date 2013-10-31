@@ -4,6 +4,7 @@ import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
+import com.theladders.solid.srp.util.ResumeFile;
 
 public class ResumeInteraction
 {
@@ -27,10 +28,11 @@ public class ResumeInteraction
     return resume;
   }
   
-  public Resume saveNewResume(String newResumeFileName,
+  public Resume saveNewResume(ResumeFile resumeFile,
                               Jobseeker jobseeker,
                               boolean makeResumeActive)
   {
+    String newResumeFileName = resumeFile.getFileName();
     if (newResumeFileName == null)
     {
       return null;

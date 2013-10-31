@@ -59,8 +59,7 @@ public class JobApplicationUseCase
     if (saveResume)
     {
       ResumeFile resumeFile = resumeProfile.getResumeFile();
-      String origFileName = resumeFile.getFileName();
-      resume = resumeInteraction.saveNewResume(origFileName, jobseeker, resumeProfile.makeResumeActive());
+      resume = resumeInteraction.saveNewResume(resumeFile, jobseeker, resumeProfile.makeResumeActive());
     }
     return resume;
   }
