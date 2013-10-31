@@ -11,6 +11,7 @@ import com.theladders.solid.srp.view.ApplyErrorView;
 import com.theladders.solid.srp.view.ApplySuccessView;
 import com.theladders.solid.srp.view.InvalidJobView;
 import com.theladders.solid.srp.view.ResumeCompletionView;
+import com.theladders.solid.srp.view.View;
 
 public class ViewResolver
 {
@@ -32,13 +33,13 @@ public class ViewResolver
     if (status.equals(JobApplicationStatus.COMPLETE))
     {
       ApplySuccessView success = new ApplySuccessView();
-      success.setJob(getJob(result));
+      setJobFields(success, result);
       return success;
     }
     else if (status.equals(JobApplicationStatus.NEEDS_PROFILE_COMPLETION))
     {
       ResumeCompletionView resumeCompletion = new ResumeCompletionView();
-      resumeCompletion.setJob(getJob(result));
+      setJobFields(resumeCompletion, result);
       return resumeCompletion;
     }
     else if (status.equals(JobApplicationStatus.INVALID_JOB))
@@ -54,10 +55,13 @@ public class ViewResolver
     error.addMessage("We could not process your application.");
     return error;
   }
-
-  private static Job getJob(JobApplyResult result)
+  
+  private static void setJobFields(View view, JobApplyResult result)
   {
     Map<String, Object> resultData = result.getData();
-    return (Job) resultData.get("job");
+    Job job = (Job) resultData.get("job");
+    
+    view.putData("jobId", job.getJobId());
+    view.putData("jobTitle", job.getTitle());
   }
 }
