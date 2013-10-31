@@ -22,7 +22,7 @@ public class JobApplicationUseCase
   private ResumeManager           resumeManager;
   private MyResumeManager         myResumeManager;
   private ResponseModel           responseModel;
-  
+
   public JobApplicationUseCase(ResponseModel responseModel,
                                JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
@@ -50,10 +50,11 @@ public class JobApplicationUseCase
     handleJobApplicationInteraction(jobseeker, job, resume);
   }
 
-  private Resume handleResumeInteraction(Jobseeker jobseeker, ResumeProfile resumeProfile)
+  private Resume handleResumeInteraction(Jobseeker jobseeker,
+                                         ResumeProfile resumeProfile)
   {
     ResumeInteraction resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
-    
+
     Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, resumeProfile.hasExistingResume());
     boolean saveResume = (resume == null);
     if (saveResume)
@@ -76,22 +77,31 @@ public class JobApplicationUseCase
       JobseekerProfile profile = getJobseekerProfile(jobseeker);
       if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
       {
-        JobApplyResult result = new JobApplyResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION);
-        result.set("job", job);
-        responseModel.setResult(result);
+        responseModel.setResult(createJobApplyForJob(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job));
         return;
       }
-      JobApplyResult result = new JobApplyResult(JobApplicationStatus.COMPLETE);
-      result.set("job", job);
-      responseModel.setResult(result);
+      responseModel.setResult(createJobApplyForJob(JobApplicationStatus.COMPLETE, job));
       return;
     }
     // Don't want to throw an exception to signal a FailedApplication (as in original application)
-    // String message = applicationResult.toString();
-    String message = "We could not process your application.";
+    //String message = "We could not process your application.";
+    String message = applicationResult.toString(); // ignored later on.
+    responseModel.setResult(createJobApplyForError(message));
+  }
+
+  private static JobApplyResult createJobApplyForJob(JobApplicationStatus status,
+                                                     Job job)
+  {
+    JobApplyResult result = new JobApplyResult(status);
+    result.set("job", job);
+    return result;
+  }
+
+  private static JobApplyResult createJobApplyForError(String message)
+  {
     JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
     result.set("error", message);
-    responseModel.setResult(result);
+    return result;
   }
 
   private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
