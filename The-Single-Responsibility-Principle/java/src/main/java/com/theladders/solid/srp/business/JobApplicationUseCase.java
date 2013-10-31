@@ -23,7 +23,7 @@ public class JobApplicationUseCase
   private MyResumeManager         myResumeManager;
   private RequestModel            requestModel;
   private ResponseModel           responseModel;
-  
+
   public JobApplicationUseCase(RequestModel requestModel,
                                ResponseModel responseModel,
                                JobseekerProfileManager jobseekerProfileManager,
@@ -38,8 +38,9 @@ public class JobApplicationUseCase
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager;
   }
-  
-  public void applyForJob(Jobseeker jobseeker, Job job)
+
+  public void applyForJob(Jobseeker jobseeker,
+                          Job job)
   {
     if (job == null)
     {
@@ -56,9 +57,9 @@ public class JobApplicationUseCase
   private Resume handleResumeInteraction(Jobseeker jobseeker)
   {
     ResumeInteraction resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
-    
+
     Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, requestModel.hasExistingResume());
-    boolean saveResume =  (resume == null);
+    boolean saveResume = (resume == null);
     if (saveResume)
     {
       ResumeFile resumeFile = requestModel.getResumeFile();
@@ -69,24 +70,24 @@ public class JobApplicationUseCase
   }
 
   private void handleJobApplicationInteraction(Jobseeker jobseeker,
-                                                       Job job,
-                                                       Resume resume)
+                                               Job job,
+                                               Resume resume)
   {
     JobApplicationInteraction jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    
+
     if (applicationResult.success())
     {
       JobseekerProfile profile = getJobseekerProfile(jobseeker);
       if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
       {
         JobApplyResult result = new JobApplyResult(JobApplicationStatus.NEEDS_PROFILE_COMPLETION);
-        result.set("job",  job);
+        result.set("job", job);
         responseModel.setResult(result);
         return;
       }
       JobApplyResult result = new JobApplyResult(JobApplicationStatus.COMPLETE);
-      result.set("job",  job);
+      result.set("job", job);
       responseModel.setResult(result);
       return;
     }
@@ -95,7 +96,7 @@ public class JobApplicationUseCase
     String message = "We could not process your application.";
 
     JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
-    result.set("errorMessage",  message);
+    result.set("errorMessage", message);
     responseModel.setResult(result);
   }
 
