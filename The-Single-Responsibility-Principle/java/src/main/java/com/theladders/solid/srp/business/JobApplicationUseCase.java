@@ -43,10 +43,9 @@ public class JobApplicationUseCase
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
 
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    if (!applicationResult.failure())
+    if (applicationResult.success())
     {
-      JobseekerProfile profile = getJobseekerProfile(jobseeker);
-      if (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile))
+      if (requiresProfileCompletion(jobseeker))
       {
         return createJobApplyForJob(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job);
       }
@@ -56,6 +55,12 @@ public class JobApplicationUseCase
     // String message = "We could not process your application.";
     String message = applicationResult.toString(); // ignored later on.
     return createJobApplyForError(JobApplicationStatus.ERROR, message);
+  }
+  
+  private boolean requiresProfileCompletion(Jobseeker jobseeker)
+  {
+    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
+    return (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile));
   }
 
   private Resume handleResumeInteraction(Jobseeker jobseeker,
@@ -86,10 +91,5 @@ public class JobApplicationUseCase
     JobApplyResult result = new JobApplyResult(status);
     result.set("error", message);
     return result;
-  }
-
-  private JobseekerProfile getJobseekerProfile(Jobseeker jobseeker)
-  {
-    return jobseekerProfileManager.getJobSeekerProfile(jobseeker);
   }
 }

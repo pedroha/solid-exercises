@@ -42,12 +42,12 @@ public class JobApplyCommand implements Command
 
   public void execute()
   {
-      Jobseeker         jobseeker = getJobseeker();
-      Job               job = getJob();
-      ResumeProfile     resumeProfile = getResumeProfile();
+    Jobseeker jobseeker = getJobseeker();
+    Job job = getJob();
+    ResumeProfile resumeProfile = getResumeProfile();
 
-      JobApplyResult result = jobApplication.applyForJob(jobseeker, job, resumeProfile);
-      responseModel.setResult(result);
+    JobApplyResult result = jobApplication.applyForJob(jobseeker, job, resumeProfile);
+    responseModel.setResult(result);
   }
 
   private ResumeProfile getResumeProfile()
