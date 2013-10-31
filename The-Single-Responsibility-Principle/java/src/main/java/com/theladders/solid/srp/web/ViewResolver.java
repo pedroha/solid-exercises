@@ -58,8 +58,11 @@ public class ViewResolver
 
   private static void setJobFields(View view, Job job)
   {
-    view.putData("jobId", job.getJobId());
-    view.putData("jobTitle", job.getTitle());
+    if (job != null)
+    {
+      view.putData("jobId", job.getJobId());
+      view.putData("jobTitle", job.getTitle());
+    }
   }
   
   private static Job getJob(JobApplyResult result)
