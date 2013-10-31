@@ -51,8 +51,6 @@ public class JobApplicationUseCase
       }
       return createJobApplyForJob(JobApplicationStatus.COMPLETE, job);
     }
-    // Don't want to throw an exception to signal a FailedApplication (as in original application)
-    // String message = "We could not process your application.";
     String message = applicationResult.toString(); // ignored later on.
     return createJobApplyForError(JobApplicationStatus.ERROR, message);
   }
@@ -78,8 +76,7 @@ public class JobApplicationUseCase
     return resume;
   }
 
-  private static JobApplyResult createJobApplyForJob(JobApplicationStatus status,
-                                                     Job job)
+  private static JobApplyResult createJobApplyForJob(JobApplicationStatus status, Job job)
   {
     JobApplyResult result = new JobApplyResult(status);
     result.set("job", job);
