@@ -19,8 +19,7 @@ public class ResumeInteraction
   public Resume retrieveExistingResume(Jobseeker jobseeker, boolean hasExistingResume)
   {
     Resume resume = null;
-    
-    // Commenting out 'hasExistingResume': STILL WORKS!. getActiveResume() returns null when not Active found (?)
+
     if (hasExistingResume)
     {
       resume = getActiveResume(jobseeker);
@@ -34,7 +33,7 @@ public class ResumeInteraction
   {
     if (newResumeFileName == null)
     {
-      throw new IllegalArgumentException("JobApplication.saveNewOrRetrieveExistingResume(): newResumeFileName is null");
+      return null;
     }
 
     Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);

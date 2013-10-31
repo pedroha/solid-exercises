@@ -9,8 +9,6 @@ import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.Command;
-import com.theladders.solid.srp.util.JobApplicationStatus;
-import com.theladders.solid.srp.util.JobApplyResult;
 import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResponseModel;
 import com.theladders.solid.srp.util.ResumeProfile;
@@ -22,7 +20,6 @@ public class JobApplyCommand implements Command
   private JobApplicationUseCase jobApplication;
   private JobManager            jobManager;
   private RequestModel          requestModel;
-  private ResponseModel         responseModel;
 
   public JobApplyCommand(RequestModel requestModel,
                          ResponseModel responseModel,
@@ -39,25 +36,15 @@ public class JobApplyCommand implements Command
                                                     myResumeManager);
     this.jobManager = jobManager;
     this.requestModel = requestModel;
-    this.responseModel = responseModel;
   }
 
   public void execute()
   {
-    try
-    {
       Jobseeker jobseeker = getJobseeker();
       Job job = getJob();
       ResumeProfile resumeProfile = getResumeProfile();
 
       jobApplication.applyForJob(jobseeker, job, resumeProfile);
-    }
-    catch (Exception e)
-    {
-      JobApplyResult result = new JobApplyResult(JobApplicationStatus.ERROR);
-      result.set("error", "We could not process your application.");
-      responseModel.setResult(result);
-    }
   }
 
   private ResumeProfile getResumeProfile()
