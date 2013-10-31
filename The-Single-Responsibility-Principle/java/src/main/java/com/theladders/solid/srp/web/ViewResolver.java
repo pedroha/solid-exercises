@@ -47,10 +47,9 @@ public class ViewResolver
       invalid.putData("jobId", resultData.get("jobId"));
       return invalid;
     }
-    // (status.equals(JobApplicationStatus.ERROR))
+    // else if (status.equals(JobApplicationStatus.ERROR))
     ApplyErrorView error =  new ApplyErrorView();
     error.addMessage("We could not process your application.");
-
     return error;
   }
 }

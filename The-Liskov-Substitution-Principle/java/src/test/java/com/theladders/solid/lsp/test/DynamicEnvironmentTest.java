@@ -28,17 +28,14 @@ public class DynamicEnvironmentTest extends TestCase
   @Test
   public void testPutAndGetInBaseEnvironment()
   {
-    String key = "home";
-    String value = "http://www.theladders.com/home";
-  
     Environment base = new Environment();
     Map<String, String> keyMap = new HashMap<>();
 
-    base.put(key, value);
+    base.put("home", "http://www.theladders.com/home");
     
     Environment dynEnv = new DynamicEnvironment(base, keyMap);
    
-    assertEquals(dynEnv.get(key), value);
+    assertEquals(dynEnv.get("home"), "http://www.theladders.com/home");
   }
 
   @Test
@@ -88,8 +85,8 @@ public class DynamicEnvironmentTest extends TestCase
     dynEnv.put("home", "http://www.theladders.com/generic");
     
     // Unmapped and mapped property should return the same
-    assertEquals(dynEnv.get("memberHome"), "http://www.theladders.com/home"); // mapped
-    assertEquals(dynEnv.get("home"), "http://www.theladders.com/home"); // unmapped
+    assertEquals(dynEnv.get("memberHome"), "http://www.theladders.com/generic"); // mapped
+    assertEquals(dynEnv.get("home"), "http://www.theladders.com/generic"); // unmapped
   }
 
   @Test

@@ -18,14 +18,12 @@ public class DynamicEnvironment implements Environment
   private BaseEnvironment       baseMap;
   private Map<String, String>   keyMap; // map insecure prop names to secure ones
   private Map<Object, Object>   dynamicMap;
-  // private BaseEnvironment       dynamicMap; // Should we keep a base environment? Not much different than a hash map except for getString(), getAdminEmail()
 
   public DynamicEnvironment(BaseEnvironment baseMap, Map<String, String> propKeyMap)
   {
     this.baseMap = baseMap;
     this.keyMap = propKeyMap;
     this.dynamicMap = new HashMap<>();
-    //this.dynamicMap = new BaseEnvironment();
   }
 
   public Collection<Object> values()
