@@ -43,16 +43,17 @@ public class JobApplicationUseCase
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
 
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    if (applicationResult.success())
+    if (!applicationResult.success())
     {
-      if (requiresProfileCompletion(jobseeker))
-      {
-        return createJobApplyForJob(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job);
-      }
-      return createJobApplyForJob(JobApplicationStatus.COMPLETE, job);
+      String message = applicationResult.toString(); // ignored later on.
+      return createJobApplyForError(JobApplicationStatus.ERROR, message);
     }
-    String message = applicationResult.toString(); // ignored later on.
-    return createJobApplyForError(JobApplicationStatus.ERROR, message);
+    
+    if (requiresProfileCompletion(jobseeker))
+    {
+      return createJobApplyForJob(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job);
+    }
+    return createJobApplyForJob(JobApplicationStatus.COMPLETE, job);
   }
   
   private Resume handleResumeInteraction(Jobseeker jobseeker,
