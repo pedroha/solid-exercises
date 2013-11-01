@@ -4,7 +4,7 @@ package com.theladders.solid.isp.viewjob;
 public class ViewJobWorkflow
 {
   private JobRepository repository;
-
+  
   public Object view(JobLocationId id,
                      Jobseeker jobseeker,
                      JobPresenter presenter)
