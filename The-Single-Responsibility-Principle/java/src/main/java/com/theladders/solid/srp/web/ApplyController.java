@@ -30,7 +30,7 @@ public class ApplyController
                              HttpResponse response,
                              String origFileName)
   {
-    RequestModelBuilder builder = new RequestModelBuilder();
+    JobRequestModelBuilder builder = new JobRequestModelBuilder();
     JobRequestModel     requestModel = builder.buildRequestModel(request, origFileName);
 
     JobApplyCommand     jobApply = commandFactory.createJobApply(requestModel);

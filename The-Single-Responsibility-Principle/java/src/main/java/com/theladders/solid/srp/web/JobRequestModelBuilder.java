@@ -4,7 +4,7 @@ import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.util.ResumeFile;
 
-public class RequestModelBuilder
+public class JobRequestModelBuilder
 {
   public JobRequestModel buildRequestModel(HttpRequest request, String origFileName) {
     ResumeFile resumeFile = new ResumeFile(origFileName);

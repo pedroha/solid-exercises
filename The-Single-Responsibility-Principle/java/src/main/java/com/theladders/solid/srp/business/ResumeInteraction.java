@@ -19,13 +19,11 @@ public class ResumeInteraction
   
   public Resume retrieveExistingResume(Jobseeker jobseeker, boolean hasExistingResume)
   {
-    Resume resume = null;
-
     if (hasExistingResume)
     {
-      resume = getActiveResume(jobseeker);
+      return getActiveResume(jobseeker);
     }
-    return resume;
+    return null;
   }
   
   public Resume saveNewResume(ResumeFile resumeFile,
@@ -37,7 +35,6 @@ public class ResumeInteraction
     {
       return null;
     }
-
     Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
     if (resume != null && makeResumeActive)
     {

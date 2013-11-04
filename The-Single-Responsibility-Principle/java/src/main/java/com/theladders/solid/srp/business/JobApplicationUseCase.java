@@ -16,8 +16,7 @@ import com.theladders.solid.srp.util.ResumeProfile;
 public class JobApplicationUseCase
 {
   private JobseekerProfileManager   jobseekerProfileManager;
-  private ResumeManager             resumeManager;
-  private MyResumeManager           myResumeManager;
+  private ResumeInteraction         resumeInteraction;
   private JobApplicationInteraction jobApplicationInteraction;
 
   private JobApplicationPresenter   presenter;
@@ -28,10 +27,10 @@ public class JobApplicationUseCase
                                MyResumeManager myResumeManager)
   {
     this.jobseekerProfileManager = jobseekerProfileManager;
-    this.resumeManager = resumeManager;
-    this.myResumeManager = myResumeManager;
+    this.resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
     this.jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
     this.presenter = new JobApplicationPresenter();
+
   }
 
   public Result applyForJob(Jobseeker jobseeker,
@@ -48,9 +47,8 @@ public class JobApplicationUseCase
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
     if (!applicationResult.success())
     {
-      return presenter.error(applicationResult.toString());
+      return presenter.error("We could not process your application.");
     }
-
     if (requiresProfileCompletion(jobseeker))
     {
       return presenter.completeProfile(job);
@@ -61,8 +59,6 @@ public class JobApplicationUseCase
   private Resume handleResumeInteraction(Jobseeker jobseeker,
                                          ResumeProfile resumeProfile)
   {
-    ResumeInteraction resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
-
     Resume resume = resumeInteraction.retrieveExistingResume(jobseeker, resumeProfile.hasExistingResume());
     boolean saveResume = (resume == null);
     if (saveResume)
@@ -76,6 +72,6 @@ public class JobApplicationUseCase
   private boolean requiresProfileCompletion(Jobseeker jobseeker)
   {
     JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
-    return (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile));
+    return JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile);
   }
 }
