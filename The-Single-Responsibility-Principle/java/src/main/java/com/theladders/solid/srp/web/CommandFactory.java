@@ -5,7 +5,6 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
-import com.theladders.solid.srp.util.RequestModel;
 
 public class CommandFactory
 {
@@ -28,7 +27,7 @@ public class CommandFactory
     this.myResumeManager = myResumeManager;
   }
 
-  public JobApplyCommand createJobApply(RequestModel requestModel)
+  public JobApplyCommand createJobApply(JobRequestModel requestModel)
   {
     
     JobApplyCommand jobApply = new JobApplyCommand(requestModel,

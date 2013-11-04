@@ -7,7 +7,6 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
-import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.Result;
 
 public class ApplyController
@@ -32,10 +31,10 @@ public class ApplyController
                              String origFileName)
   {
     RequestModelBuilder builder = new RequestModelBuilder();
-    RequestModel        requestModel = builder.buildRequestModel(request, origFileName);
+    JobRequestModel     requestModel = builder.buildRequestModel(request, origFileName);
 
-    JobApplyCommand jobApply = commandFactory.createJobApply(requestModel);
-    Result result = jobApply.execute();
+    JobApplyCommand     jobApply = commandFactory.createJobApply(requestModel);
+    Result              result = jobApply.execute();
 
     response.setResult(result);
     return response;

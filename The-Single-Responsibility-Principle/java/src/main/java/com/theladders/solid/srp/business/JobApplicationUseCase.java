@@ -36,11 +36,11 @@ public class JobApplicationUseCase
 
   public Result applyForJob(Jobseeker jobseeker,
                             Job job,
+                            int jobId,
                             ResumeProfile resumeProfile)
   {
     if (job == null)
     {
-      int jobId = 23;
       return presenter.invalidJob(jobId);
     }
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);

@@ -1,11 +1,10 @@
 package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.model.Jobseeker;
-import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResumeFile;
 import com.theladders.solid.srp.util.ResumeProfile;
 
-public class JobRequestModel implements RequestModel
+public class JobRequestModel
 {
   private int           jobId;
   private Jobseeker     jobseeker;

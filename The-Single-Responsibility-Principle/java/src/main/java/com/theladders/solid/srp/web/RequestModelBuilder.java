@@ -2,12 +2,11 @@ package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.http.HttpRequest;
 import com.theladders.solid.srp.model.Jobseeker;
-import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.ResumeFile;
 
 public class RequestModelBuilder
 {
-  public RequestModel buildRequestModel(HttpRequest request, String origFileName) {
+  public JobRequestModel buildRequestModel(HttpRequest request, String origFileName) {
     ResumeFile resumeFile = new ResumeFile(origFileName);
     
     Jobseeker jobseeker = request.getSession().getJobseeker();

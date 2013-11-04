@@ -9,7 +9,6 @@ import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.Command;
-import com.theladders.solid.srp.util.RequestModel;
 import com.theladders.solid.srp.util.Result;
 import com.theladders.solid.srp.util.ResumeProfile;
 
@@ -19,9 +18,9 @@ public class JobApplyCommand implements Command
 {
   private JobApplicationUseCase jobApplication;
   private JobManager            jobManager;
-  private RequestModel          requestModel;
+  private JobRequestModel       requestModel;
 
-  public JobApplyCommand(RequestModel requestModel,
+  public JobApplyCommand(JobRequestModel requestModel,
                          JobseekerProfileManager jobseekerProfileManager,
                          JobManager jobManager,
                          JobApplicationManager jobApplicationManager,
@@ -43,7 +42,7 @@ public class JobApplyCommand implements Command
     int                 jobId = getJobId();
     ResumeProfile       resumeProfile = getResumeProfile();
 
-    return jobApplication.applyForJob(jobseeker, job, resumeProfile);
+    return jobApplication.applyForJob(jobseeker, job, jobId, resumeProfile);
   }
 
   private ResumeProfile getResumeProfile()
