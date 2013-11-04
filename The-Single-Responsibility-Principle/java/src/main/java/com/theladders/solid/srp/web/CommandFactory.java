@@ -30,12 +30,10 @@ public class CommandFactory
     this.myResumeManager = myResumeManager;
   }
 
-  public JobApplyCommand createJobApply(RequestModel requestModel,
-                                        ResponseModel responseModel)
+  public JobApplyCommand createJobApply(RequestModel requestModel)
   {
     
     JobApplyCommand jobApply = new JobApplyCommand(requestModel,
-                                                   responseModel,
                                                    jobseekerProfileManager,
                                                    jobManager,
                                                    jobApplicationManager,
