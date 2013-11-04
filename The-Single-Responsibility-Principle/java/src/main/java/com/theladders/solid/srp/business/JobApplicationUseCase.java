@@ -9,8 +9,7 @@ import com.theladders.solid.srp.services.JobApplicationManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
-import com.theladders.solid.srp.util.JobApplicationStatus;
-import com.theladders.solid.srp.util.JobApplyResult;
+import com.theladders.solid.srp.util.Result;
 import com.theladders.solid.srp.util.ResumeFile;
 import com.theladders.solid.srp.util.ResumeProfile;
 
@@ -20,7 +19,7 @@ public class JobApplicationUseCase
   private ResumeManager             resumeManager;
   private MyResumeManager           myResumeManager;
   private JobApplicationInteraction jobApplicationInteraction;
-  
+
   private JobApplicationPresenter   presenter;
 
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
@@ -32,32 +31,33 @@ public class JobApplicationUseCase
     this.resumeManager = resumeManager;
     this.myResumeManager = myResumeManager;
     this.jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
+    this.presenter = new JobApplicationPresenter();
   }
 
-  public JobApplyResult applyForJob(Jobseeker jobseeker,
-                                    Job job,
-                                    ResumeProfile resumeProfile)
+  public Result applyForJob(Jobseeker jobseeker,
+                            Job job,
+                            ResumeProfile resumeProfile)
   {
     if (job == null)
     {
-      return new JobApplyResult(JobApplicationStatus.INVALID_JOB);
+      int jobId = 23;
+      return presenter.invalidJob(jobId);
     }
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
 
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
     if (!applicationResult.success())
     {
-      String message = applicationResult.toString(); // ignored later on.
-      return createJobApplyForError(JobApplicationStatus.ERROR, message);
+      return presenter.error(applicationResult.toString());
     }
-    
+
     if (requiresProfileCompletion(jobseeker))
     {
-      return createJobApplyForJob(JobApplicationStatus.NEEDS_PROFILE_COMPLETION, job);
+      return presenter.completeProfile(job);
     }
-    return createJobApplyForJob(JobApplicationStatus.COMPLETE, job);
+    return presenter.success(job);
   }
-  
+
   private Resume handleResumeInteraction(Jobseeker jobseeker,
                                          ResumeProfile resumeProfile)
   {
@@ -77,19 +77,5 @@ public class JobApplicationUseCase
   {
     JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
     return (JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile));
-  }
-
-  private static JobApplyResult createJobApplyForJob(JobApplicationStatus status, Job job)
-  {
-    JobApplyResult result = new JobApplyResult(status);
-    result.set("job", job);
-    return result;
-  }
-
-  private static JobApplyResult createJobApplyForError(JobApplicationStatus status, String message)
-  {
-    JobApplyResult result = new JobApplyResult(status);
-    result.set("error", message);
-    return result;
   }
 }
