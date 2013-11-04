@@ -20,6 +20,8 @@ public class JobApplicationUseCase
   private ResumeManager             resumeManager;
   private MyResumeManager           myResumeManager;
   private JobApplicationInteraction jobApplicationInteraction;
+  
+  private JobApplicationPresenter   presenter;
 
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
