@@ -8,13 +8,12 @@ import com.theladders.solid.srp.services.JobManager;
 import com.theladders.solid.srp.services.JobseekerProfileManager;
 import com.theladders.solid.srp.services.MyResumeManager;
 import com.theladders.solid.srp.services.ResumeManager;
-import com.theladders.solid.srp.util.Command;
 import com.theladders.solid.srp.util.Result;
 import com.theladders.solid.srp.util.ResumeProfile;
 
 // JobApplyCommand interacts between HTTP and the Use Case: JobApplicationUseCase
 
-public class JobApplyCommand implements Command
+public class JobApplyCommand
 {
   private JobApplicationUseCase jobApplication;
   private JobManager            jobManager;
