@@ -18,7 +18,6 @@ public class JobApplicationUseCase
   private JobseekerProfileManager   jobseekerProfileManager;
   private ResumeInteraction         resumeInteraction;
   private JobApplicationInteraction jobApplicationInteraction;
-
   private JobApplicationPresenter   presenter;
 
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
@@ -26,11 +25,10 @@ public class JobApplicationUseCase
                                ResumeManager resumeManager,
                                MyResumeManager myResumeManager)
   {
-    this.jobseekerProfileManager = jobseekerProfileManager;
     this.resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
     this.jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
+    this.jobseekerProfileManager = jobseekerProfileManager;
     this.presenter = new JobApplicationPresenter();
-
   }
 
   public Result applyForJob(Jobseeker jobseeker,

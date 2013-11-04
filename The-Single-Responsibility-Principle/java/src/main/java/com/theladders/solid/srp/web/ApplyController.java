@@ -12,7 +12,7 @@ import com.theladders.solid.srp.util.Result;
 public class ApplyController
 {
   private CommandFactory commandFactory;
-  
+
   public ApplyController(JobseekerProfileManager jobseekerProfileManager,
                          JobManager jobManager,
                          JobApplicationManager jobApplicationManager,
@@ -30,8 +30,8 @@ public class ApplyController
                              HttpResponse response,
                              String origFileName)
   {
-    JobRequestModelBuilder builder = new JobRequestModelBuilder();
-    JobRequestModel     requestModel = builder.buildRequestModel(request, origFileName);
+    JobRequestModelBuilder      builder = new JobRequestModelBuilder();
+    JobRequestModel             requestModel = builder.buildRequestModel(request, origFileName);
 
     JobApplyCommand     jobApply = commandFactory.createJobApply(requestModel);
     Result              result = jobApply.execute();
