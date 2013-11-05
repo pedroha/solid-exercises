@@ -4,7 +4,6 @@ import com.theladders.solid.isp.oldjob.stubs.PositionLevel;
 
 public interface JobPosition
 {
-  String getCompany();
   String getTitle();
   String getReportsTo();
 
