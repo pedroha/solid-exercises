@@ -18,5 +18,4 @@ public interface JobIdentifiers
    * @return job id
    */
   Integer getParentJobId();
-
 }

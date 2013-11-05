@@ -12,4 +12,8 @@ public interface JobEntry
    * @return URL for this job.
    */
   String getUrl();
+
+  int getSubscriberId();
+
+  int getJobSiteId();
 }

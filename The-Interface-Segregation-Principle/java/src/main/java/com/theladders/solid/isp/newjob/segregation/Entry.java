@@ -6,14 +6,20 @@ import com.theladders.solid.isp.newjob.JobEntry;
 
 public class Entry implements JobEntry
 {
-  private Date   entryDate;
-  private String url;
-
-  public Entry(Date entryDate,
-               String url)
+  private int           subscriberId;
+  private int           jobSiteId;
+  private String        url;
+  private Date          entryDate;
+  
+  public Entry(int subscriberId,
+               int jobSiteId,
+               String url,
+               Date entryDate)
   {
-    this.entryDate = entryDate;
+    this.subscriberId = subscriberId;
+    this.jobSiteId = jobSiteId;
     this.url = url;
+    this.entryDate = entryDate;
   }
 
   public Date getEntryDate()
@@ -24,5 +30,15 @@ public class Entry implements JobEntry
   public String getUrl()
   {
     return url;
+  }
+
+  public int getSubscriberId()
+  {
+    return subscriberId;
+  }
+
+  public int getJobSiteId()
+  {
+    return jobSiteId;
   }
 }

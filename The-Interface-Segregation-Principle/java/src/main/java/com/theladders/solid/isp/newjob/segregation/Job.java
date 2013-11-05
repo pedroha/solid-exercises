@@ -1,37 +1,50 @@
 package com.theladders.solid.isp.newjob.segregation;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.theladders.solid.isp.newjob.*;
 import com.theladders.solid.isp.oldjob.stubs.City;
+import com.theladders.solid.isp.oldjob.stubs.Discipline;
+import com.theladders.solid.isp.oldjob.stubs.Experience;
 import com.theladders.solid.isp.oldjob.stubs.Industry;
+import com.theladders.solid.isp.oldjob.stubs.JobFunction;
 import com.theladders.solid.isp.oldjob.stubs.JobStatus;
+import com.theladders.solid.isp.oldjob.stubs.PositionLevel;
 import com.theladders.solid.isp.oldjob.stubs.Region;
 import com.theladders.solid.isp.oldjob.stubs.Sector;
 
-public class Job implements FullJob // implements com.theladders.solid.isp.oldjob.Job
+public class Job implements com.theladders.solid.isp.oldjob.Job
 {
-  private JobCompanyInfo        companyInfo;
-  private JobCompensation       compensation;
-  private JobEmployment         employment;
-  private JobEntry              entry;
-  private JobGeography          geography;
-  private JobIndustryMembership industryMembership;
-  private JobIdentifiers        identifiers;
-  private JobPostStatus         postStatus;
-
-  public Job()
+  public Job(JobCompanyInfo companyInfo,
+             JobCompensation compensation,
+             JobEmployment employment,
+             JobEntry entry,
+             JobGeography geography,
+             JobIndustryMembership industryMembership,
+             JobIdentifiers identifiers,
+             JobPosition position,
+             JobPostStatus postStatus,
+             JobPublication publication,
+             JobRequirements requirements,
+             JobVisibility visibility)
   {
-    this.companyInfo = new CompanyInfo("ibm", 1);
-    this.compensation = new Compensation("$40000", "$20000", "$12000", "$500");
-    this.employment = new Employment(false, false, "CTO");
-    this.entry = new Entry(new Date(), "http://theladders.com/job/url");
-    this.geography = new Geography("someLocation", new Region(), new City());
-    this.industryMembership = new IndustryMembership(new Industry(), new Sector());
-    this.identifiers = new Identifiers(10, new Date(), "Editor's note", 20, new Integer(10), false);
+    this.companyInfo = companyInfo;
+    this.compensation = compensation;
+    this.employment = employment;
+    this.entry = entry;
+    this.geography = geography;
+    this.industryMembership = industryMembership;
+    this.identifiers = identifiers;
+    this.position = position;
+    this.postStatus = postStatus;
+    this.publication = publication;
+    this.requirements = requirements;
+    this.visibility = visibility;
   }
 
-  // COMPANY INFO: SEARCH, POST
+  // COMPANY INFO: SEARCH
   public String getCompany()
   {
     return companyInfo.getCompany();
@@ -42,7 +55,7 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
     return companyInfo.getCompanySize();
   }
 
-  // COMPENSATION: SEARCH, POST
+  // COMPENSATION: SEARCH
   public String getCompensation()
   {
     return compensation.getCompensation();
@@ -62,8 +75,8 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
   {
     return compensation.getCompensationOther();
   }
-  
-  // EMPLOYMENT
+
+  // EMPLOYMENT: JOB FILLING
   public boolean isFilled()
   {
     return employment.isFilled();
@@ -78,11 +91,16 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
   {
     return employment.getReportsTo();
   }
-  
-  // ENTRY
-  public Date getEntryDate()
+
+  // ENTRY: POST
+  public int getSubscriberId()
   {
-    return entry.getEntryDate();
+    return entry.getSubscriberId();
+  }
+
+  public int getJobSiteId()
+  {
+    return entry.getJobSiteId();
   }
 
   public String getUrl()
@@ -90,7 +108,12 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
     return entry.getUrl();
   }
 
-  // GEOGRAPHY: SEARCH, POST
+  public Date getEntryDate()
+  {
+    return entry.getEntryDate();
+  }
+
+  // GEOGRAPHY: SEARCH
   public String getLocation()
   {
     return geography.getLocation();
@@ -106,7 +129,7 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
     return geography.getCity();
   }
 
-  // INDUSTRY MEMBERSHIP: SEARCH, POST
+  // INDUSTRY MEMBERSHIP: SEARCH
   public Industry getIndustry()
   {
     return industryMembership.getIndustry();
@@ -133,7 +156,28 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
     return identifiers.getParentJobId();
   }
 
-  // POST STATUS
+  // POSITION: SEARCH
+  public String getTitle()
+  {
+    return position.getTitle();
+  }
+
+  public String getDescription()
+  {
+    return position.getDescription();
+  }
+
+  public String getShortDescription()
+  {
+    return position.getShortDescription();
+  }
+
+  public PositionLevel getPositionLevel()
+  {
+    return position.getPositionLevel();
+  }
+
+  // POST STATUS: SEARCH FILTERING
   public boolean isDeleted()
   {
     return postStatus.isDeleted();
@@ -153,4 +197,75 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
   {
     return postStatus.getUpdateTime();
   }
+
+  // PUBLICATION
+  public Date getPublicationDate()
+  {
+    return publication.getPublicationDate();
+  }
+
+  public Date getOriginalPublicationDate()
+  {
+    return publication.getOriginalPublicationDate();
+  }
+
+  public String getEditorNote()
+  {
+    return publication.getEditorNote();
+  }
+
+  // REQUIREMENTS: APPLY for JOB
+  public List<Discipline> getDisciplines()
+  {
+    return requirements.getDisciplines();
+  }
+
+  public Experience getExperience()
+  {
+    return requirements.getExperience();
+  }
+
+  public Collection<JobFunction> getJobFunctions()
+  {
+    return requirements.getJobFunctions();
+  }
+
+  public boolean isJobReq()
+  {
+    return requirements.isJobReq();
+  }
+
+  // VISIBILITY: VIEW a JOB
+  public boolean isAnonymous()
+  {
+    return visibility.isAnonymous();
+  }
+
+  public boolean isConfidential()
+  {
+    return visibility.isConfidential();
+  }
+
+  public boolean isExclusive()
+  {
+    return visibility.isExclusive();
+  }
+
+  public boolean isMarketing()
+  {
+    return visibility.isMarketing();
+  }
+
+  private JobCompanyInfo        companyInfo;
+  private JobCompensation       compensation;
+  private JobEmployment         employment;
+  private JobEntry              entry;
+  private JobGeography          geography;
+  private JobIndustryMembership industryMembership;
+  private JobIdentifiers        identifiers;
+  private JobPosition           position;
+  private JobPostStatus         postStatus;
+  private JobPublication        publication;
+  private JobRequirements       requirements;
+  private JobVisibility         visibility;  
 }

@@ -1,39 +1,20 @@
 package com.theladders.solid.isp.newjob.segregation;
 
-import java.util.Date;
-
 import com.theladders.solid.isp.newjob.JobIdentifiers;
 
 public class Identifiers implements JobIdentifiers
 {
-  public Identifiers(int oldJobId,
-                  Date updateTime,
-                  String editorNote,
-                  int jobId,
-                  Integer parentJobId,
-                  boolean jobReq)
+  private int jobId;
+  private int parentJobId;
+  private int oldJobId;
+
+  public Identifiers(int jobId,
+                     int parentJobId,
+                     int oldJobId)
   {
-    this.oldJobId = oldJobId;
-    this.updateTime = updateTime;
-    this.editorNote = editorNote;
     this.jobId = jobId;
     this.parentJobId = parentJobId;
-    this.jobReq = jobReq;
-  }
-  
-  public int getOldJobId()
-  {
-    return oldJobId;
-  }
-
-  public Date getUpdateTime()
-  {
-    return updateTime;
-  }
-
-  public String getEditorNote()
-  {
-    return editorNote;
+    this.oldJobId = oldJobId;
   }
 
   public int getJobId()
@@ -46,15 +27,8 @@ public class Identifiers implements JobIdentifiers
     return parentJobId;
   }
 
-  public boolean isJobReq()
+  public int getOldJobId()
   {
-    return jobReq;
+    return oldJobId;
   }
-  
-  private int           oldJobId;
-  private Date          updateTime;
-  private String        editorNote;
-  private int           jobId;
-  private Integer       parentJobId;
-  private boolean       jobReq;
 }
