@@ -2,11 +2,11 @@ package com.theladders.solid.isp.newjob.implementation;
 
 import java.util.Date;
 
-import com.theladders.solid.isp.newjob.JobInternal;
+import com.theladders.solid.isp.newjob.JobIdentifiers;
 
-public class Internal implements JobInternal
+public class Identifiers implements JobIdentifiers
 {
-  public Internal(int oldJobId,
+  public Identifiers(int oldJobId,
                   Date updateTime,
                   String editorNote,
                   int jobId,

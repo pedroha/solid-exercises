@@ -19,5 +19,20 @@ public interface JobPublication
    * @return the Date the job was originally published
    */
   Date getOriginalPublicationDate();
+  
+  Date getUpdateTime();
 
+  /**
+   * Get the (internally set) editor's note.
+   * 
+   * @return editor's note.
+   */
+  String getEditorNote();
+
+  /**
+   * Get the URL for this job. This is only valid for external (harvested) jobs (! isJobReq).
+   *
+   * @return URL for this job.
+   */
+  String getUrl();
 }

@@ -5,6 +5,13 @@ import com.theladders.solid.isp.oldjob.stubs.PositionLevel;
 
 public class Position implements JobPosition
 {
+  private String        title;
+  private String        reportsTo;
+  private String        description;
+  private String        shortDescription;
+  private PositionLevel positionLevel;
+  private boolean       reimbursable;
+
   public Position(String title,
                   String reportsTo,
                   String description,
@@ -49,11 +56,4 @@ public class Position implements JobPosition
   {
     return reimbursable;
   }
-
-  private String        title;
-  private String        reportsTo;
-  private String        description;
-  private String        shortDescription;
-  private PositionLevel positionLevel;
-  private boolean       reimbursable;
 }

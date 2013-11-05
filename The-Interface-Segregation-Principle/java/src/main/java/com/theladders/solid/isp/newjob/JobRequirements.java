@@ -7,7 +7,7 @@ import com.theladders.solid.isp.oldjob.stubs.Discipline;
 import com.theladders.solid.isp.oldjob.stubs.Experience;
 import com.theladders.solid.isp.oldjob.stubs.JobFunction;
 
-public interface JobRequirements extends JobSearch
+public interface JobRequirements
 {
   List<Discipline> getDisciplines();
 
@@ -19,4 +19,11 @@ public interface JobRequirements extends JobSearch
   Experience getExperience();
   
   Collection<JobFunction> getJobFunctions();
+
+  /**
+   * Is this job a JobReq? JobReqs are jobs entered into our site directly by recruiters.
+   * 
+   * @return true if job is a JobReq, false otherwise.
+   */
+  boolean isJobReq();
 }

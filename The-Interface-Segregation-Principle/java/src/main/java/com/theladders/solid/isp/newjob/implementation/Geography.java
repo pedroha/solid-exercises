@@ -14,7 +14,6 @@ public class Geography implements JobGeography
                    Region region,
                    City city)
   {
-    super();
     this.location = location;
     this.region = region;
     this.city = city;

@@ -5,7 +5,6 @@ import com.theladders.solid.isp.oldjob.stubs.PositionLevel;
 public interface JobPosition
 {
   String getTitle();
-  String getReportsTo();
 
   /**
    * Refactored so it can be used by both job and JobReq
@@ -16,6 +15,4 @@ public interface JobPosition
   
   String getShortDescription();
   PositionLevel getPositionLevel();
-
-  boolean isReimbursable();
 }

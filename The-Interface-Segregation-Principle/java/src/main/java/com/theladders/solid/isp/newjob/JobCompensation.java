@@ -1,6 +1,6 @@
 package com.theladders.solid.isp.newjob;
 
-public interface JobCompensation extends JobSearch
+public interface JobCompensation
 {
   String getCompensation();
 

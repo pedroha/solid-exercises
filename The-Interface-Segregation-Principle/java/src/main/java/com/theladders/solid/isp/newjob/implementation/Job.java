@@ -9,14 +9,14 @@ import com.theladders.solid.isp.oldjob.stubs.JobStatus;
 import com.theladders.solid.isp.oldjob.stubs.Region;
 import com.theladders.solid.isp.oldjob.stubs.Sector;
 
-public class Job implements FullJob //implements com.theladders.solid.isp.oldjob.Job
+public class Job implements FullJob // implements com.theladders.solid.isp.oldjob.Job
 {
-  private JobApplicationStatus          applicationStatus;
-  private JobCompensation               compensation;
-  private CompanyInfo                   companyInfo;
-  private JobGeography                  geography;
-  private JobIndustryMembership         industryMembership;  
-  private JobInternal                   internal;
+  private JobPostStatus         applicationStatus;
+  private JobCompensation       compensation;
+  private JobCompanyInfo        companyInfo;
+  private JobGeography          geography;
+  private JobIndustryMembership industryMembership;
+  private JobIdentifiers        identifiers;
 
   public Job()
   {
@@ -25,10 +25,25 @@ public class Job implements FullJob //implements com.theladders.solid.isp.oldjob
     this.companyInfo = new CompanyInfo("ibm", 1);
     this.geography = new Geography("someLocation", new Region(), new City());
     this.industryMembership = new IndustryMembership(new Industry(), new Sector());
-    this.internal = new Internal(10, new Date(), "Editor's note", 20, new Integer(10), false);
-  
+    this.identifiers = new Identifiers(10, new Date(), "Editor's note", 20, new Integer(10), false);
   }
-  
+
+  // JOB POST STATUS
+  public boolean isDeleted()
+  {
+    return applicationStatus.isDeleted();
+  }
+
+  public boolean isExpired()
+  {
+    return applicationStatus.isExpired();
+  }
+
+  public boolean hasStatus(JobStatus status)
+  {
+    return applicationStatus.hasStatus(status);
+  }
+
   // COMPENSATION
   public String getCompensation()
   {
@@ -48,27 +63,6 @@ public class Job implements FullJob //implements com.theladders.solid.isp.oldjob
   public String getCompensationOther()
   {
     return compensation.getCompensationOther();
-  }
-
-  // APPLICATION STATUS
-  public boolean isDeleted()
-  {
-    return applicationStatus.isDeleted();
-  }
-
-  public boolean isExpired()
-  {
-    return applicationStatus.isExpired();
-  }
-
-  public boolean isFilled()
-  {
-    return applicationStatus.isFilled();
-  }
-
-  public boolean hasStatus(JobStatus status)
-  {
-    return applicationStatus.hasStatus(status);
   }
 
   // COMPANY INFO
@@ -108,37 +102,21 @@ public class Job implements FullJob //implements com.theladders.solid.isp.oldjob
   {
     return industryMembership.getSector();
   }
-  
-  // INTERNAL
+
+  // IDENTIFIERS
   public int getOldJobId()
   {
-    return internal.getOldJobId();
-  }
-
-  public Date getUpdateTime()
-  {
-    return internal.getUpdateTime();
-  }
-
-  public String getEditorNote()
-  {
-    return internal.getEditorNote();
+    return identifiers.getOldJobId();
   }
 
   public int getJobId()
   {
-    return internal.getJobId();
+    return identifiers.getJobId();
   }
 
   public Integer getParentJobId()
   {
-    return internal.getParentJobId();
+    return identifiers.getParentJobId();
   }
-
-  public boolean isJobReq()
-  {
-    return internal.isJobReq();
-  }
-
   
 }

@@ -2,13 +2,11 @@ package com.theladders.solid.isp.newjob;
 
 import com.theladders.solid.isp.oldjob.stubs.JobStatus;
 
-public interface JobApplicationStatus
+public interface JobPostStatus
 {
   boolean isDeleted();
 
   boolean isExpired();
-
-  boolean isFilled();
 
   /**
    * Does the job have a particular status? There's a legacy thing where a job could have more than
@@ -20,4 +18,6 @@ public interface JobApplicationStatus
    * @return true if job has this status, false otherwise.
    */
   boolean hasStatus(JobStatus status);
+
+
 }

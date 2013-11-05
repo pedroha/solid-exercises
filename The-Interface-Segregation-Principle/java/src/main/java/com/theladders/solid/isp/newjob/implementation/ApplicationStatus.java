@@ -1,9 +1,9 @@
 package com.theladders.solid.isp.newjob.implementation;
 
-import com.theladders.solid.isp.newjob.JobApplicationStatus;
+import com.theladders.solid.isp.newjob.JobPostStatus;
 import com.theladders.solid.isp.oldjob.stubs.JobStatus;
 
-public class ApplicationStatus implements JobApplicationStatus
+public class ApplicationStatus implements JobPostStatus
 {
   public ApplicationStatus(boolean deleted,
                            boolean expired,
