@@ -25,18 +25,13 @@ public class JobApplicationInteraction
                                     Resume resume) 
   {
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
-    JobApplicationResult applicationResult = getApplicationResult(application);
-    return applicationResult;
-  }
-
-  private JobApplicationResult getApplicationResult(UnprocessedApplication application)
-  {
+    
     if (application.isValid() &&
-        !jobApplicationManager.applicationExistsFor(application.getJobseeker(), application.getJob()))
+        !jobApplicationManager.applicationExistsFor(jobseeker, job))
     {
-      SuccessfulApplication success = new SuccessfulApplication(application.getJobseeker(),
-                                                                application.getJob(),
-                                                                application.getResume());
+      SuccessfulApplication success = new SuccessfulApplication(jobseeker,
+                                                                job,
+                                                                resume);
       jobApplicationManager.add(success);
 
       return success;

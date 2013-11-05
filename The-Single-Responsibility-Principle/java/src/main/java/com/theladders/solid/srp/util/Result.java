@@ -30,6 +30,16 @@ public class Result
   {
     return type;
   }
+  
+  public Object get(String name)
+  {
+    return model.get(name);
+  }
+  
+  public String getError()
+  {
+    return (errorList.size() > 0 ? errorList.get(0) : "");
+  }
 
   @Override
   public String toString()

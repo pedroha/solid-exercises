@@ -47,6 +47,7 @@ public class JobApplicationUseCase
     {
       return presenter.error("We could not process your application.");
     }
+
     if (requiresProfileCompletion(jobseeker))
     {
       return presenter.completeProfile(job);
