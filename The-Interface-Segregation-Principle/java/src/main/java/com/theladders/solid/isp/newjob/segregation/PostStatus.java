@@ -1,4 +1,4 @@
-package com.theladders.solid.isp.newjob.implementation;
+package com.theladders.solid.isp.newjob.segregation;
 
 import java.util.Date;
 

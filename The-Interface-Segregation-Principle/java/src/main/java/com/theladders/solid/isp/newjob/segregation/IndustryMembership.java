@@ -1,4 +1,4 @@
-package com.theladders.solid.isp.newjob.implementation;
+package com.theladders.solid.isp.newjob.segregation;
 
 import com.theladders.solid.isp.newjob.JobIndustryMembership;
 import com.theladders.solid.isp.oldjob.stubs.Industry;

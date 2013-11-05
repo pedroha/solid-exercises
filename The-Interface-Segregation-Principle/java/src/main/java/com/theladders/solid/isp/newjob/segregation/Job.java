@@ -1,4 +1,4 @@
-package com.theladders.solid.isp.newjob.implementation;
+package com.theladders.solid.isp.newjob.segregation;
 
 import java.util.Date;
 
@@ -11,8 +11,10 @@ import com.theladders.solid.isp.oldjob.stubs.Sector;
 
 public class Job implements FullJob // implements com.theladders.solid.isp.oldjob.Job
 {
-  private JobCompensation       compensation;
   private JobCompanyInfo        companyInfo;
+  private JobCompensation       compensation;
+  private JobEmployment         employment;
+  private JobEntry              entry;
   private JobGeography          geography;
   private JobIndustryMembership industryMembership;
   private JobIdentifiers        identifiers;
@@ -20,14 +22,27 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
 
   public Job()
   {
-    this.compensation = new Compensation("$40000", "$20000", "$12000", "$500");
     this.companyInfo = new CompanyInfo("ibm", 1);
+    this.compensation = new Compensation("$40000", "$20000", "$12000", "$500");
+    this.employment = new Employment(false, false, "CTO");
+    this.entry = new Entry(new Date(), "http://theladders.com/job/url");
     this.geography = new Geography("someLocation", new Region(), new City());
     this.industryMembership = new IndustryMembership(new Industry(), new Sector());
     this.identifiers = new Identifiers(10, new Date(), "Editor's note", 20, new Integer(10), false);
   }
 
-  // COMPENSATION
+  // COMPANY INFO: SEARCH, POST
+  public String getCompany()
+  {
+    return companyInfo.getCompany();
+  }
+
+  public Integer getCompanySize()
+  {
+    return companyInfo.getCompanySize();
+  }
+
+  // COMPENSATION: SEARCH, POST
   public String getCompensation()
   {
     return compensation.getCompensation();
@@ -47,19 +62,35 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
   {
     return compensation.getCompensationOther();
   }
-
-  // COMPANY INFO
-  public String getCompany()
+  
+  // EMPLOYMENT
+  public boolean isFilled()
   {
-    return companyInfo.getCompany();
+    return employment.isFilled();
   }
 
-  public Integer getCompanySize()
+  public boolean isReimbursable()
   {
-    return companyInfo.getCompanySize();
+    return employment.isReimbursable();
   }
 
-  // GEOGRAPHY
+  public String getReportsTo()
+  {
+    return employment.getReportsTo();
+  }
+  
+  // ENTRY
+  public Date getEntryDate()
+  {
+    return entry.getEntryDate();
+  }
+
+  public String getUrl()
+  {
+    return entry.getUrl();
+  }
+
+  // GEOGRAPHY: SEARCH, POST
   public String getLocation()
   {
     return geography.getLocation();
@@ -75,7 +106,7 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
     return geography.getCity();
   }
 
-  // INDUSTRY MEMBERSHIP
+  // INDUSTRY MEMBERSHIP: SEARCH, POST
   public Industry getIndustry()
   {
     return industryMembership.getIndustry();
@@ -86,7 +117,7 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
     return industryMembership.getSector();
   }
 
-  // IDENTIFIERS
+  // IDENTIFIERS: APPLY for JOB
   public int getOldJobId()
   {
     return identifiers.getOldJobId();
