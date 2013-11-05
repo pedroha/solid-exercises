@@ -43,7 +43,7 @@ public class JobApplicationUseCase
     Resume resume = handleResumeInteraction(jobseeker, resumeProfile);
 
     JobApplicationResult applicationResult = jobApplicationInteraction.apply(jobseeker, job, resume);
-    if (!applicationResult.success())
+    if (applicationResult.failure())
     {
       return presenter.error("We could not process your application.");
     }
