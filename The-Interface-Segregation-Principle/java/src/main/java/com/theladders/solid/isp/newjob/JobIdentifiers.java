@@ -36,6 +36,4 @@ public interface JobInternal
    * @return true if job is a JobReq, false otherwise.
    */
   boolean isJobReq();
-
-  boolean isReimbursable(); // No idea of what this means !? Is it used at all? Need to look into Fisheye?
 }

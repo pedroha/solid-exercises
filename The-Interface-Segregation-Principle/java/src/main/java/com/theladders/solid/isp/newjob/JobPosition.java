@@ -16,4 +16,6 @@ public interface JobPosition
   
   String getShortDescription();
   PositionLevel getPositionLevel();
+
+  boolean isReimbursable();
 }
