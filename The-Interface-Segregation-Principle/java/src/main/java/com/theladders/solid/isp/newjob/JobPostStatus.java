@@ -1,5 +1,7 @@
 package com.theladders.solid.isp.newjob;
 
+import java.util.Date;
+
 import com.theladders.solid.isp.oldjob.stubs.JobStatus;
 
 public interface JobPostStatus
@@ -19,5 +21,5 @@ public interface JobPostStatus
    */
   boolean hasStatus(JobStatus status);
 
-
+  Date getUpdateTime();
 }

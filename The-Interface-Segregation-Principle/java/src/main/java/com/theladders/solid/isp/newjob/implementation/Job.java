@@ -11,37 +11,20 @@ import com.theladders.solid.isp.oldjob.stubs.Sector;
 
 public class Job implements FullJob // implements com.theladders.solid.isp.oldjob.Job
 {
-  private JobPostStatus         applicationStatus;
   private JobCompensation       compensation;
   private JobCompanyInfo        companyInfo;
   private JobGeography          geography;
   private JobIndustryMembership industryMembership;
   private JobIdentifiers        identifiers;
+  private JobPostStatus         postStatus;
 
   public Job()
   {
-    this.applicationStatus = new ApplicationStatus(false, false, false);
     this.compensation = new Compensation("$40000", "$20000", "$12000", "$500");
     this.companyInfo = new CompanyInfo("ibm", 1);
     this.geography = new Geography("someLocation", new Region(), new City());
     this.industryMembership = new IndustryMembership(new Industry(), new Sector());
     this.identifiers = new Identifiers(10, new Date(), "Editor's note", 20, new Integer(10), false);
-  }
-
-  // JOB POST STATUS
-  public boolean isDeleted()
-  {
-    return applicationStatus.isDeleted();
-  }
-
-  public boolean isExpired()
-  {
-    return applicationStatus.isExpired();
-  }
-
-  public boolean hasStatus(JobStatus status)
-  {
-    return applicationStatus.hasStatus(status);
   }
 
   // COMPENSATION
@@ -118,5 +101,25 @@ public class Job implements FullJob // implements com.theladders.solid.isp.oldjo
   {
     return identifiers.getParentJobId();
   }
-  
+
+  // POST STATUS
+  public boolean isDeleted()
+  {
+    return postStatus.isDeleted();
+  }
+
+  public boolean isExpired()
+  {
+    return postStatus.isExpired();
+  }
+
+  public boolean hasStatus(JobStatus status)
+  {
+    return postStatus.hasStatus(status);
+  }
+
+  public Date getUpdateTime()
+  {
+    return postStatus.getUpdateTime();
+  }
 }
