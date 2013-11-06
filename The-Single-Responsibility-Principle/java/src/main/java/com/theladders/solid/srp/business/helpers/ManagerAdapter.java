@@ -22,7 +22,6 @@ public class ManagerAdapter implements ManagerActions
                         ResumeManager resumeManager,
                         MyResumeManager myResumeManager)
   {
-
     this.jobApplicationManager = jobApplicationManager;
     this.jobseekerProfileManager = jobseekerProfileManager;
     this.resumeManager = resumeManager;

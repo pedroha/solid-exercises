@@ -18,7 +18,7 @@ public class ResumeInteraction
   {
     if (hasExistingResume)
     {
-      return getActiveResume(jobseeker);
+      return resumeActions.getActiveResume(jobseeker);
     }
     return null;
   }
@@ -39,9 +39,4 @@ public class ResumeInteraction
     }
     return resume;
   }
-  
-  private Resume getActiveResume(Jobseeker jobseeker)
-  {
-    return resumeActions.getActiveResume(jobseeker);
-  }  
 }
