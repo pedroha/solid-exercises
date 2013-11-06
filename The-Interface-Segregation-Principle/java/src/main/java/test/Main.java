@@ -92,5 +92,7 @@ public class Main
                       publication,
                       requirements,
                       visibility);
+    
+    System.out.println(job.getCompany());
   }
 }
