@@ -1,6 +1,7 @@
 package com.theladders.solid.srp.web;
 
 import com.theladders.solid.srp.business.JobApplicationUseCase;
+import com.theladders.solid.srp.business.helpers.ManagerAdapter;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.services.JobApplicationManager;
@@ -26,10 +27,9 @@ public class JobApplyCommand
                          ResumeManager resumeManager,
                          MyResumeManager myResumeManager)
   {
-    this.jobApplication = new JobApplicationUseCase(jobseekerProfileManager,
-                                                    jobApplicationManager,
-                                                    resumeManager,
-                                                    myResumeManager);
+    ManagerAdapter managerActions = new ManagerAdapter(jobseekerProfileManager, jobApplicationManager, resumeManager, myResumeManager);
+
+    this.jobApplication = new JobApplicationUseCase(managerActions);
     this.jobManager = jobManager;
     this.requestModel = requestModel;
   }

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import com.theladders.solid.srp.business.JobApplicationUseCase;
+import com.theladders.solid.srp.business.helpers.ManagerAdapter;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.JobseekerProfile;
@@ -156,10 +157,8 @@ public class Test_JobApplicationUseCase
     ResumeManager resumeManager = new ResumeManager(resumeRepository);
     MyResumeManager myResumeManager = new MyResumeManager(activeResumeRepository);
 
-    JobApplicationUseCase jobApplication = new JobApplicationUseCase(jobseekerProfileManager,
-                                                                     jobApplicationManager,
-                                                                     resumeManager,
-                                                                     myResumeManager);
+    ManagerAdapter managerActions = new ManagerAdapter(jobseekerProfileManager, jobApplicationManager, resumeManager, myResumeManager);
+    JobApplicationUseCase jobApplication = new JobApplicationUseCase(managerActions);
 
     return jobApplication;
   }

@@ -1,16 +1,11 @@
 package com.theladders.solid.srp.business;
 
 import com.theladders.solid.srp.business.helpers.ManagerActions;
-import com.theladders.solid.srp.business.helpers.ManagerAdapter;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.JobseekerProfile;
 import com.theladders.solid.srp.model.Resume;
 import com.theladders.solid.srp.model.job.application.JobApplicationResult;
-import com.theladders.solid.srp.services.JobApplicationManager;
-import com.theladders.solid.srp.services.JobseekerProfileManager;
-import com.theladders.solid.srp.services.MyResumeManager;
-import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.Result;
 import com.theladders.solid.srp.util.ResumeFile;
 import com.theladders.solid.srp.util.ResumeProfile;
@@ -23,13 +18,9 @@ public class JobApplicationUseCase
   
   private ManagerActions            managerActions;
 
-  public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
-                               JobApplicationManager jobApplicationManager,
-                               ResumeManager resumeManager,
-                               MyResumeManager myResumeManager)
+  public JobApplicationUseCase(ManagerActions managerActions)
   {
-    this.managerActions = new ManagerAdapter(jobseekerProfileManager, jobApplicationManager, resumeManager, myResumeManager);
-
+    this.managerActions = managerActions;
     this.resumeInteraction = new ResumeInteraction(managerActions);
     this.jobApplicationInteraction = new JobApplicationInteraction(managerActions);
     this.presenter = new JobApplicationPresenter();
