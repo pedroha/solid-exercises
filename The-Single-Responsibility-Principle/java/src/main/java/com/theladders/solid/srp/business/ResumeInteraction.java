@@ -1,20 +1,17 @@
 package com.theladders.solid.srp.business;
 
+import com.theladders.solid.srp.business.helpers.ResumeActions;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.Resume;
-import com.theladders.solid.srp.services.MyResumeManager;
-import com.theladders.solid.srp.services.ResumeManager;
 import com.theladders.solid.srp.util.ResumeFile;
 
 public class ResumeInteraction
 {
-  private ResumeManager   resumeManager;
-  private MyResumeManager myResumeManager;
+  private ResumeActions resumeActions;
   
-  public ResumeInteraction(ResumeManager resumeManager, MyResumeManager myResumeManager)
+  public ResumeInteraction(ResumeActions resumeActions)
   {
-    this.resumeManager = resumeManager;
-    this.myResumeManager = myResumeManager; 
+    this.resumeActions = resumeActions;
   }
   
   public Resume retrieveExistingResume(Jobseeker jobseeker, boolean hasExistingResume)
@@ -35,16 +32,16 @@ public class ResumeInteraction
     {
       return null;
     }
-    Resume resume = resumeManager.saveResume(jobseeker, newResumeFileName);
+    Resume resume = resumeActions.saveResume(jobseeker, newResumeFileName);
     if (resume != null && makeResumeActive)
     {
-      myResumeManager.saveAsActive(jobseeker, resume);
+      resumeActions.saveAsActive(jobseeker, resume);
     }
     return resume;
   }
   
   private Resume getActiveResume(Jobseeker jobseeker)
   {
-    return myResumeManager.getActiveResume(jobseeker.getId());
+    return resumeActions.getActiveResume(jobseeker);
   }  
 }

@@ -1,5 +1,7 @@
 package com.theladders.solid.srp.business;
 
+import com.theladders.solid.srp.business.helpers.ManagerActions;
+import com.theladders.solid.srp.business.helpers.ManagerAdapter;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.JobseekerProfile;
@@ -15,19 +17,21 @@ import com.theladders.solid.srp.util.ResumeProfile;
 
 public class JobApplicationUseCase
 {
-  private JobseekerProfileManager   jobseekerProfileManager;
   private ResumeInteraction         resumeInteraction;
   private JobApplicationInteraction jobApplicationInteraction;
   private JobApplicationPresenter   presenter;
+  
+  private ManagerActions            managerActions;
 
   public JobApplicationUseCase(JobseekerProfileManager jobseekerProfileManager,
                                JobApplicationManager jobApplicationManager,
                                ResumeManager resumeManager,
                                MyResumeManager myResumeManager)
   {
-    this.resumeInteraction = new ResumeInteraction(resumeManager, myResumeManager);
-    this.jobApplicationInteraction = new JobApplicationInteraction(jobApplicationManager);
-    this.jobseekerProfileManager = jobseekerProfileManager;
+    this.managerActions = new ManagerAdapter(jobseekerProfileManager, jobApplicationManager, resumeManager, myResumeManager);
+
+    this.resumeInteraction = new ResumeInteraction(managerActions);
+    this.jobApplicationInteraction = new JobApplicationInteraction(managerActions);
     this.presenter = new JobApplicationPresenter();
   }
 
@@ -70,7 +74,7 @@ public class JobApplicationUseCase
 
   private boolean requiresProfileCompletion(Jobseeker jobseeker)
   {
-    JobseekerProfile profile = jobseekerProfileManager.getJobSeekerProfile(jobseeker);
+    JobseekerProfile profile = managerActions.getJobSeekerProfile(jobseeker);
     return JobApplicationInteraction.requiresProfileCompletion(jobseeker, profile);
   }
 }

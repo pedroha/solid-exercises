@@ -1,5 +1,6 @@
 package com.theladders.solid.srp.business;
 
+import com.theladders.solid.srp.business.helpers.ManagerActions;
 import com.theladders.solid.srp.model.Job;
 import com.theladders.solid.srp.model.Jobseeker;
 import com.theladders.solid.srp.model.JobseekerProfile;
@@ -9,15 +10,14 @@ import com.theladders.solid.srp.model.job.application.FailedApplication;
 import com.theladders.solid.srp.model.job.application.JobApplicationResult;
 import com.theladders.solid.srp.model.job.application.SuccessfulApplication;
 import com.theladders.solid.srp.model.job.application.UnprocessedApplication;
-import com.theladders.solid.srp.services.JobApplicationManager;
 
 public class JobApplicationInteraction
 {
-  private JobApplicationManager jobApplicationManager;
+  private ManagerActions managerActions;
 
-  public JobApplicationInteraction(JobApplicationManager jobApplicationManager)
+  public JobApplicationInteraction(ManagerActions managerActions)
   {
-    this.jobApplicationManager = jobApplicationManager;
+    this.managerActions = managerActions;
   }
 
   public JobApplicationResult apply(Jobseeker jobseeker,
@@ -27,12 +27,12 @@ public class JobApplicationInteraction
     UnprocessedApplication application = new UnprocessedApplication(jobseeker, job, resume);
     
     if (application.isValid() &&
-        !jobApplicationManager.applicationExistsFor(jobseeker, job))
+        !managerActions.applicationExistsFor(jobseeker, job))
     {
       SuccessfulApplication success = new SuccessfulApplication(jobseeker,
                                                                 job,
                                                                 resume);
-      jobApplicationManager.add(success);
+      managerActions.add(success);
 
       return success;
     }    
