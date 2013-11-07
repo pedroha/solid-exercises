@@ -5,6 +5,11 @@ import java.util.Map;
 
 public class ContentUtils
 {
+  public static boolean isPublishedAndEnabled(ContentNode node)
+  {
+    return node != null;
+  }
+  
   private static final String              IMAGE_PREFIX       = "http://somecdnprodiver.com/static/images/careerAdvice/";
   private static final Map<String, String> CATEGORY_IMAGE_MAP = new HashMap<>();
 
@@ -19,12 +24,7 @@ public class ContentUtils
     CATEGORY_IMAGE_MAP.put("Assessment", "salary_thumb.jpg");
     CATEGORY_IMAGE_MAP.put("On the Job", "salary_thumb.jpg");
   }
-  
-  public static boolean isPublishedAndEnabled(ContentNode node)
-  {
-    return node != null;
-  }
-
+ 
   public static void overrideMiniImagePath(ContentNode node)
   {
     String path = (String) node.getProperty("miniImagePath");
