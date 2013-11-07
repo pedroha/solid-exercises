@@ -7,11 +7,8 @@ import java.util.List;
 
 public class SuggestedArticleDao implements SuggestedArticleStore
 {
-  private ContentRepository contentRepository;
-  
-  public SuggestedArticleDao(ContentRepository contentRepository)
+  public SuggestedArticleDao()
   {
-    this.contentRepository = contentRepository;
   }
   
   public List<SuggestedArticle> getArticlesBySubscriber(Jobseeker subscriber,
@@ -30,20 +27,17 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     
     List<SuggestedArticle> dbSuggestions = selectByExampleWithBlobs(criteria);
 
-    // Fetch content associated with SuggestedArticle (based on externalArticleId)
-    resolveArticles(dbSuggestions);
-
     return dbSuggestions;
   }
 
   public int insert(SuggestedArticle article)
   {
-    Integer STATUS_UNREAD = 1;
-    Integer HTP_CONSULTANT = 1;
-    article.setSuggestedArticleStatusId(STATUS_UNREAD);
-    article.setSuggestedArticleSourceId(HTP_CONSULTANT);
-    article.setCreateTime(new Date()); // current date
-    article.setUpdateTime(new Date()); // current date
+    article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
+    article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
+
+    Date date = new Date();
+    article.setCreateTime(date); // current date
+    article.setUpdateTime(date); // current date
     int newId = insertReturnId(article);
     return newId;
   }
@@ -62,27 +56,12 @@ public class SuggestedArticleDao implements SuggestedArticleStore
   public void markDeleted(SuggestedArticle suggestedArticle)
   {
     int id = suggestedArticle.getSuggestedArticleId();
-    Integer STATUS_DELETED = 4;
     SuggestedArticle article = new SuggestedArticle();
     article.setSuggestedArticleId(id);
-    article.setSuggestedArticleStatusId(STATUS_DELETED);
+    article.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
     updateByPrimaryKeySelective(article);
   }
   
-  private void resolveArticles(List<SuggestedArticle> dbArticles)
-  {
-    for (SuggestedArticle article : dbArticles)
-    {
-      // Attempt to fetch the actual content;
-      ContentNode content = contentRepository.getNodeByUuid(article.getArticleExternalIdentifier());
-      if (content != null && ContentUtils.isPublishedAndEnabled(content))
-      {
-        // Override miniImagePath
-        ContentUtils.overrideMiniImagePath(content);
-        article.setContent(content);
-      }
-    }
-  }
 
   private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
   {
