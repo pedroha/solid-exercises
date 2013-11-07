@@ -7,7 +7,6 @@ public interface SuggestedArticleStore
   List<SuggestedArticle> getArticlesBySubscriber(Jobseeker subscriber,
                                                  List<ArticleStatus> statusList,
                                                  ArticleSource source);
-
   int insert(SuggestedArticle article);
 
   void updateNote(SuggestedArticle suggestedArticle,
