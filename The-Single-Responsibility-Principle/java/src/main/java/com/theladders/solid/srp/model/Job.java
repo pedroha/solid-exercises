@@ -5,10 +5,15 @@ public class Job
   private final int id;
   private final String title;
 
-  public Job(int id)
+  public Job(int id, String title)
   {
     this.id = id;
-    this.title = "This is a job with id:" + Integer.toString(id);
+    this.title = title;
+  }
+
+  public Job(int id)
+  {
+    this(id, "This is a job with id:" + Integer.toString(id));
   }
 
   public int getJobId()
