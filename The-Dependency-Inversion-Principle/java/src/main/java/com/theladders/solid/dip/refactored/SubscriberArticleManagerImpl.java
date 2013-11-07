@@ -4,21 +4,22 @@ import java.util.List;
 
 public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 {
-  private SuggestedArticleDao              suggestedArticleDao;
-  private ContentRepository                repositoryManager;
-  
-  private SuggestedArticleStore            suggestedArticleStore;
+  private ContentRepository     repositoryManager;
 
-  public SubscriberArticleManagerImpl(SuggestedArticleDao suggestedArticleDao,
+  private SuggestedArticleStore suggestedArticleStore;
+
+  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
                                       ContentRepository repositoryManager)
   {
-    this.suggestedArticleDao = suggestedArticleDao;
+    this.suggestedArticleStore = suggestedArticleStore;
     this.repositoryManager = repositoryManager;
   }
 
-  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber)
+  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
+                                                        List<ArticleStatus> statusList,
+                                                        ArticleSource source)
   {
-    return suggestedArticleStore.getArticlesBySubscriber(subscriber);    
+    return suggestedArticleStore.getArticlesBySubscriber(subscriber, statusList, source);
   }
 
   public int addSuggestedArticle(SuggestedArticle suggestedArticle)
@@ -26,7 +27,8 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     return suggestedArticleStore.insert(suggestedArticle);
   }
 
-  public void updateNote(SuggestedArticle suggestedArticle, String note)
+  public void updateNote(SuggestedArticle suggestedArticle,
+                         String note)
   {
     suggestedArticleStore.updateNote(suggestedArticle, note);
   }

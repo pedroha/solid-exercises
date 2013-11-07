@@ -1,11 +1,9 @@
 package com.theladders.solid.dip.refactored;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SuggestedArticleDao implements SuggestedArticleStore
 {
@@ -16,14 +14,17 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     this.contentRepository = contentRepository;
   }
   
-  public List<SuggestedArticle> getArticlesBySubscriber(Jobseeker subscriber)
+  public List<SuggestedArticle> getArticlesBySubscriber(Jobseeker subscriber,
+                                                        List<ArticleStatus>statusList,
+                                                        ArticleSource source)
   {
     int subscriberId = subscriber.getSubscriberId();
+    
     SuggestedArticleExample criteria = new SuggestedArticleExample();
     criteria.createCriteria()
             .andSubscriberIdEqualTo(subscriberId)
-            .andSuggestedArticleStatusIdIn(Arrays.asList(1, 2)) // must
-            .andSuggestedArticleSourceIdEqualTo(1);
+            .andSuggestedArticleStatusIdIn(getStatusIdList(statusList)) // must
+            .andSuggestedArticleSourceIdEqualTo(source.id);
 
     criteria.setOrderByClause("create_time desc");
     
@@ -81,6 +82,16 @@ public class SuggestedArticleDao implements SuggestedArticleStore
         article.setContent(content);
       }
     }
+  }
+
+  private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
+  {
+    List<Integer> list = new ArrayList<>();
+    for (ArticleStatus status: statusList)
+    {
+      list.add(status.id);
+    }
+    return list;
   }
 
   private void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticle article) {}
