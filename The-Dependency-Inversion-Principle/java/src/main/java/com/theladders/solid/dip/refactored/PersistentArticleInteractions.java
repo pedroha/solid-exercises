@@ -2,12 +2,12 @@ package com.theladders.solid.dip.refactored;
 
 import java.util.List;
 
-public class SubscriberArticleManagerImpl implements SubscriberArticleManager
+public class PersistentArticleInteractions implements ArticleInteractions
 {
   private SuggestedArticleStore suggestedArticleStore;
   private ContentRepository     contentRepository;
 
-  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
+  public PersistentArticleInteractions(SuggestedArticleStore suggestedArticleStore,
                                       ContentRepository contentRepository)
   {
     this.suggestedArticleStore = suggestedArticleStore;
