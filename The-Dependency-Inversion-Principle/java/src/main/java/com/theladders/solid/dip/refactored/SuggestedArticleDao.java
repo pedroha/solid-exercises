@@ -1,4 +1,4 @@
-package com.theladders.solid.dip;
+package com.theladders.solid.dip.refactored;
 
 import java.util.Collections;
 import java.util.List;

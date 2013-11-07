@@ -1,4 +1,4 @@
-package com.theladders.solid.dip;
+package com.theladders.solid.dip.original;
 
 public class RepositoryManager
 {

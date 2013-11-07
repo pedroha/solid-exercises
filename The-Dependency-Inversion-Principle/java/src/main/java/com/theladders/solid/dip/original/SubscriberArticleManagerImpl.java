@@ -1,4 +1,4 @@
-package com.theladders.solid.dip;
+package com.theladders.solid.dip.original;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -38,7 +38,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     SuggestedArticleExample criteria = new SuggestedArticleExample();
     criteria.createCriteria()
             .andSubscriberIdEqualTo(subscriberId)
-            .andSuggestedArticleStatusIdIn(Arrays.asList(1, 2))  // must be New or Viewed
+            .andSuggestedArticleStatusIdIn(Arrays.asList(1, 2)) // must
             .andSuggestedArticleSourceIdEqualTo(1);
 
     criteria.setOrderByClause("create_time desc");
@@ -88,8 +88,9 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
       node.addProperty("miniImagePath", IMAGE_PREFIX + CATEGORY_IMAGE_MAP.get(category));
     }
   }
-
-  public void updateNote(Integer id, String note)
+  
+  public void updateNote(Integer id,
+                         String note)
   {
     SuggestedArticle article = new SuggestedArticle();
     article.setSuggestedArticleId(id);
