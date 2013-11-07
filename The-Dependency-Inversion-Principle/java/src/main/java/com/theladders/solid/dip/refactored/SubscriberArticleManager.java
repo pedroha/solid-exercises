@@ -12,11 +12,11 @@ public interface SubscriberArticleManager
    * It also gets the content of the actual articles from the CMS and stores it in
    * the SuggestedArticle object.
    *
-   * @param subscriberId
-   *          ID of this subscriber
+   * @param subscriber
+   *          
    * @return List of all suggested articles whose status is either New or Viewed
    */
-  public List<SuggestedArticle> getArticlesbySubscriber(Integer subscriberId);
+  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber);
 
   /**
    * Add a SuggestedArticle to the database.
@@ -27,15 +27,15 @@ public interface SubscriberArticleManager
   public int addSuggestedArticle(SuggestedArticle suggestedArticle);
 
   /**
-   * Update the note of the Suggested Article(id)
+   * Update the note of the Suggested Article
    *  with the note passed in.
    *
    */
-  public void updateNote(Integer id, String note);
+  public void updateNote(SuggestedArticle suggestedArticle, String note);
 
   /**
-   * Mark as deleted the Suggested Article(id)
+   * Mark as deleted the Suggested Article
    *
    */
-  public void markRecomDeleted(Integer id);
+  public void markRecomDeleted(SuggestedArticle suggestedArticle);
 }

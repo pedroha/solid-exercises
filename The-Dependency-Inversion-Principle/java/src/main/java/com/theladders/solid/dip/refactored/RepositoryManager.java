@@ -1,7 +1,7 @@
 package com.theladders.solid.dip.refactored;
 
-public class RepositoryManager
-{
+public class RepositoryManager implements ContentRepository
+{ 
   public ContentNode getNodeByUuid(String id)
   {
     ContentNode node = new ContentNode();
