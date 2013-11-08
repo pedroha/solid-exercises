@@ -1,13 +1,14 @@
 package com.theladders.solid.dip.refactored;
 
+import java.util.Date;
 import java.util.List;
 
-public class PersistentArticleInteractions implements ArticleInteractions
+public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 {
   private SuggestedArticleStore suggestedArticleStore;
   private ContentRepository     contentRepository;
 
-  public PersistentArticleInteractions(SuggestedArticleStore suggestedArticleStore,
+  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
                                       ContentRepository contentRepository)
   {
     this.suggestedArticleStore = suggestedArticleStore;
@@ -26,13 +27,18 @@ public class PersistentArticleInteractions implements ArticleInteractions
     return articles;
   }
 
-  public int addSuggestedArticle(SuggestedArticle suggestedArticle)
+  public int addSuggestedArticle(SuggestedArticle article)
   {
-    return suggestedArticleStore.insert(suggestedArticle);
+    article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
+    article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
+    Date date = new Date();
+    article.setCreateTime(date); // current date
+    article.setUpdateTime(date); // current date
+
+    return suggestedArticleStore.insert(article);
   }
 
-  public void updateNote(SuggestedArticle suggestedArticle,
-                         String note)
+  public void updateNote(SuggestedArticle suggestedArticle, String note)
   {
     suggestedArticle.setNote(note);
     suggestedArticleStore.updateNote(suggestedArticle);

@@ -32,12 +32,6 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
   public int insert(SuggestedArticle article)
   {
-    article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
-    article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
-
-    Date date = new Date();
-    article.setCreateTime(date); // current date
-    article.setUpdateTime(date); // current date
     int newId = insertReturnId(article);
     return newId;
   }
