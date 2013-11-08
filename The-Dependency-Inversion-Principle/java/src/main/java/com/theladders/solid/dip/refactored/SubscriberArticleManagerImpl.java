@@ -66,7 +66,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     for (SuggestedArticle article : dbArticles)
     {
       // Attempt to fetch the actual content;
-      ContentNode content = contentRepository.getNodeByUuid(article.getArticleExternalIdentifier());
+      ContentNode content = getContentNode(article.getArticleExternalIdentifier());
       if (content != null && ContentUtils.isPublishedAndEnabled(content))
       {
         // Override miniImagePath
@@ -74,5 +74,10 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
         article.setContent(content);
       }
     }
+  }
+  
+  private ContentNode getContentNode(String uuid)
+  {
+    return contentRepository.getNodeByUuid(uuid);
   }
 }
