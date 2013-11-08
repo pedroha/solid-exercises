@@ -16,6 +16,8 @@ public interface SubscriberArticleManager
    *          
    * @return List of all suggested articles whose status is either New or Viewed
    */
+  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber);
+  
   public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
                                                         List<ArticleStatus> statusList,
                                                         ArticleSource source);

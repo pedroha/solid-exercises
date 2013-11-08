@@ -1,5 +1,6 @@
 package com.theladders.solid.dip.refactored;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,16 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
   {
     this.suggestedArticleStore = suggestedArticleStore;
     this.contentRepository = contentRepository;
+  }
+  
+  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber)
+  {
+    List<ArticleStatus> statusList = new ArrayList<>();
+    statusList.add(ArticleStatus.UNREAD);
+    statusList.add(ArticleStatus.VIEWED);
+    
+    ArticleSource source = ArticleSource.HTP_CONSULTANT;
+    return getArticlesbySubscriber(subscriber, statusList, source);
   }
 
   public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
@@ -46,7 +57,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 
   public void markRecomDeleted(SuggestedArticle suggestedArticle)
   {
-    suggestedArticle.setArticleStatus(ArticleStatus.DELETED);
+    suggestedArticle.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
     suggestedArticleStore.updateStatus(suggestedArticle);
   }
 
