@@ -33,8 +33,11 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     List<SuggestedArticle> articles = suggestedArticleStore.getArticlesBySubscriber(subscriber, statusList, source);
 
     // Fetch content associated with SuggestedArticle (based on externalArticleId)
-    resolveArticles(articles);
-
+    for (SuggestedArticle article : articles)
+    {
+      String nodeId = article.getArticleExternalIdentifier();
+      article.setContent(getContentNode(nodeId));
+    }
     return articles;
   }
 
@@ -60,24 +63,16 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     suggestedArticle.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
     suggestedArticleStore.updateStatus(suggestedArticle);
   }
-
-  private void resolveArticles(List<SuggestedArticle> dbArticles)
-  {
-    for (SuggestedArticle article : dbArticles)
-    {
-      // Attempt to fetch the actual content;
-      ContentNode content = getContentNode(article.getArticleExternalIdentifier());
-      if (content != null && ContentUtils.isPublishedAndEnabled(content))
-      {
-        // Override miniImagePath
-        ContentUtils.overrideMiniImagePath(content);
-        article.setContent(content);
-      }
-    }
-  }
   
   private ContentNode getContentNode(String uuid)
   {
-    return contentRepository.getNodeByUuid(uuid);
+    // Attempt to fetch the actual content;
+    ContentNode node = contentRepository.getNodeByUuid(uuid);
+    if (node != null && ContentUtils.isPublishedAndEnabled(node))
+    {
+      // Override miniImagePath
+      ContentUtils.overrideMiniImagePath(node);
+    }
+    return node;
   }
 }
