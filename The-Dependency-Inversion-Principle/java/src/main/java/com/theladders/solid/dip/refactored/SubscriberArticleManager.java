@@ -18,10 +18,6 @@ public interface SubscriberArticleManager
    */
   public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber);
   
-  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
-                                                        List<ArticleStatus> statusList,
-                                                        ArticleSource source);
-
   /**
    * Add a SuggestedArticle to the database.
    *
