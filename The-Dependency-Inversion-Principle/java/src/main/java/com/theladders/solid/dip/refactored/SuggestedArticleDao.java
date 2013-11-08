@@ -42,26 +42,25 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     return newId;
   }
 
-  public void updateNote(SuggestedArticle suggestedArticle, String note)
+  public void updateNote(SuggestedArticle suggestedArticle)
   {
     int id = suggestedArticle.getSuggestedArticleId();
     
     SuggestedArticle article = new SuggestedArticle();
     article.setSuggestedArticleId(id);
-    article.setNote(note);
+    article.setNote(suggestedArticle.getNote());
 
     updateByPrimaryKeySelective(article);
   }
 
-  public void markDeleted(SuggestedArticle suggestedArticle)
+  public void updateStatus(SuggestedArticle suggestedArticle)
   {
-    int id = suggestedArticle.getSuggestedArticleId();
     SuggestedArticle article = new SuggestedArticle();
-    article.setSuggestedArticleId(id);
-    article.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
+    article.setSubscriberId(suggestedArticle.getSuggestedArticleId());
+    article.setSuggestedArticleStatusId(suggestedArticle.getSuggestedArticleStatusId());
+    
     updateByPrimaryKeySelective(article);
   }
-  
 
   private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
   {

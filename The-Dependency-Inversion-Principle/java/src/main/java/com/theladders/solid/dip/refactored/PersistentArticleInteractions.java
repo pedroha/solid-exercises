@@ -34,12 +34,14 @@ public class PersistentArticleInteractions implements ArticleInteractions
   public void updateNote(SuggestedArticle suggestedArticle,
                          String note)
   {
-    suggestedArticleStore.updateNote(suggestedArticle, note);
+    suggestedArticle.setNote(note);
+    suggestedArticleStore.updateNote(suggestedArticle);
   }
 
   public void markRecomDeleted(SuggestedArticle suggestedArticle)
   {
-    suggestedArticleStore.markDeleted(suggestedArticle);
+    suggestedArticle.setArticleStatus(ArticleStatus.DELETED);
+    suggestedArticleStore.updateStatus(suggestedArticle);
   }
 
   private void resolveArticles(List<SuggestedArticle> dbArticles)

@@ -10,4 +10,16 @@ public enum ArticleStatus
   {
     this.id = id;
   }
+
+  public static ArticleStatus getById(int id)
+  {
+    for (ArticleStatus source: ArticleStatus.values())
+    {
+      if (source.id == id)
+      {
+        return source;
+      }
+    }
+    return null;
+  }
 }

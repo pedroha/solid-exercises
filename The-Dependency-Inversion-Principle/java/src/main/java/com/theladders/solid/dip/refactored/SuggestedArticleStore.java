@@ -9,8 +9,7 @@ public interface SuggestedArticleStore
                                                  ArticleSource source);
   int insert(SuggestedArticle article);
 
-  void updateNote(SuggestedArticle suggestedArticle,
-                  String note);
+  void updateNote(SuggestedArticle suggestedArticle);
 
-  void markDeleted(SuggestedArticle suggestedArticle);
+  void updateStatus(SuggestedArticle suggestedArticle);
 }

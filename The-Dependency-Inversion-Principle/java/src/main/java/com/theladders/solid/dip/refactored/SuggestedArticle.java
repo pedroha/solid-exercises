@@ -178,5 +178,24 @@ public class SuggestedArticle
       this.setSuggestedArticleStatusId(1);
     }
   }
-
+  
+  public void setArticleSource(ArticleSource source)
+  {
+    setSuggestedArticleSourceId(source.id);
+  }
+  
+  public ArticleSource getArticleSource()
+  {
+    return ArticleSource.getById(getSuggestedArticleSourceId());
+  }
+  
+  public void setArticleStatus(ArticleStatus status)
+  {
+    setSuggestedArticleStatusId(status.id);
+  }
+  
+  public ArticleStatus getArticleStatus()
+  {
+    return ArticleStatus.getById(getSuggestedArticleStatusId());
+  }
 }
