@@ -2,7 +2,6 @@ package com.theladders.solid.dip.refactored;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 public class SuggestedArticleDao implements SuggestedArticleStore
@@ -49,10 +48,13 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
   public void updateStatus(SuggestedArticle suggestedArticle)
   {
-    SuggestedArticle article = new SuggestedArticle();
-    article.setSubscriberId(suggestedArticle.getSuggestedArticleId());
-    article.setSuggestedArticleStatusId(suggestedArticle.getSuggestedArticleStatusId());
+    int articleId = suggestedArticle.getSuggestedArticleId();
+    int statusId = suggestedArticle.getSuggestedArticleStatusId();
     
+    SuggestedArticle article = new SuggestedArticle();
+    article.setSubscriberId(articleId);
+    article.setSuggestedArticleStatusId(statusId);
+
     updateByPrimaryKeySelective(article);
   }
 
