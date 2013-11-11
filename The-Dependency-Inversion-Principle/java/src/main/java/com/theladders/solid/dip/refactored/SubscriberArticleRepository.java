@@ -2,7 +2,7 @@ package com.theladders.solid.dip.refactored;
 
 import java.util.List;
 
-public interface SubscriberArticleManager
+public interface SubscriberArticleRepository
 {
   /**
    * Get a list of all active suggested articles for a given subscriber.
@@ -25,17 +25,4 @@ public interface SubscriberArticleManager
    */
 
   public void addSuggestedArticle(SuggestedArticle suggestedArticle);
-  
-  /**
-   * Update the note of the Suggested Article
-   *  with the note passed in.
-   *
-   */
-  public void updateNote(SuggestedArticle suggestedArticle, String note);
-
-  /**
-   * Mark as deleted the Suggested Article
-   *
-   */
-  public void markRecomDeleted(SuggestedArticle suggestedArticle);  
 }

@@ -4,13 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SubscriberArticleManagerImpl implements SubscriberArticleManager
+public class SubscriberArticleRepositoryImpl implements SubscriberArticleRepository
 {
   private SuggestedArticleStore suggestedArticleStore;
   private ContentRepository     articleContentRepository;
 
-  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
-                                      RepositoryManager repositoryManager)
+  public void addSuggestedArticle(SuggestedArticle article)
+  {
+    article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
+    article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
+    article.setCreateTime(new Date()); // current date
+    article.setUpdateTime(new Date()); // current date
+
+    suggestedArticleStore.insert(article);
+  }
+
+  public SubscriberArticleRepositoryImpl(SuggestedArticleStore suggestedArticleStore,
+                                         RepositoryManager repositoryManager)
   {
     this.suggestedArticleStore = suggestedArticleStore;
     this.articleContentRepository = new ArticleContentRepository(repositoryManager);
@@ -37,8 +47,8 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 
     return articles;
   }
-  
-  private void resolveArticles(List<SuggestedArticle>articles)
+
+  private void resolveArticles(List<SuggestedArticle> articles)
   {
     for (SuggestedArticle article : articles)
     {
@@ -48,28 +58,5 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
         article.setContent(node);
       }
     }
-  }
-
-  public void addSuggestedArticle(SuggestedArticle article)
-  {
-    article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
-    article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
-    article.setCreateTime(new Date()); // current date
-    article.setUpdateTime(new Date()); // current date
-
-    suggestedArticleStore.insert(article);
-  }
-
-  public void updateNote(SuggestedArticle suggestedArticle,
-                         String note)
-  {
-    suggestedArticle.setNote(note);
-    suggestedArticleStore.updateNote(suggestedArticle);
-  }
-
-  public void markRecomDeleted(SuggestedArticle suggestedArticle)
-  {
-    suggestedArticle.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
-    suggestedArticleStore.updateStatus(suggestedArticle);
   }
 }
