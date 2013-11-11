@@ -34,28 +34,6 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     article.setSuggestedArticleId(insertReturnId(article));
   }
 
-  private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
-  {
-    List<Integer> list = new ArrayList<>();
-    for (ArticleStatus status: statusList)
-    {
-      list.add(status.id);
-    }
-    return list;
-  }
-
-  private void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticle article) {}
-
-  private static int insertReturnId(@SuppressWarnings("unused") SuggestedArticle suggestedArticle)
-  {
-    return 0;
-  }
-
-  private static List<SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
-  {
-    return Collections.singletonList(new SuggestedArticle());
-  }
-
   public void updateNote(SuggestedArticle suggestedArticle)
   {
     int articleId = suggestedArticle.getSuggestedArticleId();
@@ -78,6 +56,28 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
     updateByPrimaryKeySelective(article);
   }
+
+  public static List<SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
+  {
+    return Collections.singletonList(new SuggestedArticle());
+  }
+
+  public void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticle article) {}
+
+  private static int insertReturnId(@SuppressWarnings("unused") SuggestedArticle suggestedArticle)
+  {
+    return 0;
+  }
+
+  private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
+  {
+    List<Integer> list = new ArrayList<>();
+    for (ArticleStatus status: statusList)
+    {
+      list.add(status.id);
+    }
+    return list;
+  }
   
   /*
   public void update(SuggestedArticle suggestedArticle)
@@ -92,6 +92,5 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
     updateByPrimaryKeySelective(article);
   }
-  */
-  
+  */  
 }

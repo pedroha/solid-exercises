@@ -15,33 +15,39 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     this.suggestedArticleStore = suggestedArticleStore;
     this.articleContentRepository = new ArticleContentRepository(repositoryManager);
   }
-  
+
   public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber)
   {
     List<ArticleStatus> statusList = new ArrayList<>();
     statusList.add(ArticleStatus.UNREAD);
     statusList.add(ArticleStatus.VIEWED);
-    
+
     ArticleSource source = ArticleSource.HTP_CONSULTANT;
     return getArticlesbySubscriber(subscriber, statusList, source);
   }
 
-  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
-                                                        List<ArticleStatus> statusList,
-                                                        ArticleSource source)
+  private List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
+                                                         List<ArticleStatus> statusList,
+                                                         ArticleSource source)
   {
     List<SuggestedArticle> articles = suggestedArticleStore.getArticlesBySubscriber(subscriber, statusList, source);
 
     // Fetch content associated with SuggestedArticle (based on externalArticleId)
+    resolveArticles(articles);
+
+    return articles;
+  }
+  
+  private void resolveArticles(List<SuggestedArticle>articles)
+  {
     for (SuggestedArticle article : articles)
     {
       ContentNode node = articleContentRepository.getContentNode(article);
-      if (node != null)
+      if (node != null && ContentUtils.isPublishedAndEnabled(node))
       {
         article.setContent(node);
       }
     }
-    return articles;
   }
 
   public void addSuggestedArticle(SuggestedArticle article)
@@ -53,8 +59,9 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 
     suggestedArticleStore.insert(article);
   }
-  
-  public void updateNote(SuggestedArticle suggestedArticle, String note)
+
+  public void updateNote(SuggestedArticle suggestedArticle,
+                         String note)
   {
     suggestedArticle.setNote(note);
     suggestedArticleStore.updateNote(suggestedArticle);

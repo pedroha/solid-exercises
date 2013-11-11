@@ -30,8 +30,10 @@ public class ArticleContentRepository implements ContentRepository
   public ContentNode getContentNode(SuggestedArticle article)
   {
     String uuid = article.getArticleExternalIdentifier();
+    
     // Attempt to fetch the actual content;
     ContentNode node = repositoryManager.getNodeByUuid(uuid);
+    
     if (node != null && ContentUtils.isPublishedAndEnabled(node))
     {
       // Override miniImagePath
