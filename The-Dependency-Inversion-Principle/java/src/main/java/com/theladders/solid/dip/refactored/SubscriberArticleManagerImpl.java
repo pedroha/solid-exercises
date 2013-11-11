@@ -7,13 +7,13 @@ import java.util.List;
 public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 {
   private SuggestedArticleStore suggestedArticleStore;
-  private ContentRepository     contentRepository;
+  private ContentRepository     articleContentRepository;
 
   public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
-                                      ContentRepository contentRepository)
+                                      RepositoryManager repositoryManager)
   {
     this.suggestedArticleStore = suggestedArticleStore;
-    this.contentRepository = contentRepository;
+    this.articleContentRepository = new ArticleContentRepository(repositoryManager);
   }
   
   public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber)
@@ -35,44 +35,34 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     // Fetch content associated with SuggestedArticle (based on externalArticleId)
     for (SuggestedArticle article : articles)
     {
-      String nodeId = article.getArticleExternalIdentifier();
-      article.setContent(getContentNode(nodeId));
+      ContentNode node = articleContentRepository.getContentNode(article);
+      if (node != null)
+      {
+        article.setContent(node);
+      }
     }
     return articles;
   }
 
-  public int addSuggestedArticle(SuggestedArticle article)
+  public void addSuggestedArticle(SuggestedArticle article)
   {
     article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
     article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
-    Date date = new Date();
-    article.setCreateTime(date); // current date
-    article.setUpdateTime(date); // current date
+    article.setCreateTime(new Date()); // current date
+    article.setUpdateTime(new Date()); // current date
 
-    return suggestedArticleStore.insert(article);
+    suggestedArticleStore.insert(article);
   }
-
+  
   public void updateNote(SuggestedArticle suggestedArticle, String note)
   {
     suggestedArticle.setNote(note);
-    suggestedArticleStore.updateNote(suggestedArticle);
+    suggestedArticleStore.update(suggestedArticle);
   }
 
   public void markRecomDeleted(SuggestedArticle suggestedArticle)
   {
     suggestedArticle.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
-    suggestedArticleStore.updateStatus(suggestedArticle);
-  }
-  
-  private ContentNode getContentNode(String uuid)
-  {
-    // Attempt to fetch the actual content;
-    ContentNode node = contentRepository.getNodeByUuid(uuid);
-    if (node != null && ContentUtils.isPublishedAndEnabled(node))
-    {
-      // Override miniImagePath
-      ContentUtils.overrideMiniImagePath(node);
-    }
-    return node;
+    suggestedArticleStore.update(suggestedArticle);
   }
 }

@@ -179,7 +179,6 @@ public class SuggestedArticle
     }
   }
   
-  /*
   public void setArticleSource(ArticleSource source)
   {
     setSuggestedArticleSourceId(source.id);
@@ -199,5 +198,4 @@ public class SuggestedArticle
   {
     return ArticleStatus.getById(getSuggestedArticleStatusId());
   }
-  */
 }

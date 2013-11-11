@@ -29,12 +29,47 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     return dbSuggestions;
   }
 
-  public int insert(SuggestedArticle article)
+  public void insert(SuggestedArticle article)
   {
-    int newId = insertReturnId(article);
-    return newId;
+    article.setSuggestedArticleId(insertReturnId(article));
   }
 
+  public void update(SuggestedArticle suggestedArticle)
+  {
+    int articleId = suggestedArticle.getSuggestedArticleId();
+    int statusId = suggestedArticle.getSuggestedArticleStatusId();
+    
+    SuggestedArticle article = new SuggestedArticle();
+    article.setSuggestedArticleId(articleId);
+    article.setSuggestedArticleStatusId(statusId);
+    article.setNote(suggestedArticle.getNote());
+
+    updateByPrimaryKeySelective(article);
+  }
+  
+  private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
+  {
+    List<Integer> list = new ArrayList<>();
+    for (ArticleStatus status: statusList)
+    {
+      list.add(status.id);
+    }
+    return list;
+  }
+
+  private void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticle article) {}
+
+  private static int insertReturnId(@SuppressWarnings("unused") SuggestedArticle suggestedArticle)
+  {
+    return 0;
+  }
+
+  private static List<SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
+  {
+    return Collections.singletonList(new SuggestedArticle());
+  }
+
+  /*
   public void updateNote(SuggestedArticle suggestedArticle)
   {
     int id = suggestedArticle.getSuggestedArticleId();
@@ -57,26 +92,5 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
     updateByPrimaryKeySelective(article);
   }
-
-  private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
-  {
-    List<Integer> list = new ArrayList<>();
-    for (ArticleStatus status: statusList)
-    {
-      list.add(status.id);
-    }
-    return list;
-  }
-
-  private void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticle article) {}
-
-  private static int insertReturnId(@SuppressWarnings("unused") SuggestedArticle suggestedArticle)
-  {
-    return 0;
-  }
-
-  private static List<SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
-  {
-    return Collections.singletonList(new SuggestedArticle());
-  }
+  */
 }

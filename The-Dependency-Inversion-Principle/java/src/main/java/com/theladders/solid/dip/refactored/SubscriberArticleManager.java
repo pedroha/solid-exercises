@@ -24,8 +24,8 @@ public interface SubscriberArticleManager
    * @param suggestedArticle
    */
 
-  public int addSuggestedArticle(SuggestedArticle suggestedArticle);
-
+  public void addSuggestedArticle(SuggestedArticle suggestedArticle);
+  
   /**
    * Update the note of the Suggested Article
    *  with the note passed in.
@@ -37,5 +37,5 @@ public interface SubscriberArticleManager
    * Mark as deleted the Suggested Article
    *
    */
-  public void markRecomDeleted(SuggestedArticle suggestedArticle);
+  public void markRecomDeleted(SuggestedArticle suggestedArticle);  
 }
