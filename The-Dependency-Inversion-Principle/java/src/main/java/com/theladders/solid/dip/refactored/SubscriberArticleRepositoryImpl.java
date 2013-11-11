@@ -11,8 +11,8 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
 
   public void addSuggestedArticle(SuggestedArticle article)
   {
-    article.setSuggestedArticleStatusId(ArticleStatus.UNREAD.id);
-    article.setSuggestedArticleSourceId(ArticleSource.HTP_CONSULTANT.id);
+    article.setArticleStatus(ArticleStatus.UNREAD);
+    article.setArticleSource(ArticleSource.HTP_CONSULTANT);
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
 
