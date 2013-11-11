@@ -34,19 +34,6 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     article.setSuggestedArticleId(insertReturnId(article));
   }
 
-  public void update(SuggestedArticle suggestedArticle)
-  {
-    int articleId = suggestedArticle.getSuggestedArticleId();
-    int statusId = suggestedArticle.getSuggestedArticleStatusId();
-    
-    SuggestedArticle article = new SuggestedArticle();
-    article.setSuggestedArticleId(articleId);
-    article.setSuggestedArticleStatusId(statusId);
-    article.setNote(suggestedArticle.getNote());
-
-    updateByPrimaryKeySelective(article);
-  }
-  
   private static List<Integer> getStatusIdList(List<ArticleStatus>statusList)
   {
     List<Integer> list = new ArrayList<>();
@@ -69,13 +56,12 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     return Collections.singletonList(new SuggestedArticle());
   }
 
-  /*
   public void updateNote(SuggestedArticle suggestedArticle)
   {
-    int id = suggestedArticle.getSuggestedArticleId();
+    int articleId = suggestedArticle.getSuggestedArticleId();
     
     SuggestedArticle article = new SuggestedArticle();
-    article.setSuggestedArticleId(id);
+    article.setSuggestedArticleId(articleId);
     article.setNote(suggestedArticle.getNote());
 
     updateByPrimaryKeySelective(article);
@@ -92,5 +78,20 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
     updateByPrimaryKeySelective(article);
   }
+  
+  /*
+  public void update(SuggestedArticle suggestedArticle)
+  {
+    int articleId = suggestedArticle.getSuggestedArticleId();
+    int statusId = suggestedArticle.getSuggestedArticleStatusId();
+    
+    SuggestedArticle article = new SuggestedArticle();
+    article.setSuggestedArticleId(articleId);
+    article.setSuggestedArticleStatusId(statusId);
+    article.setNote(suggestedArticle.getNote());
+
+    updateByPrimaryKeySelective(article);
+  }
   */
+  
 }

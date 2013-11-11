@@ -57,12 +57,12 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
   public void updateNote(SuggestedArticle suggestedArticle, String note)
   {
     suggestedArticle.setNote(note);
-    suggestedArticleStore.update(suggestedArticle);
+    suggestedArticleStore.updateNote(suggestedArticle);
   }
 
   public void markRecomDeleted(SuggestedArticle suggestedArticle)
   {
     suggestedArticle.setSuggestedArticleStatusId(ArticleStatus.DELETED.id);
-    suggestedArticleStore.update(suggestedArticle);
+    suggestedArticleStore.updateStatus(suggestedArticle);
   }
 }

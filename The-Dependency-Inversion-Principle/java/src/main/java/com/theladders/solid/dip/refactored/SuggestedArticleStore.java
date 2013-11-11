@@ -8,5 +8,7 @@ public interface SuggestedArticleStore
                                                  List<ArticleStatus> statusList,
                                                  ArticleSource source);
   void insert(SuggestedArticle article);
-  void update(SuggestedArticle article);
+/*  void update(SuggestedArticle article); */
+  void updateNote(SuggestedArticle article);
+  void updateStatus(SuggestedArticle article);
 }

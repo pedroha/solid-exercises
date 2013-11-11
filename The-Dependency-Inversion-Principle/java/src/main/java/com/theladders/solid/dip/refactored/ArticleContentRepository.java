@@ -40,7 +40,7 @@ public class ArticleContentRepository implements ContentRepository
     return node;    
   }
 
-  public static void overrideMiniImagePath(ContentNode node)
+  public void overrideMiniImagePath(ContentNode node)
   {
     String path = (String) node.getProperty("miniImagePath");
 
