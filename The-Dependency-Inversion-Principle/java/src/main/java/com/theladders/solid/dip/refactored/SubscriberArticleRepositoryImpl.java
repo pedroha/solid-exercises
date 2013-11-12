@@ -15,7 +15,7 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
     article.setArticleSource(ArticleSource.HTP_CONSULTANT); // Why harcoded in initial code to = 1? Always consultant !?
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
-
+    
     suggestedArticleStore.insert(article);
   }
 
@@ -26,7 +26,7 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
     this.articleContentRepository = new ArticleContentRepository(repositoryManager);
   }
 
-  public List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber)
+  public List<SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber)
   {
     List<ArticleStatus> statusList = new ArrayList<>();
     statusList.add(ArticleStatus.UNREAD);
@@ -36,7 +36,7 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
     return getArticlesbySubscriber(subscriber, statusList, source);
   }
 
-  private List<SuggestedArticle> getArticlesbySubscriber(Jobseeker subscriber,
+  private List<SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber,
                                                          List<ArticleStatus> statusList,
                                                          ArticleSource source)
   {

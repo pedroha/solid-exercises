@@ -10,7 +10,7 @@ public class SuggestedArticleDao implements SuggestedArticleStore
   {
   }
   
-  public List<SuggestedArticle> getArticlesBySubscriber(Jobseeker subscriber,
+  public List<SuggestedArticle> getArticlesBySubscriber(Subscriber subscriber,
                                                         List<ArticleStatus>statusList,
                                                         ArticleSource source)
   {
@@ -21,7 +21,7 @@ public class SuggestedArticleDao implements SuggestedArticleStore
             .andSubscriberIdEqualTo(subscriberId)
             .andSuggestedArticleStatusIdIn(getStatusIdList(statusList)) // must
             .andSuggestedArticleSourceIdEqualTo(source.id);
-
+    
     criteria.setOrderByClause("create_time desc");
     
     List<SuggestedArticle> dbSuggestions = selectByExampleWithBlobs(criteria);
