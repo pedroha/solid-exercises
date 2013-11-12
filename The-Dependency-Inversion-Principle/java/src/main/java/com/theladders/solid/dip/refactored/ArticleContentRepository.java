@@ -1,5 +1,7 @@
 package com.theladders.solid.dip.refactored;
 
+import java.util.List;
+
 public class ArticleContentRepository implements ContentRepository
 {
   private String                 IMAGE_PREFIX = "http://somecdnprodiver.com/static/images/careerAdvice/";
@@ -11,6 +13,19 @@ public class ArticleContentRepository implements ContentRepository
   {
     this.repositoryManager = repositoryManager;
     this.resourceMapper = new CategoryResourceMapper(IMAGE_PREFIX);
+  }
+  
+  public List<? extends SuggestedArticle> resolveArticles(List<? extends SuggestedArticle> articles)
+  {
+    for (SuggestedArticle article : articles)
+    {
+      ContentNode node = getContentNode(article);
+      if (node != null && ContentUtils.isPublishedAndEnabled(node))
+      {
+        article.setContent(node);
+      }
+    }
+    return articles;
   }
 
   public ContentNode getContentNode(SuggestedArticle article)

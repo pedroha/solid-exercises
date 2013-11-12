@@ -44,19 +44,6 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
                                                                                               statusList,
                                                                                               source);
     // Fetch content associated with SuggestedArticle
-    return resolveArticles(articles);
-  }
-
-  private List<? extends SuggestedArticle> resolveArticles(List<? extends SuggestedArticle> articles)
-  {
-    for (SuggestedArticle article : articles)
-    {
-      ContentNode node = articleContentRepository.getContentNode(article);
-      if (node != null && ContentUtils.isPublishedAndEnabled(node))
-      {
-        article.setContent(node);
-      }
-    }
-    return articles;
+    return articleContentRepository.resolveArticles(articles);
   }
 }
