@@ -12,7 +12,7 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
   public void addSuggestedArticle(SuggestedArticle article)
   {
     article.setArticleStatus(ArticleStatus.UNREAD);
-    article.setArticleSource(ArticleSource.HTP_CONSULTANT);
+    article.setArticleSource(ArticleSource.HTP_CONSULTANT); // Why harcoded in initial code to = 1? Always consultant !?
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
 

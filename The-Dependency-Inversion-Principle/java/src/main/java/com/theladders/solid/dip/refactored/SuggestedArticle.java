@@ -19,8 +19,6 @@ public class SuggestedArticle
   private String      note;
   private ContentNode content;
 
-  private Integer     STATUS_UNREAD = 1;
-
   public SuggestedArticle() {}
 
   public SuggestedArticle(Integer subscriberId,
@@ -30,7 +28,7 @@ public class SuggestedArticle
   {
     this.subscriberId = subscriberId;
     this.articleExternalIdentifier = articleExternalIdentifier;
-    this.suggestedArticleStatusId = STATUS_UNREAD;
+    this.suggestedArticleStatusId = ArticleStatus.UNREAD.id; // STATUS_UNREAD = 1
     this.note = note;
     this.creatorId = adminUserId;
     this.createTime = new Date(); // current date
@@ -159,24 +157,14 @@ public class SuggestedArticle
 
   public boolean getIsRead()
   {
-    if (this.getSuggestedArticleStatusId() == 2)
-    {
-      return true;
-    }
-
-    return false;
+    return (getArticleStatus() == ArticleStatus.VIEWED); // VIEWED = 2
   }
 
   public void setIsRead(boolean read)
   {
-    if (read)
-    {
-      this.setSuggestedArticleStatusId(2);
-    }
-    else
-    {
-      this.setSuggestedArticleStatusId(1);
-    }
+    // What if the status is "DELETED"? Should we be allowed to go back to UNREAD/VIEWED?
+    ArticleStatus status = (read? ArticleStatus.VIEWED : ArticleStatus.UNREAD);
+    setArticleStatus(status);
   }
   
   public void setArticleSource(ArticleSource source)
