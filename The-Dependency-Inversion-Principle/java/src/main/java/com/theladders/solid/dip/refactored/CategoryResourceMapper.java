@@ -5,13 +5,11 @@ import java.util.Map;
 
 public class CategoryResourceMapper
 {
+  private String              IMAGE_PREFIX       = "http://somecdnprodiver.com/static/images/careerAdvice/";
   private Map<String, String> CATEGORY_IMAGE_MAP = new HashMap<>();
-  private String              resourcePrefix;
 
-  public CategoryResourceMapper(String resourcePrefix)
+  public CategoryResourceMapper()
   {
-    this.resourcePrefix = resourcePrefix;
-
     CATEGORY_IMAGE_MAP.put("Interviewing", "interviewing_thumb.jpg");
     CATEGORY_IMAGE_MAP.put("Job Search", "job_search_thumb.jpg");
     CATEGORY_IMAGE_MAP.put("Networking", "networking_thumb.jpg");
@@ -24,6 +22,6 @@ public class CategoryResourceMapper
 
   public String getImagePath(String category)
   {
-    return resourcePrefix + CATEGORY_IMAGE_MAP.get(category);
+    return IMAGE_PREFIX + CATEGORY_IMAGE_MAP.get(category);
   }
 }

@@ -26,14 +26,14 @@ public class Main
     
     for (SuggestedArticle article: articles)
     {
-      Integer id = article.getSuggestedArticleId();
+      ArticleId id = article.getSuggestedArticleId();
       ContentNode node = article.getContent();
       Object primaryTopic = node.getProperty("primaryTopic");
       Object miniImagePath = node.getProperty("miniImagePath");
       String note = article.getNote();
 
       System.out.println("----------------------------");
-      System.out.println("ID: " + id);
+      System.out.println("ID: " + id.value());
       System.out.println("Primary Topic: " + primaryTopic);
       System.out.println("MiniImagePath: " + miniImagePath);
       System.out.println("Note: " + note);

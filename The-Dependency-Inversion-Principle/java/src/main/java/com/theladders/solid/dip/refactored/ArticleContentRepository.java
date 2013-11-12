@@ -4,15 +4,13 @@ import java.util.List;
 
 public class ArticleContentRepository implements ContentRepository
 {
-  private String                 IMAGE_PREFIX = "http://somecdnprodiver.com/static/images/careerAdvice/";
-
   private RepositoryManager      repositoryManager;
   private CategoryResourceMapper resourceMapper;
 
   public ArticleContentRepository(RepositoryManager repositoryManager)
   {
     this.repositoryManager = repositoryManager;
-    this.resourceMapper = new CategoryResourceMapper(IMAGE_PREFIX);
+    this.resourceMapper = new CategoryResourceMapper();
   }
   
   public List<? extends SuggestedArticle> resolveArticles(List<? extends SuggestedArticle> articles)
