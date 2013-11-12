@@ -30,15 +30,16 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
   public void insert(SuggestedArticle article)
   {
-    article.setSuggestedArticleId(insertReturnId(article));
+    ArticleId id = new ArticleId(insertReturnId(article));
+    article.setSuggestedArticleId(id);
   }
 
   public void updateNote(SuggestedArticle suggestedArticle)
   {
-    int articleId = suggestedArticle.getSuggestedArticleId();
+    ArticleId id = suggestedArticle.getSuggestedArticleId();
 
     SuggestedArticleSQL article = new SuggestedArticleSQL();
-    article.setSuggestedArticleId(articleId);
+    article.setSuggestedArticleId(id.value());
     article.setNote(suggestedArticle.getNote());
 
     updateByPrimaryKeySelective(article);
@@ -46,16 +47,17 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
   public void updateStatus(SuggestedArticle suggestedArticle)
   {
-    int articleId = suggestedArticle.getSuggestedArticleId();
+    ArticleId id = suggestedArticle.getSuggestedArticleId();
     ArticleStatus status = suggestedArticle.getArticleStatus();
 
     SuggestedArticleSQL article = new SuggestedArticleSQL();
-    article.setSuggestedArticleId(articleId);
+    article.setSuggestedArticleId(id.value());
     article.setSuggestedArticleStatusId(status.id);
 
     updateByPrimaryKeySelective(article);
   }
 
+  @SuppressWarnings("unchecked")
   public static List<? extends SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
   {
     return (List<? extends SuggestedArticle>) Collections.singletonList(new SuggestedArticleSQL());
@@ -78,13 +80,5 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     }
     return list;
   }
-
-  /*
-   * public void update(SuggestedArticle suggestedArticle) { int articleId =
-   * suggestedArticle.getSuggestedArticleId(); int statusId =
-   * suggestedArticle.getSuggestedArticleStatusId(); SuggestedArticle article = new
-   * SuggestedArticle(); article.setSuggestedArticleId(articleId);
-   * article.setSuggestedArticleStatusId(statusId); article.setNote(suggestedArticle.getNote());
-   * updateByPrimaryKeySelective(article); }
-   */
+  
 }
