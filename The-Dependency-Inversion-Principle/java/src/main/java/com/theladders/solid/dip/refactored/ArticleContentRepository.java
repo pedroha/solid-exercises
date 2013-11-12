@@ -1,8 +1,5 @@
 package com.theladders.solid.dip.refactored;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ArticleContentRepository implements ContentRepository
 {
   private String IMAGE_PREFIX = "http://somecdnprodiver.com/static/images/careerAdvice/";
@@ -39,7 +36,6 @@ public class ArticleContentRepository implements ContentRepository
     {
       String category = (String) node.getProperty("primaryTopic");
       node.addProperty("miniImagePath", resourceMapper.getImagePath(category));
-//      node.addProperty("miniImagePath", IMAGE_PREFIX + CATEGORY_IMAGE_MAP.get(category));
     }
   }
 }
