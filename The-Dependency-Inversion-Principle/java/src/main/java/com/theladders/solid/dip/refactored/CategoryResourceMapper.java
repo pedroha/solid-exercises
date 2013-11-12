@@ -3,12 +3,12 @@ package com.theladders.solid.dip.refactored;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResourceMapper
+public class CategoryResourceMapper
 {
   private Map<String, String> CATEGORY_IMAGE_MAP = new HashMap<>();
   private String              resourcePrefix;
 
-  public ResourceMapper(String resourcePrefix)
+  public CategoryResourceMapper(String resourcePrefix)
   {
     this.resourcePrefix = resourcePrefix;
 
