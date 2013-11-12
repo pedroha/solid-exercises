@@ -22,7 +22,7 @@ public class Main
       }
     };
     
-    List<SuggestedArticle> articles = s.getArticlesbySubscriber(subscriber);
+    List<? extends SuggestedArticle> articles = s.getArticlesbySubscriber(subscriber);
     
     for (SuggestedArticle article: articles)
     {
