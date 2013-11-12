@@ -5,9 +5,8 @@ import java.util.Map;
 
 public class ResourceMapper
 {
-  private Map<String, String> CATEGORY_IMAGE_MAP = new HashMap<>();
-  
-  private String resourcePrefix;
+  private Map<String, String>   CATEGORY_IMAGE_MAP = new HashMap<>();
+  private String                resourcePrefix;
   
   public ResourceMapper(String resourcePrefix)
   {
