@@ -5,9 +5,9 @@ import java.util.Date;
 // A SuggestedArticle is one instance of an article that has been
 // recommended to a particular subscriber.
 
-public class SuggestedArticleSQL
+public class SuggestedArticleSQL implements SuggestedArticle
 {
-  private Integer     suggestedArticleId;
+  private ArticleId   suggestedArticleId;
   private Integer     subscriberId;
   private Integer     suggestedArticleSourceId;
   private String      articleExternalIdentifier;
@@ -19,12 +19,13 @@ public class SuggestedArticleSQL
   private String      note;
   private ContentNode content;
 
-  public SuggestedArticleSQL() {}
+  public SuggestedArticleSQL()
+  {}
 
   public SuggestedArticleSQL(Integer subscriberId,
-                          String articleExternalIdentifier,
-                          String note,
-                          Integer adminUserId)
+                             String articleExternalIdentifier,
+                             String note,
+                             Integer adminUserId)
   {
     this.subscriberId = subscriberId;
     this.articleExternalIdentifier = articleExternalIdentifier;
@@ -36,12 +37,12 @@ public class SuggestedArticleSQL
   }
 
   @Column(name = "suggested_article_id")
-  public Integer getSuggestedArticleId()
+  public ArticleId getSuggestedArticleId()
   {
-    return suggestedArticleId;
+    return this.suggestedArticleId;
   }
 
-  public void setSuggestedArticleId(Integer suggestedArticleId)
+  public void setSuggestedArticleId(ArticleId suggestedArticleId)
   {
     this.suggestedArticleId = suggestedArticleId;
   }
@@ -163,27 +164,28 @@ public class SuggestedArticleSQL
   public void setIsRead(boolean read)
   {
     // What if the status is "DELETED"? Should we be allowed to go back to UNREAD/VIEWED?
-    ArticleStatus status = (read? ArticleStatus.VIEWED : ArticleStatus.UNREAD);
+    ArticleStatus status = (read ? ArticleStatus.VIEWED : ArticleStatus.UNREAD);
     setArticleStatus(status);
   }
-  
+
   public void setArticleSource(ArticleSource source)
   {
     setSuggestedArticleSourceId(source.id);
   }
-  
+
   public ArticleSource getArticleSource()
   {
     return ArticleSource.getById(getSuggestedArticleSourceId());
   }
-  
+
   public void setArticleStatus(ArticleStatus status)
   {
     setSuggestedArticleStatusId(status.id);
   }
-  
+
   public ArticleStatus getArticleStatus()
   {
     return ArticleStatus.getById(getSuggestedArticleStatusId());
   }
+
 }

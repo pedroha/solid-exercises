@@ -39,7 +39,7 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     ArticleId id = suggestedArticle.getSuggestedArticleId();
 
     SuggestedArticleSQL article = new SuggestedArticleSQL();
-    article.setSuggestedArticleId(id.value());
+    article.setSuggestedArticleId(id);
     article.setNote(suggestedArticle.getNote());
 
     updateByPrimaryKeySelective(article);
@@ -51,7 +51,7 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     ArticleStatus status = suggestedArticle.getArticleStatus();
 
     SuggestedArticleSQL article = new SuggestedArticleSQL();
-    article.setSuggestedArticleId(id.value());
+    article.setSuggestedArticleId(id);
     article.setSuggestedArticleStatusId(status.id);
 
     updateByPrimaryKeySelective(article);
