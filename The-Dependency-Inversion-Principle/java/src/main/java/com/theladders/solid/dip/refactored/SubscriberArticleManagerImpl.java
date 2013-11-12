@@ -9,6 +9,13 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
   private SuggestedArticleStore suggestedArticleStore;
   private ContentRepository     articleContentRepository;
 
+  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
+                                      ContentRepository articleContentRepository)
+  {
+    this.suggestedArticleStore = suggestedArticleStore;
+    this.articleContentRepository = articleContentRepository;
+  }
+
   public void addSuggestedArticle(SuggestedArticle article)
   {
     article.setArticleStatus(ArticleStatus.UNREAD);
@@ -18,13 +25,6 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     article.setUpdateTime(new Date()); // current date
 
     suggestedArticleStore.insert(article);
-  }
-
-  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
-                                      RepositoryManager repositoryManager)
-  {
-    this.suggestedArticleStore = suggestedArticleStore;
-    this.articleContentRepository = new ArticleContentRepository(repositoryManager);
   }
 
   public List<SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber)
