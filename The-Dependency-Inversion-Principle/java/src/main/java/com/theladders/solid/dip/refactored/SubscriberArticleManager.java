@@ -2,7 +2,7 @@ package com.theladders.solid.dip.refactored;
 
 import java.util.List;
 
-public interface SubscriberArticleRepository
+public interface SubscriberArticleManager
 {
   /**
    * Get a list of all active suggested articles for a given subscriber.

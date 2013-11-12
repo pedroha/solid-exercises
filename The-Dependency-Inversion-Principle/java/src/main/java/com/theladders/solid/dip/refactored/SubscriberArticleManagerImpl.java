@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SubscriberArticleRepositoryImpl implements SubscriberArticleRepository
+public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 {
   private SuggestedArticleStore suggestedArticleStore;
   private ContentRepository     articleContentRepository;
@@ -12,15 +12,16 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
   public void addSuggestedArticle(SuggestedArticle article)
   {
     article.setArticleStatus(ArticleStatus.UNREAD);
-    article.setArticleSource(ArticleSource.HTP_CONSULTANT); // Why harcoded in initial code to = 1? Always consultant !?
+    article.setArticleSource(ArticleSource.HTP_CONSULTANT); // Why harcoded in initial code to = 1?
+                                                            // Always consultant !?
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
-    
+
     suggestedArticleStore.insert(article);
   }
 
-  public SubscriberArticleRepositoryImpl(SuggestedArticleStore suggestedArticleStore,
-                                         RepositoryManager repositoryManager)
+  public SubscriberArticleManagerImpl(SuggestedArticleStore suggestedArticleStore,
+                                      RepositoryManager repositoryManager)
   {
     this.suggestedArticleStore = suggestedArticleStore;
     this.articleContentRepository = new ArticleContentRepository(repositoryManager);
@@ -42,13 +43,11 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
   {
     List<SuggestedArticle> articles = suggestedArticleStore.getArticlesBySubscriber(subscriber, statusList, source);
 
-    // Fetch content associated with SuggestedArticle (based on externalArticleId)
-    resolveArticles(articles);
-
-    return articles;
+    // Fetch content associated with SuggestedArticle
+    return resolveArticles(articles);
   }
 
-  private void resolveArticles(List<SuggestedArticle> articles)
+  private List<SuggestedArticle> resolveArticles(List<SuggestedArticle> articles)
   {
     for (SuggestedArticle article : articles)
     {
@@ -58,5 +57,6 @@ public class SubscriberArticleRepositoryImpl implements SubscriberArticleReposit
         article.setContent(node);
       }
     }
+    return articles;
   }
 }
