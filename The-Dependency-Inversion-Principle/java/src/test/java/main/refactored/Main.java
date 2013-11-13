@@ -9,22 +9,23 @@ public class Main
   public static void main(String[] args)
   {
     SuggestedArticleDao dao = new SuggestedArticleDao();
-    RepositoryManager repository = new RepositoryManager();
-    
-    ContentRepository contentRepository = new ArticleContentRepository(repository);
-    
+    RepositoryManager   repository = new RepositoryManager();
+    ResourceMapper      resourceMapper = new CategoryResourceMapper();
+    ContentRepository   contentRepository = new ArticleContentRepository(repository, resourceMapper);
+
     SubscriberArticleManagerImpl s = new SubscriberArticleManagerImpl(dao, contentRepository);
-    
-    Subscriber subscriber = new Subscriber() {
+
+    Subscriber subscriber = new Subscriber()
+    {
       public int getSubscriberId()
       {
         return 9;
       }
     };
-    
+
     List<? extends SuggestedArticle> articles = s.getArticlesbySubscriber(subscriber);
-    
-    for (SuggestedArticle article: articles)
+
+    for (SuggestedArticle article : articles)
     {
       ArticleId id = article.getSuggestedArticleId();
       ContentNode node = article.getContent();

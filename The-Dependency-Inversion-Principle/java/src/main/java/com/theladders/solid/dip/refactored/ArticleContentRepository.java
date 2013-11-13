@@ -4,15 +4,16 @@ import java.util.List;
 
 public class ArticleContentRepository implements ContentRepository
 {
-  private RepositoryManager      repositoryManager;
-  private CategoryResourceMapper resourceMapper;
+  private RepositoryManager repositoryManager;
+  private ResourceMapper    resourceMapper;
 
-  public ArticleContentRepository(RepositoryManager repositoryManager)
+  public ArticleContentRepository(RepositoryManager repositoryManager,
+                                  ResourceMapper resourceMapper)
   {
     this.repositoryManager = repositoryManager;
-    this.resourceMapper = new CategoryResourceMapper();
+    this.resourceMapper = resourceMapper;
   }
-  
+
   public List<? extends SuggestedArticle> resolveArticles(List<? extends SuggestedArticle> articles)
   {
     for (SuggestedArticle article : articles)
@@ -43,7 +44,7 @@ public class ArticleContentRepository implements ContentRepository
     if (path == null || path.length() == 0)
     {
       String category = (String) node.getProperty("primaryTopic");
-      node.addProperty("miniImagePath", resourceMapper.getImagePath(category));
+      node.addProperty("miniImagePath", resourceMapper.getResourcePathByCategory(category));
     }
   }
 }

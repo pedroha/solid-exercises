@@ -3,7 +3,7 @@ package com.theladders.solid.dip.refactored;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryResourceMapper
+public class CategoryResourceMapper implements ResourceMapper
 {
   private String              IMAGE_PREFIX       = "http://somecdnprodiver.com/static/images/careerAdvice/";
   private Map<String, String> CATEGORY_IMAGE_MAP = new HashMap<>();
@@ -20,7 +20,7 @@ public class CategoryResourceMapper
     CATEGORY_IMAGE_MAP.put("On the Job", "salary_thumb.jpg");
   }
 
-  public String getImagePath(String category)
+  public String getResourcePathByCategory(String category)
   {
     return IMAGE_PREFIX + CATEGORY_IMAGE_MAP.get(category);
   }
