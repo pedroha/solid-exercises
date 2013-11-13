@@ -2,6 +2,8 @@ package com.theladders.solid.dip.refactored;
 
 import java.util.Date;
 
+import com.theladders.solid.dip.original.Column;
+
 // A SuggestedArticle is one instance of an article that has been
 // recommended to a particular subscriber.
 
@@ -164,11 +166,11 @@ public class SuggestedArticleSQL implements SuggestedArticle
 
   public void setIsRead(boolean read)
   {
-    // What if the status is "DELETED"? Should we be allowed to go back to UNREAD/VIEWED?
     ArticleStatus status = (read ? ArticleStatus.VIEWED : ArticleStatus.UNREAD);
     setArticleStatus(status);
   }
 
+  @Column(name = "suggested_article_source_id")
   public void setArticleSourceId(int id)
   {
     setArticleSource(ArticleSource.getById(id));
@@ -179,6 +181,7 @@ public class SuggestedArticleSQL implements SuggestedArticle
     return articleSource.id;
   }
   
+  @Column(name = "suggested_article_status_id")
   public void setArticleStatusId(int id)
   {
     setArticleStatus(ArticleStatus.getById(id));
