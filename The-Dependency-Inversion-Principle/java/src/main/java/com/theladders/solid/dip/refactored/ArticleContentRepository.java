@@ -1,7 +1,5 @@
 package com.theladders.solid.dip.refactored;
 
-import java.util.List;
-
 public class ArticleContentRepository implements ContentRepository
 {
   private RepositoryManager repositoryManager;
@@ -13,20 +11,16 @@ public class ArticleContentRepository implements ContentRepository
     this.repositoryManager = repositoryManager;
     this.resourceMapper = resourceMapper;
   }
-
-  public List<? extends SuggestedArticle> resolveArticles(List<? extends SuggestedArticle> articles)
+  
+  public void resolveContent(SuggestedArticle article)
   {
-    for (SuggestedArticle article : articles)
+    ContentNode node = getContentNode(article);
+    if (node != null && ContentUtils.isPublishedAndEnabled(node))
     {
-      ContentNode node = getContentNode(article);
-      if (node != null && ContentUtils.isPublishedAndEnabled(node))
-      {
-        // Override miniImagePath
-        overrideMiniImagePath(node);
-        article.setContent(node);
-      }
+      // Override miniImagePath
+      overrideMiniImagePath(node);
+      article.setContent(node);
     }
-    return articles;
   }
 
   public ContentNode getContentNode(SuggestedArticle article)

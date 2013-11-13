@@ -39,7 +39,11 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
                                                                                               status,
                                                                                               source);
     // Fetch content associated with SuggestedArticle
-    return articleContentRepository.resolveArticles(articles);
+    for (SuggestedArticle article: articles)
+    {
+      articleContentRepository.resolveContent(article);
+    }
+    return articles;
   }
   
   public void updateNote(SuggestedArticle suggestedArticle,
