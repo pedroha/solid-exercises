@@ -20,6 +20,8 @@ public class ArticleContentRepository implements ContentRepository
       ContentNode node = getContentNode(article);
       if (node != null && ContentUtils.isPublishedAndEnabled(node))
       {
+        // Override miniImagePath
+        overrideMiniImagePath(node);
         article.setContent(node);
       }
     }
@@ -31,14 +33,7 @@ public class ArticleContentRepository implements ContentRepository
     String uuid = article.getArticleExternalIdentifier();
 
     // Attempt to fetch the actual content;
-    ContentNode node = repositoryManager.getNodeByUuid(uuid);
-
-    if (node != null && ContentUtils.isPublishedAndEnabled(node))
-    {
-      // Override miniImagePath
-      overrideMiniImagePath(node);
-    }
-    return node;
+    return repositoryManager.getNodeByUuid(uuid);
   }
 
   private void overrideMiniImagePath(ContentNode node)

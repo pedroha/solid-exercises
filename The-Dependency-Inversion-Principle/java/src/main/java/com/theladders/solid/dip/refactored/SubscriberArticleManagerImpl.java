@@ -16,14 +16,14 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     this.articleContentRepository = articleContentRepository;
   }
 
-  public void addSuggestedArticle(SuggestedArticle article)
+  public ArticleId addSuggestedArticle(SuggestedArticle article)
   {
     article.setArticleStatus(ArticleStatus.UNREAD);
     article.setArticleSource(ArticleSource.HTP_CONSULTANT); // Why harcoded in initial code to = 1? // Always consultant !?
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
 
-    suggestedArticleStore.insert(article);
+    return suggestedArticleStore.insert(article);
   }
 
   public List<? extends SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber)
@@ -45,5 +45,18 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
                                                                                               source);
     // Fetch content associated with SuggestedArticle
     return articleContentRepository.resolveArticles(articles);
+  }
+  
+  public void updateNote(SuggestedArticle suggestedArticle,
+                         String note)
+  {
+    suggestedArticle.setNote(note);
+    suggestedArticleStore.updateNote(suggestedArticle);
+  }
+
+  public void markRecomDeleted(SuggestedArticle suggestedArticle)
+  {
+    suggestedArticle.setArticleStatus(ArticleStatus.DELETED);
+    suggestedArticleStore.updateStatus(suggestedArticle);
   }
 }
