@@ -11,7 +11,7 @@ public class SuggestedArticleDao implements SuggestedArticleStore
   }
 
   public List<? extends SuggestedArticle> getArticlesBySubscriber(Subscriber subscriber,
-                                                                  List<ArticleStatus> statusList,
+                                                                  ArticleStatus[] statusList,
                                                                   ArticleSource source)
   {
     int subscriberId = subscriber.getSubscriberId();
@@ -58,10 +58,9 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     updateByPrimaryKeySelective(article);
   }
 
-  @SuppressWarnings("unchecked")
   public static List<? extends SuggestedArticle> selectByExampleWithBlobs(@SuppressWarnings("unused") SuggestedArticleExample criteria)
   {
-    return (List<? extends SuggestedArticle>) Collections.singletonList(new SuggestedArticleSQL());
+    return Collections.singletonList(new SuggestedArticleSQL());
   }
 
   public void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticleSQL article)
@@ -72,10 +71,10 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     return 0;
   }
 
-  private static List<Integer> getStatusIdList(List<ArticleStatus> statusList)
+  private static List<Integer> getStatusIdList(ArticleStatus[] statusArray)
   {
     List<Integer> list = new ArrayList<>();
-    for (ArticleStatus status : statusList)
+    for (ArticleStatus status : statusArray)
     {
       list.add(status.id);
     }

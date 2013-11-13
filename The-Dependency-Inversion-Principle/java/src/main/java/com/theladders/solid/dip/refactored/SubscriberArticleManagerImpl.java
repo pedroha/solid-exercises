@@ -1,6 +1,5 @@
 package com.theladders.solid.dip.refactored;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,19 +27,16 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
 
   public List<? extends SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber)
   {
-    List<ArticleStatus> statusList = new ArrayList<>();
-    statusList.add(ArticleStatus.UNREAD);
-    statusList.add(ArticleStatus.VIEWED);
-
-    return getArticlesbySubscriber(subscriber, statusList, ArticleSource.HTP_CONSULTANT);
+    ArticleStatus[] status = {ArticleStatus.UNREAD, ArticleStatus.VIEWED};
+    return getArticlesbySubscriber(subscriber, status, ArticleSource.HTP_CONSULTANT);
   }
 
   private List<? extends SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber,
-                                                                   List<ArticleStatus> statusList,
+                                                                   ArticleStatus[] status,
                                                                    ArticleSource source)
   {
     List<? extends SuggestedArticle> articles = suggestedArticleStore.getArticlesBySubscriber(subscriber,
-                                                                                              statusList,
+                                                                                              status,
                                                                                               source);
     // Fetch content associated with SuggestedArticle
     return articleContentRepository.resolveArticles(articles);

@@ -7,7 +7,7 @@ public interface SuggestedArticleStore
   ArticleId insert(SuggestedArticle article);
 
   List<? extends SuggestedArticle> getArticlesBySubscriber(Subscriber subscriber,
-                                                           List<ArticleStatus> statusList,
+                                                           ArticleStatus[] statusList,
                                                            ArticleSource source);
 
   /* void update(SuggestedArticle article); */
