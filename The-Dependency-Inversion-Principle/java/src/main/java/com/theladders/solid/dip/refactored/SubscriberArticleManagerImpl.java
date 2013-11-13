@@ -15,14 +15,14 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     this.articleContentRepository = articleContentRepository;
   }
 
-  public ArticleId addSuggestedArticle(SuggestedArticle article)
+  public void addSuggestedArticle(SuggestedArticle article)
   {
     article.setArticleStatus(ArticleStatus.UNREAD);
     article.setArticleSource(ArticleSource.HTP_CONSULTANT);
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
 
-    return suggestedArticleStore.insert(article);
+    suggestedArticleStore.insert(article);
   }
 
   public List<? extends SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber)
@@ -38,9 +38,9 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     List<? extends SuggestedArticle> articles = suggestedArticleStore.getArticlesBySubscriber(subscriber,
                                                                                               status,
                                                                                               source);
-    // Fetch content associated with SuggestedArticle
     for (SuggestedArticle article: articles)
     {
+      // Fetch content associated with SuggestedArticle
       articleContentRepository.resolveContent(article);
     }
     return articles;
@@ -53,7 +53,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     suggestedArticleStore.updateNote(suggestedArticle);
   }
 
-  public void markRecomDeleted(SuggestedArticle suggestedArticle)
+  public void markDeleted(SuggestedArticle suggestedArticle)
   {
     suggestedArticle.setArticleStatus(ArticleStatus.DELETED);
     suggestedArticleStore.updateStatus(suggestedArticle);

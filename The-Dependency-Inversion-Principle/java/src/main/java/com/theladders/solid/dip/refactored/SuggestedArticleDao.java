@@ -28,11 +28,10 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     return dbSuggestions;
   }
 
-  public ArticleId insert(SuggestedArticle article)
+  public void insert(SuggestedArticle article)
   {
     ArticleId id = new ArticleId(insertReturnId(article));
     article.setSuggestedArticleId(id);
-    return id;
   }
 
   public void updateNote(SuggestedArticle suggestedArticle)

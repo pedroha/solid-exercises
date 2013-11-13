@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface SuggestedArticleStore
 {
-  ArticleId insert(SuggestedArticle article);
+  void insert(SuggestedArticle article);
 
   List<? extends SuggestedArticle> getArticlesBySubscriber(Subscriber subscriber,
                                                            ArticleStatus[] statusList,

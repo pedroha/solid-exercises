@@ -20,6 +20,6 @@ public enum ArticleSource
         return source;
       }
     }
-    return null;
+    return null; // throw Exception instead? Maybe()?
   }
 }
