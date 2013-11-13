@@ -19,7 +19,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
   public ArticleId addSuggestedArticle(SuggestedArticle article)
   {
     article.setArticleStatus(ArticleStatus.UNREAD);
-    article.setArticleSource(ArticleSource.HTP_CONSULTANT); // Why harcoded in initial code to = 1? // Always consultant !?
+    article.setArticleSource(ArticleSource.HTP_CONSULTANT);
     article.setCreateTime(new Date()); // current date
     article.setUpdateTime(new Date()); // current date
 
@@ -32,8 +32,7 @@ public class SubscriberArticleManagerImpl implements SubscriberArticleManager
     statusList.add(ArticleStatus.UNREAD);
     statusList.add(ArticleStatus.VIEWED);
 
-    ArticleSource source = ArticleSource.HTP_CONSULTANT;
-    return getArticlesbySubscriber(subscriber, statusList, source);
+    return getArticlesbySubscriber(subscriber, statusList, ArticleSource.HTP_CONSULTANT);
   }
 
   private List<? extends SuggestedArticle> getArticlesbySubscriber(Subscriber subscriber,
