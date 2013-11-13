@@ -7,7 +7,7 @@ import java.util.List;
 public class SuggestedArticleDao implements SuggestedArticleStore
 {
   public SuggestedArticleDao()
-  {    
+  {
   }
 
   public List<? extends SuggestedArticle> getArticlesBySubscriber(Subscriber subscriber,
@@ -63,7 +63,8 @@ public class SuggestedArticleDao implements SuggestedArticleStore
   }
 
   public void updateByPrimaryKeySelective(@SuppressWarnings("unused") SuggestedArticleSQL article)
-  {}
+  {
+  }
 
   private static int insertReturnId(@SuppressWarnings("unused") SuggestedArticle suggestedArticle)
   {
