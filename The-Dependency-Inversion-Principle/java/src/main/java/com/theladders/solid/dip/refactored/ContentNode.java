@@ -16,4 +16,9 @@ public class ContentNode
   {
     properties.put(key, value);
   }
+
+  public boolean isPublishedAndEnabled()
+  {
+    return true; // just a stub
+  }
 }

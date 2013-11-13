@@ -15,15 +15,15 @@ public class ArticleContentRepository implements ContentRepository
   public void resolveContent(SuggestedArticle article)
   {
     ContentNode node = getContentNode(article);
-    if (node != null && ContentUtils.isPublishedAndEnabled(node))
+    if (node != null && node.isPublishedAndEnabled())
     {
       // Override miniImagePath
       overrideMiniImagePath(node);
       article.setContent(node);
     }
   }
-
-  public ContentNode getContentNode(SuggestedArticle article)
+  
+  private ContentNode getContentNode(SuggestedArticle article)
   {
     String uuid = article.getArticleExternalIdentifier();
 
