@@ -28,5 +28,9 @@ public interface SubscriberArticleManager
 
   public void updateNote(SuggestedArticle suggestedArticle, String note);
 
+  /**
+   * Mark as deleted the Suggested Article(id)
+   *
+   */
   public void markRecomDeleted(SuggestedArticle suggestedArticle);
 }

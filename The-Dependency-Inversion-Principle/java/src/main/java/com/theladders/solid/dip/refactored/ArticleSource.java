@@ -2,7 +2,7 @@ package com.theladders.solid.dip.refactored;
 
 public enum ArticleSource
 {
-  HTP_CONSULTANT(1);
+  NONE(0), HTP_CONSULTANT(1);
   
   public final int id;
   

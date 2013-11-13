@@ -7,29 +7,30 @@ import java.util.Date;
 
 public class SuggestedArticleSQL implements SuggestedArticle
 {
-  private ArticleId   suggestedArticleId;
-  private Integer     subscriberId;
-  private Integer     suggestedArticleSourceId;
-  private String      articleExternalIdentifier;
-  private Integer     suggestedArticleStatusId;
-  private Date        createTime;
-  private Integer     creatorId;
-  private Date        updateTime;
-  private Integer     updaterId;
-  private String      note;
-  private ContentNode content;
+  private ArticleId     suggestedArticleId;
+  private Integer       subscriberId;
+  private ArticleSource articleSource;
+  private String        articleExternalIdentifier;
+  private ArticleStatus articleStatus;
+  private Date          createTime;
+  private Integer       creatorId;
+  private Date          updateTime;
+  private Integer       updaterId;
+  private String        note;
+  private ContentNode   content;
 
   public SuggestedArticleSQL()
   {}
 
-  public SuggestedArticleSQL(Integer subscriberId,
+  public SuggestedArticleSQL(Subscriber subscriber,
                              String articleExternalIdentifier,
                              String note,
                              Integer adminUserId)
   {
-    this.subscriberId = subscriberId;
+    this.subscriberId = subscriber.getSubscriberId();
     this.articleExternalIdentifier = articleExternalIdentifier;
-    this.suggestedArticleStatusId = ArticleStatus.UNREAD.id; // STATUS_UNREAD = 1
+    this.articleStatus = ArticleStatus.UNREAD; // STATUS_UNREAD = 1
+    this.articleSource = ArticleSource.NONE; // = 1
     this.note = note;
     this.creatorId = adminUserId;
     this.createTime = new Date(); // current date
@@ -58,15 +59,15 @@ public class SuggestedArticleSQL implements SuggestedArticle
     this.subscriberId = subscriberId;
   }
 
-  @Column(name = "suggested_article_source_id")
-  public Integer getSuggestedArticleSourceId()
+  // Column(name = "suggested_article_source_id")
+  public ArticleSource getArticleSource()
   {
-    return suggestedArticleSourceId;
+    return articleSource;
   }
 
-  public void setSuggestedArticleSourceId(Integer suggestedArticleSourceId)
+  public void setArticleSource(ArticleSource suggestedArticleSourceId)
   {
-    this.suggestedArticleSourceId = suggestedArticleSourceId;
+    this.articleSource = suggestedArticleSourceId;
   }
 
   @Column(name = "article_external_identifier")
@@ -80,15 +81,15 @@ public class SuggestedArticleSQL implements SuggestedArticle
     this.articleExternalIdentifier = articleExternalIdentifier == null ? null : articleExternalIdentifier.trim();
   }
 
-  @Column(name = "suggested_article_status_id")
-  public Integer getSuggestedArticleStatusId()
+  // Column(name = "suggested_article_status_id")
+  public ArticleStatus getArticleStatus()
   {
-    return suggestedArticleStatusId;
+    return articleStatus;
   }
 
-  public void setSuggestedArticleStatusId(Integer suggestedArticleStatusId)
+  public void setArticleStatus(ArticleStatus articleStatus)
   {
-    this.suggestedArticleStatusId = suggestedArticleStatusId;
+    this.articleStatus = articleStatus;
   }
 
   @Column(name = "create_time")
@@ -168,24 +169,23 @@ public class SuggestedArticleSQL implements SuggestedArticle
     setArticleStatus(status);
   }
 
-  public void setArticleSource(ArticleSource source)
+  public void setArticleSourceId(int id)
   {
-    setSuggestedArticleSourceId(source.id);
+    setArticleSource(ArticleSource.getById(id));
   }
-
-  public ArticleSource getArticleSource()
+  
+  public int getArticleSourceId()
   {
-    return ArticleSource.getById(getSuggestedArticleSourceId());
+    return articleSource.id;
   }
-
-  public void setArticleStatus(ArticleStatus status)
+  
+  public void setArticleStatusId(int id)
   {
-    setSuggestedArticleStatusId(status.id);
+    setArticleStatus(ArticleStatus.getById(id));
   }
-
-  public ArticleStatus getArticleStatus()
+  
+  public int getArticleStatusId()
   {
-    return ArticleStatus.getById(getSuggestedArticleStatusId());
+    return articleStatus.id;
   }
-
 }

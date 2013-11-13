@@ -53,7 +53,7 @@ public class SuggestedArticleDao implements SuggestedArticleStore
 
     SuggestedArticleSQL article = new SuggestedArticleSQL();
     article.setSuggestedArticleId(id);
-    article.setSuggestedArticleStatusId(status.id);
+    article.setArticleStatus(status);
 
     updateByPrimaryKeySelective(article);
   }
