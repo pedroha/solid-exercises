@@ -19,7 +19,7 @@ public class Main
     {
       public int getSubscriberId()
       {
-        return 9;
+        return 0;
       }
     };
 
