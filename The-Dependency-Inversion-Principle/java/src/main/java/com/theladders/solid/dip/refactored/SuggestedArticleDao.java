@@ -79,5 +79,4 @@ public class SuggestedArticleDao implements SuggestedArticleStore
     }
     return list;
   }
-  
 }

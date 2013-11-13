@@ -13,7 +13,7 @@ public class Main
     ResourceMapper      resourceMapper = new CategoryResourceMapper();
     ContentRepository   contentRepository = new ArticleContentRepository(repository, resourceMapper);
 
-    SubscriberArticleManagerImpl s = new SubscriberArticleManagerImpl(dao, contentRepository);
+    SubscriberArticleManager s = new SubscriberArticleManager(dao, contentRepository);
 
     Subscriber subscriber = new Subscriber()
     {
